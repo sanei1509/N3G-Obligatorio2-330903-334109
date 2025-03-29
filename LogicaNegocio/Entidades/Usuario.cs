@@ -14,8 +14,8 @@ namespace LogicaNegocio.Entidades
 
         public Usuario(int id, string nombre)
         {
-            Id = id;
-            Nombre = nombre;
+            id = id;
+            nombre = nombre;
         }
 
 
