@@ -1,12 +1,12 @@
 ﻿namespace LogicaNegocio.Excepciones.UsuarioExceptions
 {
-    public class CorreoException: LogicaNegocioException
+    public class NombreException: LogicaNegocioException
     {
-        public CorreoException()
+        public NombreException()
         {
         }
 
-        public CorreoException(string? message) : base(message) 
+        public NombreException(string? message) : base(message) 
         { 
         }
 

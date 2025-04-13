@@ -2,12 +2,13 @@
 
 namespace LogicaNegocio.Vo
 {
-    public record Correo_U
+    public record Nombre
     {
-        public string Value {get;}
-        public Correo_U(string value) {
+        public string Value { get; }
+
+        public Nombre(string value) {
             if (string.IsNullOrEmpty(value))
-                throw new CorreoException("Correo incorrecto o vacío");
+                throw new NombreException("Nombre incorrecto o vacío");
             Value = value;
         }
     }

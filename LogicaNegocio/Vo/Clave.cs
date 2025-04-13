@@ -2,13 +2,13 @@
 
 namespace LogicaNegocio.Vo
 {
-    public record Nombre_U
+    public record Clave
     {
         public string Value { get; }
 
-        public Nombre_U(string value) {
+        public Clave(string value) {
             if (string.IsNullOrEmpty(value))
-                throw new NombreException("Nombre incorrecto o vacío");
+                throw new ClaveException("Clave incorrecta o vacía");
             Value = value;
         }
     }
