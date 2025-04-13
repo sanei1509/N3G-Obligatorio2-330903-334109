@@ -1,7 +1,25 @@
+using CasoUsoCompartida.DTOs.Usuarios;
+using CasoUsoCompartida.InterfacesCU;
+using LogicaAccesoDatos.EF;
+using LogicaAplicacion.CasosUso.Usuarios;
+using LogicaNegocio.InterfacesRepositorio;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
+
+//Inyectar caso de uso de Usuario
+builder.Services.AddScoped<IAdd<CrearUsuarioDto>, CrearUsuario>();
+builder.Services.AddScoped<IGetByEmail<UsuarioDto>, GetByEmail>();
+builder.Services.AddScoped<ILogin<LoginRespuestaDto>, Login>();
+
+//Inyectar el repositorio
+builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
+
+//Inyectar el contexto
+builder.Services.AddDbContext<LibreriaContext>();
 
 var app = builder.Build();
 
@@ -20,8 +38,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Usuario}/{action=Login}/{id?}");
 
 app.Run();

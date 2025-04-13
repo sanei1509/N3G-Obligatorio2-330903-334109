@@ -1,4 +1,4 @@
-﻿using LogicaNegocio.Entidades;
+﻿using LogicaNegocio.Entidades.Usuarios.Usuario;
 
 namespace LogicaNegocio.InterfacesRepositorio
 {

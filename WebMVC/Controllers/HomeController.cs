@@ -2,12 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebMVC.Models;
 using LogicaNegocio.Entidades;
+using WebMVC.Controllers.Filtros;
 
 namespace WebMVC.Controllers
 {
+    [UsuarioLogueado]
     public class HomeController : Controller
     {
-        Usuario usuario = new Usuario(1, "Fulano");
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)

@@ -2,11 +2,11 @@
 
 namespace LogicaNegocio.Vo
 {
-    public record Apellido_U
+    public record Apellido
     {
         public string Value { get; }
 
-        public Apellido_U(string value) {
+        public Apellido(string value) {
             if (string.IsNullOrEmpty(value))
                 throw new ApellidoException("Apellido incorrecto o vacío");
             Value = value;
