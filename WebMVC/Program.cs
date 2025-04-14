@@ -1,5 +1,6 @@
 using CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.InterfacesCU;
+using Libreria.LogicaAplicacion.CasoUso.Usuarios;
 using LogicaAccesoDatos.EF;
 using LogicaAplicacion.CasosUso.Usuarios;
 using LogicaNegocio.InterfacesRepositorio;
@@ -12,7 +13,12 @@ builder.Services.AddSession();
 
 //Inyectar caso de uso de Usuario
 builder.Services.AddScoped<IAdd<CrearUsuarioDto>, CrearUsuario>();
+builder.Services.AddScoped<IRemove, BorrarUsuario>();
+builder.Services.AddScoped<IUpdate<CrearUsuarioDto>, EditarUsuario>();
 builder.Services.AddScoped<IGetByEmail<UsuarioDto>, GetByEmail>();
+builder.Services.AddScoped<IGetById<UsuarioDto>, GetById>();
+builder.Services.AddScoped<IGetById<CrearUsuarioDto>, GetByIdEditar>();
+builder.Services.AddScoped<IGetAll<UsuarioListadoDto>, GetAllUsuario>();
 builder.Services.AddScoped<ILogin<LoginRespuestaDto>, Login>();
 
 //Inyectar el repositorio
