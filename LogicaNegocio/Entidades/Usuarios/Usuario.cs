@@ -20,19 +20,35 @@ namespace LogicaNegocio.Entidades.Usuarios.Usuario
         public Usuario(int id, Nombre nombre, Apellido apellido, Correo correo, Clave clave, Telefono telefono)
         {
             Id = id;
-            Nombre = Nombre;
-            Apellido = Apellido;
-            Correo = Correo;
-            Clave = Clave;
-            Telefono = Telefono;
+            Nombre = nombre;
+            Apellido = apellido;
+            Correo = correo;
+            Clave = clave;
+            Telefono = telefono;
             Validar();
         }
 
 
-        public void Validar() 
+        public void Validar()
         {
-            
+            //ValidarExistenciaUsuario();
+            //ValidarNombre();
+            //ValidarApellido();
+            //ValidarCorreo();
+            //ValidarClave();
+            //ValidarTelefono();
         }
+
+        public void Update(Usuario obj)
+        {
+            // En este caso solo cambiamos estos valores 
+            Nombre = obj.Nombre;
+            Apellido = obj.Apellido;
+            Correo = obj.Correo;
+            Clave = obj.Clave;
+            Telefono = obj.Telefono;
+        }
+
 
     }
 }

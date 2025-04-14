@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CasoUsoCompartida.DTOs.Usuarios.UsuarioListadoDto>
+
+@{
+    ViewData["Title"] = "Gestión de Usuarios";
+}
+
+<h2>Gestión de Usuarios</h2>
+
+<!-- Botón para navegar a la vista de Crear Usuario -->
+<a asp-controller="Usuario" asp-action="Crear" class="btn btn-primary">Crear Usuario</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            <tr>
+                <td>@usuario.Id</td>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.Apellido</td>
+                <td>@usuario.Correo</td>
+                <td>@usuario.Telefono</td>
+                <td>
+                    <!-- Ejemplo de acciones adicionales -->
+                    <a asp-controller="Usuario" asp-action="Editar" asp-route-id="@usuario.Id">Editar</a> |
+                    <a asp-controller="Usuario" asp-action="Borrar" asp-route-id="@usuario.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

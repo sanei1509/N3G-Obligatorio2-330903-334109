@@ -5,18 +5,18 @@ using LogicaNegocio.InterfacesRepositorio;
 
 namespace LogicaAplicacion.CasosUso.Usuarios
 {
-    public class GetById: IGetById<UsuarioDto>
+    public class GetAllUsuario : IGetAll<UsuarioListadoDto>
     {
         private IRepositorioUsuario _repo;
 
-        public GetById(IRepositorioUsuario repo)
+        public GetAllUsuario(IRepositorioUsuario repo)
         {
-            _repo = repo;
+            this._repo = repo;
         }
 
-        public UsuarioDto Execute(int id)
+        public IEnumerable<UsuarioListadoDto> Execute()
         {
-            return UsuarioMapper.ToDto(_repo.GetById(id));
+            return UsuarioMapper.ToListaDto(_repo.GetAll());
         }
     }
 }

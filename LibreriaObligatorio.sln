@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicaNegocio", "LogicaNegocio\LogicaNegocio.csproj", "{31874DDD-D410-43C1-9904-7679D945FD7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicaNegocio", "LogicaNegocio\LogicaNegocio.csproj", "{31874DDD-D410-43C1-9904-7679D945FD7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMVC", "WebMVC\WebMVC.csproj", "{F46214A2-07C3-475B-BE2E-820ABEA3BF1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMVC", "WebMVC\WebMVC.csproj", "{F46214A2-07C3-475B-BE2E-820ABEA3BF1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicaAplicacion", "LogicaAplicacion\LogicaAplicacion.csproj", "{26B0B4C6-054D-4295-9F52-713F3DFC6424}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicaAplicacion", "LogicaAplicacion\LogicaAplicacion.csproj", "{26B0B4C6-054D-4295-9F52-713F3DFC6424}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicaAccesoDatos", "LogicaAccesoDatos\LogicaAccesoDatos.csproj", "{75D5505E-379C-41FF-97F6-FFBB8A2D9684}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicaAccesoDatos", "LogicaAccesoDatos\LogicaAccesoDatos.csproj", "{75D5505E-379C-41FF-97F6-FFBB8A2D9684}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CasoUsoCompartida", "CasoUsoCompartida\CasoUsoCompartida.csproj", "{B1EAF6AE-661A-4570-B074-1455CC4C93FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasoUsoCompartida", "CasoUsoCompartida\CasoUsoCompartida.csproj", "{B1EAF6AE-661A-4570-B074-1455CC4C93FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

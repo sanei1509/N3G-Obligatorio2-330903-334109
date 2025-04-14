@@ -1,6 +1,7 @@
 ﻿using CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.InterfacesCU;
 using LogicaAplicacion.Mapper;
+using LogicaNegocio.Excepciones.UsuarioExceptions;
 using LogicaNegocio.InterfacesRepositorio;
 
 namespace LogicaAplicacion.CasosUso.Usuarios
@@ -16,6 +17,12 @@ namespace LogicaAplicacion.CasosUso.Usuarios
 
         public void Execute (CrearUsuarioDto usuarioDto)
         {
+            // Primero, verificamos si ya existe un usuario con ese correo.
+            var usuarioExistente = _repo.GetByEmail(usuarioDto.Correo);
+            if (usuarioExistente != null)
+            {
+                throw new YaExisteUsuarioException("Ya existe un usuario con ese correo.");
+            }
             _repo.Add(UsuarioMapper.FromDto(usuarioDto));
         }
     }

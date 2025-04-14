@@ -45,18 +45,34 @@ namespace LogicaAplicacion.Mapper
             );
         }
 
-        //public static IEnumerable<UsuarioListadoDto> ToListaDto(IEnumerable<Usuario> usuarios)
-        //{
-        //    List<UsuarioListadoDto> usuariosListadoDto = new List<UsuarioListadoDto>();
-        //    foreach (var item in usuarios)
-        //    {
-        //        usuariosListadoDto.Add(new UsuarioListadoDto(item.Id,
-        //                                                     item.Nombre.Value,
-        //                                                     item.MiEmail.Value,
-        //                                                     item.Rol));
-        //    }
-        //    return usuariosListadoDto;
-        //}
+
+        public static CrearUsuarioDto ToDtoEdit(Usuario usuario)
+        {
+            return new CrearUsuarioDto(
+                usuario.Id,
+                usuario.Nombre.Value,
+                usuario.Apellido.Value,
+                usuario.Correo.Value,
+                usuario.Clave.Value,
+                usuario.Telefono.Value
+            );
+        }
+
+
+        public static IEnumerable<UsuarioListadoDto> ToListaDto(IEnumerable<Usuario> usuarios)
+        {
+            List<UsuarioListadoDto> usuariosListadoDto = new List<UsuarioListadoDto>();
+            foreach (var item in usuarios)
+            {
+                usuariosListadoDto.Add(new UsuarioListadoDto(item.Id,
+                                                             item.Nombre.Value,
+                                                             item.Apellido.Value,
+                                                             item.Correo.Value,
+                                                             item.Telefono.Value
+                                                             ));
+            }
+            return usuariosListadoDto;
+        }
 
     }
 }

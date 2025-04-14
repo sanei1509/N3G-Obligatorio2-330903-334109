@@ -5,18 +5,18 @@ using LogicaNegocio.InterfacesRepositorio;
 
 namespace LogicaAplicacion.CasosUso.Usuarios
 {
-    public class GetById: IGetById<UsuarioDto>
+    public class GetByIdEditar: IGetById<CrearUsuarioDto>
     {
         private IRepositorioUsuario _repo;
 
-        public GetById(IRepositorioUsuario repo)
+        public GetByIdEditar(IRepositorioUsuario repo)
         {
             _repo = repo;
         }
 
-        public UsuarioDto Execute(int id)
+        public CrearUsuarioDto Execute(int id)
         {
-            return UsuarioMapper.ToDto(_repo.GetById(id));
+            return UsuarioMapper.ToDtoEdit(_repo.GetById(id));
         }
     }
 }

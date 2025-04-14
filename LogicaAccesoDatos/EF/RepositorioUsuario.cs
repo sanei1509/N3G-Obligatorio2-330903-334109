@@ -29,32 +29,45 @@ namespace LogicaAccesoDatos.EF
         {
             Usuario unU = _context.Usuarios
                 .FirstOrDefault(usuario => usuario.Correo.Value == correo);
-            if (unU == null)
-            {
-                throw new Exception("No se encontro el usuario con ese correo");
-            }
+            //if (unU == null)
+            //{
+            //    throw new Exception("No se encontro el usuario con ese correo");
+            //}
             return unU;
 
         }
 
         public IEnumerable<Usuario> GetAll()
         {
-            throw new NotImplementedException("Este método no se usa/implementa aún.");
+            return _context.Usuarios.ToList();
         }
 
         public Usuario GetById(int id)
         {
-            throw new NotImplementedException("Pendiente de implementar.");
+            Usuario unU = _context.Usuarios
+                .FirstOrDefault(usuario => usuario.Id == id);
+            if (unU == null)
+            {
+                throw new Exception("No se encontro el id");
+            }
+            return unU;
+
         }
 
         public void Remove(int id)
         {
-            throw new NotImplementedException("Pendiente de implementar.");
+            Usuario unU = GetById(id);
+            _context.Usuarios.Remove(unU);
+            _context.SaveChanges();
         }
 
-        public void Update(Usuario obj)
+
+        public void Update(int id, Usuario obj)
         {
-            throw new NotImplementedException("Pendiente de implementar.");
+            Usuario unU = GetById(id);
+            unU.Update(obj);
+            _context.Usuarios.Update(unU);
+            _context.SaveChanges();
         }
     }
 }

@@ -8,6 +8,6 @@ namespace LogicaNegocio.InterfacesRepositorio
         T GetById(int id);
         T GetByEmail(string correo);
         void Remove(int id);
-        void Update(T obj);
+        void Update(int id, T obj);
     }
 }
