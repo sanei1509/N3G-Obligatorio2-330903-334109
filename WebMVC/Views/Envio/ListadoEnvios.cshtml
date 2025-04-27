@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CasoUsoCompartida.DTOs.Envios.EnvioListadoDto>
+﻿@using CasoUsoCompartida.DTOs.Envios
+@model IEnumerable<EnvioListadoDto>
 
 @{
     ViewData["Title"] = "Listado de todos los envios [En Proceso]";
@@ -21,18 +22,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var usuario in Model)
+        @foreach (var envio in Model)
         {
             <tr>
-                <td>@usuario.Id</td>
-                <td>@usuario.Nombre</td>
-                <td>@usuario.Apellido</td>
-                <td>@usuario.Correo</td>
-                <td>@usuario.Telefono</td>
+                <td>@envio.Discriminator</td>        
+                <td>@envio.NroTracking</td>      
+                <td>@envio.ClienteId</td>        
+                <td>@envio.Correo</td>           
+                <td>@envio.Telefono</td>
                 <td>
-                    <!-- Ejemplo de acciones adicionales -->
-                    <a asp-controller="Usuario" asp-action="Editar" asp-route-id="@usuario.Id">Editar</a> |
-                    <a asp-controller="Usuario" asp-action="Borrar" asp-route-id="@usuario.Id">Eliminar</a>
+                  
+                    <a asp-controller="Usuario" asp-action="Editar" asp-route-id="@envio.Id">Editar</a> |
+                    <a asp-controller="Usuario" asp-action="Borrar" asp-route-id="@envio.Id">Eliminar</a>
                 </td>
             </tr>
         }

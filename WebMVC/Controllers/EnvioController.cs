@@ -1,7 +1,5 @@
-﻿using CasoUsoCompartida.DTOs.Envios.CasoUsoCompartida.DTOs.Usuarios;
-using CasoUsoCompartida.DTOs.Usuarios;
+﻿using CasoUsoCompartida.DTOs.Envios;
 using CasoUsoCompartida.InterfacesCU;
-using LogicaAplicacion.CasosUso.Usuarios;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebMVC.Controllers
