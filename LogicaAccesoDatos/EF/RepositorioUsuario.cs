@@ -1,4 +1,5 @@
-﻿using LogicaNegocio.Entidades.Usuarios.Usuario;
+﻿using LogicaNegocio.Entidades.Envios;
+using LogicaNegocio.Entidades.Usuarios.Usuario;
 using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.EntityFrameworkCore;
 
@@ -69,5 +70,6 @@ namespace LogicaAccesoDatos.EF
             _context.Usuarios.Update(unU);
             _context.SaveChanges();
         }
+
     }
 }

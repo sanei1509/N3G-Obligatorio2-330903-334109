@@ -1,14 +1,15 @@
 ﻿using LogicaNegocio.Excepciones.UsuarioExceptions;
 
-namespace LogicaNegocio.Vo
+namespace LogicaNegocio.Vo.Usuario
 {
-    public record Apellido
+    public record Telefono
     {
         public string Value { get; }
 
-        public Apellido(string value) {
+        public Telefono(string value)
+        {
             if (string.IsNullOrEmpty(value))
-                throw new ApellidoException("Apellido incorrecto o vacío");
+                throw new TelefonoException("Teléfono incorrecto o vacío");
             Value = value;
         }
     }

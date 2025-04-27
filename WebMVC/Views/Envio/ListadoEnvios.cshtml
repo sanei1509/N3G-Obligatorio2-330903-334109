@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CasoUsoCompartida.DTOs.Envios.EnvioListadoDto>
+
+@{
+    ViewData["Title"] = "Listado de todos los envios [En Proceso]";
+}
+
+<h2></h2>
+
+<!-- Botón para navegar a la vista de Crear Usuario -->
+<a asp-controller="Envio" asp-action="Crear" class="btn btn-primary">Agregar Envío</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tipo Envio</th>
+            <th>Nro Tracking</th>
+            <th>Cliente</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            <tr>
+                <td>@usuario.Id</td>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.Apellido</td>
+                <td>@usuario.Correo</td>
+                <td>@usuario.Telefono</td>
+                <td>
+                    <!-- Ejemplo de acciones adicionales -->
+                    <a asp-controller="Usuario" asp-action="Editar" asp-route-id="@usuario.Id">Editar</a> |
+                    <a asp-controller="Usuario" asp-action="Borrar" asp-route-id="@usuario.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

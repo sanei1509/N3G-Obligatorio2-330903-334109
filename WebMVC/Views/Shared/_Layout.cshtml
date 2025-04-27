@@ -28,6 +28,13 @@
                                     Gestión de empleados
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Envio" asp-action="ListadoEnvios">
+                                    Ver Envíos
+                                </a>
+                            </li>
+
                         }
                         @* Mostrar "Iniciar sesión" solo si el usuario NO está logueado *@
                         @if (Context.Session.GetString("Logueado") != "true")
