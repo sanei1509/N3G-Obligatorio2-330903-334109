@@ -1,6 +1,9 @@
 ﻿namespace CasoUsoCompartida.DTOs.Usuarios
 {
-    public record LoginEntradaDto(string Correo, string Clave)
+    public record LoginEntradaDto(
+        string Correo, 
+        string Clave
+        )
     {
     }
 }

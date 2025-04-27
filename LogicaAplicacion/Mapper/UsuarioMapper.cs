@@ -1,11 +1,13 @@
 ﻿using CasoUsoCompartida.DTOs.Usuarios;
+using LogicaNegocio.Entidades.Usuarios.Empleados;
 using LogicaNegocio.Entidades.Usuarios.Usuario;
 using LogicaNegocio.Vo;
+using LogicaNegocio.Vo.Usuario;
 using Microsoft.AspNetCore.Identity;
 
 namespace LogicaAplicacion.Mapper
 {
-    internal class UsuarioMapper
+    public class UsuarioMapper
     {
         // De DTO a Entidad
         public static Usuario FromDto(CrearUsuarioDto dto)
@@ -23,7 +25,7 @@ namespace LogicaAplicacion.Mapper
             var telefonoVo = new Telefono(dto.Telefono);
 
             // Retornás una instancia de Usuario con esos VO
-            return new Usuario(
+            return new Funcionario(
                 dto.Id,
                 nombreVo,
                 apellidoVo,

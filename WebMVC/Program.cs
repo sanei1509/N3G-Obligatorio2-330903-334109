@@ -1,7 +1,9 @@
+using CasoUsoCompartida.DTOs.Envios.CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.InterfacesCU;
 using Libreria.LogicaAplicacion.CasoUso.Usuarios;
 using LogicaAccesoDatos.EF;
+using LogicaAplicacion.CasosUso.Envios;
 using LogicaAplicacion.CasosUso.Usuarios;
 using LogicaNegocio.InterfacesRepositorio;
 
@@ -20,6 +22,10 @@ builder.Services.AddScoped<IGetById<UsuarioDto>, GetById>();
 builder.Services.AddScoped<IGetById<CrearUsuarioDto>, GetByIdEditar>();
 builder.Services.AddScoped<IGetAll<UsuarioListadoDto>, GetAllUsuario>();
 builder.Services.AddScoped<ILogin<LoginRespuestaDto>, Login>();
+
+//Inyectar caso de uso de Envio
+builder.Services.AddScoped<IAdd<CrearEnvioDto>, CrearEnvio>();
+builder.Services.AddScoped<IGetAll<EnvioListadoDto>, GetAllEnvios>();
 
 //Inyectar el repositorio
 builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();

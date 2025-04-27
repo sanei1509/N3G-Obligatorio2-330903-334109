@@ -1,9 +1,9 @@
 ﻿using LogicaNegocio.InterfacesDominio;
-using LogicaNegocio.Vo;
+using LogicaNegocio.Vo.Usuario;
 
 namespace LogicaNegocio.Entidades.Usuarios.Usuario
 {
-    public class Usuario : IEntity
+    public abstract class Usuario : IEntity
     {
         public int Id { get; set; }
         public Nombre Nombre { get; set; }
@@ -11,7 +11,7 @@ namespace LogicaNegocio.Entidades.Usuarios.Usuario
         public Correo Correo { get; set; }
         public Clave Clave { get; set; }
         public Telefono Telefono { get; set; }
-
+        public string Discriminator {get; set;}
 
         protected Usuario()
         {

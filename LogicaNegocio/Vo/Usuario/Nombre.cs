@@ -1,14 +1,15 @@
 ﻿using LogicaNegocio.Excepciones.UsuarioExceptions;
 
-namespace LogicaNegocio.Vo
+namespace LogicaNegocio.Vo.Usuario
 {
-    public record Clave
+    public record Nombre
     {
         public string Value { get; }
 
-        public Clave(string value) {
+        public Nombre(string value)
+        {
             if (string.IsNullOrEmpty(value))
-                throw new ClaveException("Clave incorrecta o vacía");
+                throw new NombreException("Nombre incorrecto o vacío");
             Value = value;
         }
     }
