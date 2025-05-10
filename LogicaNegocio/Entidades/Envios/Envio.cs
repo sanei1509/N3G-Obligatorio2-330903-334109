@@ -14,7 +14,9 @@ namespace LogicaNegocio.Entidades.Envios
         public Empleado Empleado { get; set; }
         public Cliente Cliente { get; set; }
         public Peso Peso { get; set; }
-        EstadoEnvio Estado { get; set; }
+        public EstadoEnvio Estado { get; set; }
+        public string Discriminator { get; set; }
+
         protected Envio() { }
 
         public Envio(int id, NroTracking nroTracking, Empleado empleado, Cliente cliente, Peso peso, EstadoEnvio estado)

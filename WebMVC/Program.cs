@@ -1,4 +1,4 @@
-using CasoUsoCompartida.DTOs.Envios.CasoUsoCompartida.DTOs.Usuarios;
+using CasoUsoCompartida.DTOs.Envios;
 using CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.InterfacesCU;
 using Libreria.LogicaAplicacion.CasoUso.Usuarios;
@@ -29,6 +29,7 @@ builder.Services.AddScoped<IGetAll<EnvioListadoDto>, GetAllEnvios>();
 
 //Inyectar el repositorio
 builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
+builder.Services.AddScoped<IRepositorioEnvio, RepositorioEnvio>();
 
 //Inyectar el contexto
 builder.Services.AddDbContext<LibreriaContext>();

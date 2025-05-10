@@ -1,13 +1,8 @@
-﻿using CasoUsoCompartida.DTOs.Envios.CasoUsoCompartida.DTOs.Usuarios;
-using CasoUsoCompartida.DTOs.Usuarios;
+﻿using CasoUsoCompartida.DTOs.Envios;
 using CasoUsoCompartida.InterfacesCU;
 using LogicaAplicacion.Mapper;
 using LogicaNegocio.InterfacesRepositorio;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace LogicaAplicacion.CasosUso.Envios
 {
