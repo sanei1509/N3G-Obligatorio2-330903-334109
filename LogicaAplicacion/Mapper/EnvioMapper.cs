@@ -13,12 +13,15 @@ namespace LogicaAplicacion.Mapper
     public class EnvioMapper
     {
         // De DTO a Entidad
-        public static Envio FromDto(CrearEnvioDto dto,
+        public static Envio FromDto(
+            CrearEnvioDto dto,
             Empleado empleado,
+            EstadoEnvio estado,
             Cliente cliente,
-            Agencia lugarRetiro = null)
+            NroTracking nroVo,
+            Agencia? lugarRetiro
+            )
         {
-            var nroVo = new NroTracking(dto.NroTracking);
             var pesoVo = new Peso(dto.Peso);
 
 
@@ -28,10 +31,10 @@ namespace LogicaAplicacion.Mapper
                     lugarRetiro,
                     0,
                     nroVo,
-                    empleado,
+                    empleado,   
                     cliente,
                     pesoVo,
-                    dto.Estado
+                    estado
                     );
             }
             else
@@ -44,7 +47,7 @@ namespace LogicaAplicacion.Mapper
                     empleado,
                     cliente,
                     pesoVo,
-                    dto.Estado);
+                    estado);
 
             }
 

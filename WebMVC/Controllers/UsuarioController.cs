@@ -49,6 +49,7 @@ namespace WebMVC.Controllers
 
             // Si todo OK, guardamos la sesión:
             HttpContext.Session.SetString("Logueado", "true");
+            HttpContext.Session.SetString("CorreoEmpleado", model.Correo);
 
             return RedirectToAction("Index", "Home");
         }
@@ -155,6 +156,18 @@ namespace WebMVC.Controllers
 
             return View();
 
+        }
+
+
+        // Acción para cerrar sesión
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            // Eliminar la sesión
+            HttpContext.Session.Remove("Logueado");
+
+            // Redirigir al inicio o a la página de login
+            return RedirectToAction("Login");
         }
 
 

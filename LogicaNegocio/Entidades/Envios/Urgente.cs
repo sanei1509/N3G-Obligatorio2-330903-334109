@@ -17,5 +17,21 @@ namespace LogicaNegocio.Entidades.Envios
             DireccionPostal = direccionPostal;
             Entregado = entregado;
         }
+
+        public override void FinalizarEnvio(Envio obj)
+        {
+            base.FinalizarEnvio(obj);
+            //calcular cumplimiento en las 24hs
+            CalcularCumplimientoEntrega();
+        }
+
+        private void CalcularCumplimientoEntrega()
+        {
+            TimeSpan DiferenciaHoras = (TimeSpan)(FechaFinalizacion - FechaCreacion);
+            if (DiferenciaHoras.TotalHours < 24)
+            {
+                Entregado = new Entregado(true);
+            }
+        }
     }
 }

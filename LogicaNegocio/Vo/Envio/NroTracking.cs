@@ -1,13 +1,15 @@
-﻿namespace LogicaNegocio.Vo.Envio
+﻿using LogicaNegocio.Excepciones.EnvioExceptions;
+
+namespace LogicaNegocio.Vo.Envio
 {
     public record NroTracking
     {
-        public int Value { get; }
+        public string Value { get; }
 
-        public NroTracking(int value)
+        public NroTracking(string value)
         {
-            //if (!value)
-            //    throw new AgenciaException("Nro Tracking incorrecto");
+            if (string.IsNullOrWhiteSpace(value))
+                throw new NroTrackingException("Tracking inválido");
             Value = value;
         }
     }

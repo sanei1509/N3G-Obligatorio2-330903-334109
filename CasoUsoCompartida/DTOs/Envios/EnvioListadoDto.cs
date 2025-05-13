@@ -6,12 +6,12 @@ namespace CasoUsoCompartida.DTOs.Envios
 
     public record EnvioListadoDto(
         int Id,
-        int NroTracking,
+        string NroTracking,
         int EmpleadoId,
         int ClienteId,
         decimal Peso,
         EstadoEnvio EstadoEnvio,
-        string Discriminator,
+        string TipoEnvio,
         string Correo,
         string Telefono
     )

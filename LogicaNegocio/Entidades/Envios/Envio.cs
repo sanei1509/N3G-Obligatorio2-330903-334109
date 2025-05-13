@@ -16,6 +16,8 @@ namespace LogicaNegocio.Entidades.Envios
         public Peso Peso { get; set; }
         public EstadoEnvio Estado { get; set; }
         public string Discriminator { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public DateTime? FechaFinalizacion { get; set; }
 
         protected Envio() { }
 
@@ -27,12 +29,21 @@ namespace LogicaNegocio.Entidades.Envios
             Cliente = cliente;
             Peso = peso;
             Estado = estado;
+            FechaCreacion = DateTime.Now;
         }
 
-        public void FinalizarEnvio(Envio obj)
+        public virtual void FinalizarEnvio(Envio obj)
         {
             // En este caso solo cambiamos el valor del esado
+            Estado = EstadoEnvio.FINALIZADO;
+            FechaFinalizacion = DateTime.Now;
+        }
+
+        public void Update(Envio obj)
+        {
+            // En este caso solo cambiamos estos valores 
             Estado = obj.Estado;
+            FechaFinalizacion = obj.FechaFinalizacion;
         }
     }
 }

@@ -5,6 +5,7 @@ using Libreria.LogicaAplicacion.CasoUso.Usuarios;
 using LogicaAccesoDatos.EF;
 using LogicaAplicacion.CasosUso.Envios;
 using LogicaAplicacion.CasosUso.Usuarios;
+using LogicaNegocio.Entidades.Envios;
 using LogicaNegocio.InterfacesRepositorio;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,13 +27,19 @@ builder.Services.AddScoped<ILogin<LoginRespuestaDto>, Login>();
 //Inyectar caso de uso de Envio
 builder.Services.AddScoped<IAdd<CrearEnvioDto>, CrearEnvio>();
 builder.Services.AddScoped<IGetAll<EnvioListadoDto>, GetAllEnvios>();
+builder.Services.AddScoped<FinalizarEnvio>();
+
 
 //Inyectar el repositorio
 builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
 builder.Services.AddScoped<IRepositorioEnvio, RepositorioEnvio>();
+builder.Services.AddScoped<IRepositorioAgencia, RepositorioAgencia>();
 
 //Inyectar el contexto
 builder.Services.AddDbContext<LibreriaContext>();
+
+//Registro HTTP para obtener info de la session
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

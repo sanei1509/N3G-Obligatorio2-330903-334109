@@ -2,7 +2,14 @@
 
 namespace LogicaNegocio.InterfacesRepositorio
 {
-    public interface IRepositorioUsuario: IRepositorio<Usuario>
+    public interface IRepositorioUsuario:
+        IRepositorioAdd<Usuario>,
+        IRepositorioGetAll<Usuario>,
+        IRepositorioGetById<Usuario>,
+        IRepositorioUpdate<Usuario>,
+        IRepositorioDelete<Usuario>,
+        IRepositorioGetByEmail<Usuario>
     {
+
     }
 }

@@ -5,7 +5,6 @@
     ViewData["Title"] = "Listado de todos los envios [En Proceso]";
 }
 
-<h2></h2>
 
 <!-- Botón para navegar a la vista de Crear Usuario -->
 <a asp-controller="Envio" asp-action="Crear" class="btn btn-primary">Agregar Envío</a>
@@ -25,15 +24,16 @@
         @foreach (var envio in Model)
         {
             <tr>
-                <td>@envio.Discriminator</td>        
+                <td>@envio.TipoEnvio</td>        
                 <td>@envio.NroTracking</td>      
                 <td>@envio.ClienteId</td>        
                 <td>@envio.Correo</td>           
                 <td>@envio.Telefono</td>
                 <td>
                   
-                    <a asp-controller="Usuario" asp-action="Editar" asp-route-id="@envio.Id">Editar</a> |
-                    <a asp-controller="Usuario" asp-action="Borrar" asp-route-id="@envio.Id">Eliminar</a>
+                    <a asp-controller="Envio" asp-action="Finalizar" asp-route-id="@envio.Id" method="post" >Finalizar</a>
+                    |
+                    <a asp-controller="Envio" asp-action="ComentarioStatus" asp-route-id="@envio.Id">Ingresar comentario de status</a>
                 </td>
             </tr>
         }

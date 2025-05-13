@@ -52,7 +52,6 @@ namespace LogicaAccesoDatos.EF
                 throw new Exception("No se encontro el id");
             }
             return unU;
-
         }
 
         public void Remove(int id)
@@ -70,6 +69,5 @@ namespace LogicaAccesoDatos.EF
             _context.Usuarios.Update(unU);
             _context.SaveChanges();
         }
-
     }
 }

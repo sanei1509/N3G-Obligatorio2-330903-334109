@@ -3,21 +3,22 @@
 
     namespace CasoUsoCompartida.DTOs.Envios
     {
-        public record CrearEnvioDto(
-                string TipoEnvio,
-                int NroTracking,
-                int EmpleadoId,
-                int ClienteId,
-                decimal Peso,
-                EstadoEnvio Estado,
-                // Para Comun
-                int? LugarRetiroId,
-                // Para Urgente
-                string DireccionPostal,
-                bool? Entregado
-            )
-        {
-        }
+    public record CrearEnvioDto(
+            string TipoEnvio,
+            string CorreoEmpleado,
+            string CorreoCliente,
+            //int NroTracking,
+            //int EmpleadoId,
+            //int ClienteId,
+            decimal Peso,
+            // Para Comun
+            int LugarRetiroId,
+            // Para Urgente
+            string? DireccionPostal,
+            bool? Entregado
+        )
+    {
     }
+}
 
 
