@@ -1,4 +1,6 @@
 ﻿using LogicaNegocio.Entidades.Envios;
+using LogicaNegocio.Entidades.Usuarios.Usuario;
+using LogicaNegocio.Enums;
 using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,22 +25,31 @@ namespace LogicaAccesoDatos.EF
         public IEnumerable<Envio> GetAll()
         {
             return _context.Envios
-                           .Include(e => e.Peso)
-                           .Include(e => e.NroTracking)
-                           .ToList();
+                        .Where(e => e.Estado == EstadoEnvio.EN_PROCESO)
+                        .Include(e => e.Empleado)
+                        .Include(e => e.Cliente)
+                        .Include(e => (e as Comun).LugarRetiro)
+                        .ToList();
         }
 
-        // Estos métodos no los vamos a usar aún
-        public Envio GetById(int id) =>
-            throw new NotSupportedException("No está implementado para Envios");
+        public void Update(int id, Envio obj)
+        {
+            Envio unE = GetById(id);
+            unE.Update(obj);
+            _context.Envios.Update(unE);
+            _context.SaveChanges();
+        }
 
-        public Envio GetByEmail(string correo) =>
-            throw new NotSupportedException("No aplica a Envios");
+        public Envio GetById(int id)
+        {
+            Envio unE = _context.Envios
+                .FirstOrDefault(envio => envio.Id == id);
+            if (unE == null)
+            {
+                throw new Exception("No se encontro el id");
+            }
+            return unE;
+        }
 
-        public void Remove(int id) =>
-            throw new NotSupportedException("No está implementado para Envios");
-
-        public void Update(int id, Envio obj) =>
-            throw new NotSupportedException("No está implementado para Envios");
     }
 }

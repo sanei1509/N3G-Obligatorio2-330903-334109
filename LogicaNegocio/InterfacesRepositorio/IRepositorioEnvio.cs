@@ -2,7 +2,11 @@
 
 namespace LogicaNegocio.InterfacesRepositorio
 {
-    public interface IRepositorioEnvio: IRepositorio<Envio>
+    public interface IRepositorioEnvio: 
+        IRepositorioAdd<Envio>,
+        IRepositorioGetAll<Envio>,
+        IRepositorioGetById<Envio>,
+        IRepositorioUpdate<Envio>
     {
 
     }

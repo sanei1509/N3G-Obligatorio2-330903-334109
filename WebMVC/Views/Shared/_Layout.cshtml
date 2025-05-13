@@ -19,7 +19,26 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                       
+
+                        @* Mostrar "Iniciar sesión" solo si el usuario NO está logueado *@
+                        @if (Context.Session.GetString("Logueado") != "true")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Login">
+                                    Iniciar sesión
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <form asp-controller="Usuario" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+                                </form>
+                            </li>
+                        }
+
+
                         @* Mostrar el enlace de gestión si el usuario está logueado *@
                         @if (Context.Session.GetString("Logueado") == "true")
                         {
@@ -36,15 +55,7 @@
                             </li>
 
                         }
-                        @* Mostrar "Iniciar sesión" solo si el usuario NO está logueado *@
-                        @if (Context.Session.GetString("Logueado") != "true")
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Login">
-                                    Iniciar sesión
-                                </a>
-                            </li>
-                        }
+
 
                     </ul>
                 </div>

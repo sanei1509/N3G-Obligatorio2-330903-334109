@@ -2,7 +2,7 @@
 {
     public record Entregado
     {
-        public bool Value { get; }
+        public bool Value { get; set; }
 
         public Entregado(bool value)
         {

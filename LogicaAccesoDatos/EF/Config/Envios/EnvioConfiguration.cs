@@ -49,6 +49,15 @@ namespace LogicaAccesoDatos.EF.Config.Envios
             .HasValue<Comun>("Comun")
             .HasValue<Urgente>("Urgente");
 
+
+            builder.Property(e => e.FechaCreacion)
+           .HasColumnName("FechaCreacion")
+           .IsRequired();
+
+            builder.Property(e => e.FechaFinalizacion)
+            .HasColumnName("FechaFinalizacion")
+            .IsRequired(false);
+
         }
     }
 }
