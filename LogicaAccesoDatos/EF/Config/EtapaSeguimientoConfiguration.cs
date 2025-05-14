@@ -32,6 +32,18 @@ namespace LogicaAccesoDatos.EF.Config
             {
                 fecha.Property(nt => nt.Value).HasColumnName("Fecha");
             });
+
+            builder.OwnsOne(es => es.NroTracking, nro =>
+            {
+                nro.Property(n => n.Value)
+                   .HasColumnName("NroTracking")
+                   .IsRequired();
+            });
+
+
+            builder.ToTable("EtapasSeguimiento");
         }
+
+
     }
 }

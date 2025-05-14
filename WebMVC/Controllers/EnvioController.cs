@@ -2,6 +2,7 @@
 using CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.InterfacesCU;
 using LogicaAplicacion.CasosUso.Envios;
+using LogicaNegocio.Excepciones.AgenciaException;
 using LogicaNegocio.Excepciones.EnvioExceptions;
 using LogicaNegocio.Excepciones.Envios;
 using Microsoft.AspNetCore.Mvc;
@@ -59,21 +60,27 @@ namespace WebMVC.Controllers
             }
             catch (CorreoException)
             {
-                ViewBag.Message = "El Apellido es incorrecto";
+                ViewBag.Message = "El Correo ingresado no esta registrado como cliente";
+                return View();
             }
             catch (PesoException)
             {
-                ViewBag.Message = "El Correo es incorrecto";
+                ViewBag.Message = "El Peso debe ser un número positivo";
             }
             catch (LugarRetiroException)
             {
-                ViewBag.Message = "La Clave es incorrecta";
+                ViewBag.Message = "Debes seleccionar un lugar de retiro";
             }
             catch (DireccionException)
             {
-                ViewBag.Message = "La Dirección es incorrecta";
+                ViewBag.Message = "La Dirección es un campo que no puede estar vacio";
+            }
+            catch (NombreAgenciaExeption)
+            {
+                ViewBag.Message = "No existe esa Agencia";
             }
 
+            ViewBag.CorreoEmpleado = envioDto.CorreoEmpleado;
             return View();
 
         }

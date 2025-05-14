@@ -1,12 +1,12 @@
 ﻿namespace LogicaNegocio.Excepciones.AgenciaException;
 
-public class AgenciaException : LogicaNegocioException
+public class NombreAgenciaExeption : LogicaNegocioException
 {
-    public AgenciaException()
+    public NombreAgenciaExeption()
     {
     }
 
-    public AgenciaException(string? message) : base(message)
+    public NombreAgenciaExeption(string? message) : base(message)
     {
     }
 
