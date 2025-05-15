@@ -5,6 +5,7 @@ using LogicaAplicacion.Mapper;
 using LogicaNegocio.Entidades;
 using LogicaNegocio.Entidades.Usuarios.Usuario;
 using LogicaNegocio.Enums;
+using LogicaNegocio.Excepciones.EnvioExceptions;
 using LogicaNegocio.InterfacesRepositorio;
 using LogicaNegocio.Vo.Envio;
 using System;
@@ -32,7 +33,7 @@ namespace LogicaAplicacion.CasosUso.Envios
             // 2 Cliente
             var cliente = _usuario.GetByEmail(envioDto.CorreoCliente) as Cliente;
             if (cliente == null)
-                throw new Exception(
+                throw new CorreoException(
                     $"No existe ningún cliente con correo '{envioDto.CorreoCliente}'"
                 );
 
@@ -41,7 +42,7 @@ namespace LogicaAplicacion.CasosUso.Envios
             if (envioDto.TipoEnvio == "Comun")
             {
                 if (envioDto.LugarRetiroId == 0)
-                    throw new Exception("Debes seleccionar una agencia para envíos Comunes");
+                    throw new LugarRetiroException("Debes seleccionar una agencia para envíos Comunes");
                 agencia = _agencia.GetById(envioDto.LugarRetiroId);
             }
 

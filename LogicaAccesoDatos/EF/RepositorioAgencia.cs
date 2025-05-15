@@ -1,6 +1,7 @@
 ﻿using LogicaNegocio.Entidades;
 using LogicaNegocio.Entidades.Envios;
 using LogicaNegocio.Entidades.Usuarios.Usuario;
+using LogicaNegocio.Excepciones.AgenciaException;
 using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +30,7 @@ namespace LogicaAccesoDatos.EF
 
                 if (unA == null)
                 {
-                    throw new Exception("No se encontro el id");
+                    throw new NombreAgenciaExeption("No se encontro el id");
                 }
 
                 return unA;
