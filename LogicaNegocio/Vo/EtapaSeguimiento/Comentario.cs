@@ -1,5 +1,4 @@
 ﻿using LogicaNegocio.Excepciones.EtapaSeguimientoExceptions;
-using LogicaNegocio.Excepciones.UsuarioExceptions;
 
 namespace LogicaNegocio.Vo.EtapaSeguimiento
 {
@@ -15,3 +14,4 @@ namespace LogicaNegocio.Vo.EtapaSeguimiento
         }
     }
 }
+

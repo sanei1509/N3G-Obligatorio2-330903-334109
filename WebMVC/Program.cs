@@ -27,7 +27,8 @@ builder.Services.AddScoped<ILogin<LoginRespuestaDto>, Login>();
 //Inyectar caso de uso de Envio
 builder.Services.AddScoped<IAdd<CrearEnvioDto>, CrearEnvio>();
 builder.Services.AddScoped<IGetAll<EnvioListadoDto>, GetAllEnvios>();
-builder.Services.AddScoped<FinalizarEnvio>();
+builder.Services.AddScoped<IFinalizar, FinalizarEnvio>();
+
 
 
 //Inyectar el repositorio
