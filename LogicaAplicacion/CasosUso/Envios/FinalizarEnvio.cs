@@ -4,7 +4,7 @@ using LogicaNegocio.InterfacesRepositorio;
 
 namespace LogicaAplicacion.CasosUso.Envios
 {
-    public class FinalizarEnvio
+    public class FinalizarEnvio: IFinalizar
     {
         private IRepositorioEnvio _envio;
 

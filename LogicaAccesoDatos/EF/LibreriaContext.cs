@@ -54,7 +54,8 @@ namespace LogicaAccesoDatos.EF
                 },
                 // Ahora dos Clientes
                 new { Id = 3, Discriminator = "Cliente" },
-                new { Id = 4, Discriminator = "Cliente" }
+                new { Id = 4, Discriminator = "Cliente" },
+                new { Id = 5, Discriminator = "Admin" }
             );
 
             // 2) Seed de each Value Object via OwnsOne:
@@ -68,7 +69,8 @@ namespace LogicaAccesoDatos.EF
                     new { UsuarioId = 2, Value = "María" },
                     //CLIENTE
                     new { UsuarioId = 3, Value = "Carlos" },  // Cliente 1
-                    new { UsuarioId = 4, Value = "Fernanda" }   // Cliente 2
+                    new { UsuarioId = 4, Value = "Fernanda" },   // Cliente 2
+                    new { UsuarioId = 5, Value = "Gerente" }   // Cliente 2
                 );
 
             // Apellido
@@ -78,7 +80,8 @@ namespace LogicaAccesoDatos.EF
                     new { UsuarioId = 1, Value = "Pérez" },
                     new { UsuarioId = 2, Value = "Gómez" },
                     new { UsuarioId = 3, Value = "Rodríguez" },  // Cliente 1
-                    new { UsuarioId = 4, Value = "López" }   // Cliente 2
+                    new { UsuarioId = 4, Value = "López" },   // Cliente 2
+                    new { UsuarioId = 5, Value = "Apellido" }   // Cliente 2
                 );
 
             // Correo
@@ -88,7 +91,8 @@ namespace LogicaAccesoDatos.EF
                     new { UsuarioId = 1, Value = "juan@gmail.com" },
                     new { UsuarioId = 2, Value = "maria@gmail.com" },
                     new { UsuarioId = 3, Value = "carlitos@gmail.com" }, //cliente
-                    new { UsuarioId = 4, Value = "fernanda@gmail.com" }  //cliente
+                    new { UsuarioId = 4, Value = "fernanda@gmail.com" },  //cliente
+                    new { UsuarioId = 5, Value = "administrador@gmail.com" }  //cliente
                 );
 
             // Clave
@@ -98,7 +102,8 @@ namespace LogicaAccesoDatos.EF
                     new { UsuarioId = 1, Value = "admin123" },
                     new { UsuarioId = 2, Value = "admin123" },
                     new { UsuarioId = 3, Value = "cliente123" },  // Cliente 1
-                    new { UsuarioId = 4, Value = "cliente123" }   // Cliente 2
+                    new { UsuarioId = 4, Value = "cliente123" },   // Cliente 2
+                    new { UsuarioId = 5, Value = "Gerente2025." }   // Cliente 2
                 );
 
             // Telefono
@@ -108,7 +113,8 @@ namespace LogicaAccesoDatos.EF
                     new { UsuarioId = 1, Value = "099123456" },
                     new { UsuarioId = 2, Value = "099654321" },
                     new { UsuarioId = 3, Value = "099122555" },
-                    new { UsuarioId = 4, Value = "099777888" }
+                    new { UsuarioId = 4, Value = "099777888" },
+                    new { UsuarioId = 5, Value = "099100200" }
                 );
 
 
