@@ -7,6 +7,7 @@ using LogicaNegocio.Vo.Agencia;
 using LogicaNegocio.Vo.Envio;
 using LogicaNegocio.Enums;
 using CasoUsoCompartida.DTOs.Envios;
+using CasoUsoCompartida.DTOs.EtapaSeguimiento;
 
 namespace LogicaAplicacion.Mapper
 {
@@ -65,8 +66,47 @@ namespace LogicaAplicacion.Mapper
             envio.Estado,
             envio.Discriminator,
             envio.Cliente.Correo.Value,
-            envio.Cliente.Telefono.Value);
+            envio.Cliente.Telefono.Value,
+            // aquí viene la lista de etapas:
+            envio.FechaCreacion,
+            envio.EtapasSeguimiento?
+                .Select(es => new EtapaSeguimientoDto(
+                    es.Id,
+                    es.IdEnvio,
+                    es.NroTracking.Value,
+                    es.IdEmpleado,
+                    es.Empleado.Nombre.Value + " " + es.Empleado.Apellido.Value,
+                    es.Comentario.Value,
+                    es.Fecha.Value
+                ))
+                .ToList()
+                );
         }
+
+
+        //public static EnvioDto ToDtoEnvio(Envio envio)
+        //{
+        //    return new EnvioDto(
+        //        envio.Id,
+        //        envio.NroTracking,
+        //        envio.Empleado,
+        //        envio.Cliente,
+        //        envio.Peso,
+        //        envio.Estado,
+        //        envio.Discriminator,
+        //        envio.FechaCreacion,
+        //        envio.FechaFinalizacion.Value,
+        //        Etapas: envio.EtapasSeguimiento.Select(es => new EtapaSeguimientoDto(
+        //            Id: es.Id,
+        //            IdEnvio: es.IdEnvio,
+        //            NroTracking: es.NroTracking.Value,
+        //            IdEmpleado: es.IdEmpleado,
+        //            NombreEmpleado: es.Empleado.Nombre.Value + " " + es.Empleado.Apellido.Value,
+        //            Comentario: es.Comentario.Value,
+        //            Fecha: es.Fecha.Value
+
+        //    );
+        //}
 
         public static IEnumerable<EnvioListadoDto> ToListaDto(IEnumerable<Envio> envios)
         {

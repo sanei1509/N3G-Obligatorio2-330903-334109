@@ -21,8 +21,9 @@ namespace LogicaAplicacion.CasosUso.Envios
         private IRepositorioEnvio _repo;
         private IRepositorioUsuario _usuario;
 
-        public AgregarComentario(IRepositorioEnvio repo, IRepositorioUsuario usuario)
+        public AgregarComentario(IRepositorioEnvio repo, IRepositorioUsuario usuario, IRepositorioEtapaSeguimiento repoEtapa)
         {
+            _repoEtapa = repoEtapa;
             _repo = repo;
             _usuario = usuario;
         }
@@ -30,8 +31,8 @@ namespace LogicaAplicacion.CasosUso.Envios
         public void Execute(CrearComentarioDto comentarioDto)
         {
             // 1) Traer las entidades
-            var envio = _repo.GetById(comentarioDto.idEnvio);
-            var empleado = (Empleado)_usuario.GetById(comentarioDto.EmpleadoId);
+            var envio = _repo.GetById(comentarioDto.IdEnvio);
+            var empleado = (Empleado)_usuario.GetByEmail(comentarioDto.CorreoEmpleado);
 
             // 2) Mapear a dominio
             var etapa = EtapaSeguimientoMapper.FromDto(comentarioDto, envio, empleado);
@@ -41,5 +42,4 @@ namespace LogicaAplicacion.CasosUso.Envios
         }
     }
 
-        }
 }

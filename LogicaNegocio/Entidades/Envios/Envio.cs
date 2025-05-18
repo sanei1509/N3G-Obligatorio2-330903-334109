@@ -18,6 +18,8 @@ namespace LogicaNegocio.Entidades.Envios
         public string Discriminator { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime? FechaFinalizacion { get; set; }
+        public ICollection<EtapaSeguimiento> EtapasSeguimiento { get; private set; } = new List<EtapaSeguimiento>();
+
 
         protected Envio() { }
 

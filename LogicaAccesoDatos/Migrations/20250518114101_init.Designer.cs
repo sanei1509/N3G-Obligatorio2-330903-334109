@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20250515230255_init")]
+    [Migration("20250518114101_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -46,6 +46,37 @@ namespace LogicaAccesoDatos.Migrations
                         {
                             Id = 2
                         });
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.Auditoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Accion")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("Accion");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Fecha");
+
+                    b.Property<int>("IdEmpleado")
+                        .HasColumnType("int")
+                        .HasColumnName("IdEmpleado");
+
+                    b.Property<int>("IdResponsable")
+                        .HasColumnType("int")
+                        .HasColumnName("IdResponsable");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Auditorias", (string)null);
                 });
 
             modelBuilder.Entity("LogicaNegocio.Entidades.Envios.Envio", b =>
@@ -128,6 +159,12 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
+
+                    b.Property<bool>("Eliminado")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("Eliminado");
 
                     b.HasKey("Id");
 
@@ -392,7 +429,7 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired();
 
                     b.HasOne("LogicaNegocio.Entidades.Envios.Envio", "Envio")
-                        .WithMany()
+                        .WithMany("EtapasSeguimiento")
                         .HasForeignKey("IdEnvio")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -758,6 +795,11 @@ namespace LogicaAccesoDatos.Migrations
                     b.Navigation("DireccionPostal");
 
                     b.Navigation("Entregado");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.Envios.Envio", b =>
+                {
+                    b.Navigation("EtapasSeguimiento");
                 });
 #pragma warning restore 612, 618
         }

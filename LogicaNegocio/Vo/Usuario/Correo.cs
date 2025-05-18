@@ -7,9 +7,14 @@ namespace LogicaNegocio.Vo.Usuario
         public string Value { get; }
         public Correo(string value)
         {
-            if (string.IsNullOrEmpty(value))
-                throw new CorreoException("Correo incorrecto o vacío");
             Value = value;
+            Validar();
+        }
+
+        private void Validar()
+        {
+            if (string.IsNullOrEmpty(Value))
+                throw new CorreoException("Correo incorrecto o vacío");
         }
     }
 }

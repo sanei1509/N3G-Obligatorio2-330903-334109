@@ -14,8 +14,15 @@ namespace LogicaAccesoDatos.EF
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Envio> Envios { get; set; }
         public DbSet<Agencia> Agencias { get; set; }
-        public DbSet<EtapaSeguimiento> EtapaSeguimientos { get; set; }
-        
+        public DbSet<EtapaSeguimiento> EtapaSeguimientos { get; set; } 
+        public DbSet<Auditoria> Auditorias { get; set; }
+
+
+        public LibreriaContext(DbContextOptions<LibreriaContext> options): base(options)
+        {
+        }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -38,6 +45,7 @@ namespace LogicaAccesoDatos.EF
             modelBuilder.ApplyConfiguration(new ComunConfiguration());
             modelBuilder.ApplyConfiguration(new EtapaSeguimientoConfiguration());
             modelBuilder.ApplyConfiguration(new AgenciaConfiguration());
+            modelBuilder.ApplyConfiguration(new AuditoriaConfiguration());
 
 
             // 1) Seed de la entidad Usuario (sin los VOs)

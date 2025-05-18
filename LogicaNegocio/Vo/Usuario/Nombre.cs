@@ -8,9 +8,14 @@ namespace LogicaNegocio.Vo.Usuario
 
         public Nombre(string value)
         {
-            if (string.IsNullOrEmpty(value))
-                throw new NombreException("Nombre incorrecto o vacío");
             Value = value;
+            Validar();
+        }
+
+        private void Validar()
+        {
+            if (string.IsNullOrEmpty(Value))
+                throw new NombreException("Nombre incorrecto o vacío");
         }
     }
 }

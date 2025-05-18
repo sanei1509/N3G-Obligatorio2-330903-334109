@@ -8,9 +8,15 @@ namespace LogicaNegocio.Vo.Usuario
 
         public Apellido(string value)
         {
-            if (string.IsNullOrEmpty(value))
-                throw new ApellidoException("Apellido incorrecto o vacío");
             Value = value;
+            Validar();
         }
+
+        private void Validar()
+        {
+            if (string.IsNullOrEmpty(Value))
+                throw new ApellidoException("Apellido incorrecto o vacío");
+        }
+
     }
 }

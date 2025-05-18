@@ -30,6 +30,22 @@ namespace LogicaAccesoDatos.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Auditorias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdResponsable = table.Column<int>(type: "int", nullable: false),
+                    IdEmpleado = table.Column<int>(type: "int", nullable: false),
+                    Accion = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Auditorias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Usuarios",
                 columns: table => new
                 {
@@ -40,7 +56,8 @@ namespace LogicaAccesoDatos.Migrations
                     Correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Clave = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Telefono = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false)
+                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -133,7 +150,8 @@ namespace LogicaAccesoDatos.Migrations
                     { 1, "Admin", "Juan", "Pérez", "admin123", "juan@gmail.com", "099123456" },
                     { 2, "Admin", "María", "Gómez", "admin123", "maria@gmail.com", "099654321" },
                     { 3, "Cliente", "Carlos", "Rodríguez", "cliente123", "carlitos@gmail.com", "099122555" },
-                    { 4, "Cliente", "Fernanda", "López", "cliente123", "fernanda@gmail.com", "099777888" }
+                    { 4, "Cliente", "Fernanda", "López", "cliente123", "fernanda@gmail.com", "099777888" },
+                    { 5, "Admin", "Gerente", "Apellido", "Gerente2025.", "administrador@gmail.com", "099100200" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -165,6 +183,9 @@ namespace LogicaAccesoDatos.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Auditorias");
+
             migrationBuilder.DropTable(
                 name: "EtapasSeguimiento");
 

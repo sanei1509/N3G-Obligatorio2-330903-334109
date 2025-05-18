@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace WebMVC.Controllers.Filtros
+namespace WebMVC.Filtros
 {
-    public class UsuarioLogueado : Attribute, IAuthorizationFilter
+   public class UsuarioLogueado : Attribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {

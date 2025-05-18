@@ -13,7 +13,7 @@ namespace LogicaAccesoDatos.EF.Config
 
             // 1) FK a Envio → un sólo cascade path
             builder.HasOne(es => es.Envio)
-                   .WithMany()
+                   .WithMany(e => e.EtapasSeguimiento)
                    .HasForeignKey(es => es.IdEnvio)
                    .OnDelete(DeleteBehavior.Cascade);
 

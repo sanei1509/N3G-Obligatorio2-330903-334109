@@ -43,7 +43,8 @@ namespace LogicaAplicacion.Mapper
                 usuario.Nombre.Value,
                 usuario.Apellido.Value,
                 usuario.Correo.Value,
-                usuario.Telefono.Value
+                usuario.Telefono.Value,
+                usuario.Discriminator
             );
         }
 
@@ -56,7 +57,8 @@ namespace LogicaAplicacion.Mapper
                 usuario.Apellido.Value,
                 usuario.Correo.Value,
                 usuario.Clave.Value,
-                usuario.Telefono.Value
+                usuario.Telefono.Value,
+                null
             );
         }
 
@@ -70,7 +72,8 @@ namespace LogicaAplicacion.Mapper
                                                              item.Nombre.Value,
                                                              item.Apellido.Value,
                                                              item.Correo.Value,
-                                                             item.Telefono.Value
+                                                             item.Telefono.Value,
+                                                             item.Discriminator
                                                              ));
             }
             return usuariosListadoDto;

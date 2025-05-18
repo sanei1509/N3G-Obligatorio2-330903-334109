@@ -5,6 +5,6 @@ namespace LogicaNegocio.InterfacesRepositorio
 { 
     public interface IRepositorioGetByNroTracking<T>
     {
-        T GetByNroTracking(NroTracking nroTracking);
+        T GetByNroTracking(string nroTracking);
     }
 }

@@ -12,6 +12,7 @@ namespace LogicaNegocio.Entidades.Usuarios.Usuario
         public Clave Clave { get; set; }
         public Telefono Telefono { get; set; }
         public string Discriminator {get; set;}
+        public bool Eliminado { get; set; } = false;
 
         protected Usuario()
         {
@@ -47,6 +48,12 @@ namespace LogicaNegocio.Entidades.Usuarios.Usuario
             Correo = obj.Correo;
             Clave = obj.Clave;
             Telefono = obj.Telefono;
+        }
+
+        // Método para “borrado lógico”
+        public void Eliminar()
+        {
+            Eliminado = true;
         }
 
 

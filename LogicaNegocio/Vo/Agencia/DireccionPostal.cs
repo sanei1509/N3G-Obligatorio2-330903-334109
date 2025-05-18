@@ -9,9 +9,14 @@ namespace LogicaNegocio.Vo.Agencia
 
         public DireccionPostal(string value)
         {
-            if (string.IsNullOrEmpty(value))
-                throw new DireccionException("Dirección postal incorrecta o vacío");
             Value = value;
+            Validar();
+        }
+
+        private void Validar()
+        {
+            if (string.IsNullOrEmpty(Value))
+                throw new DireccionException("Dirección postal incorrecta o vacío");
         }
     }
 }

@@ -3,6 +3,7 @@ using LogicaNegocio.Entidades.Usuarios.Usuario;
 using LogicaNegocio.Enums;
 using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace LogicaAccesoDatos.EF
 {
@@ -50,6 +51,28 @@ namespace LogicaAccesoDatos.EF
             }
             return unE;
         }
+
+        public Envio GetByNroTracking(string nroTracking)
+        {
+            return _context.Envios
+                        .Include(e => e.Empleado)
+                            .ThenInclude(u => u.Nombre)
+                        .Include(e => e.Empleado)
+                            .ThenInclude(u => u.Apellido)
+                        .Include(e => e.Cliente)
+                            .ThenInclude(u => u.Correo)
+                        .Include(e => e.Cliente)
+                            .ThenInclude(u => u.Telefono)
+                        // *** incluir las etapas ***
+                        .Include(e => e.EtapasSeguimiento)
+                            .ThenInclude(es => es.Empleado)     // para NombreEmpleado
+                                .ThenInclude(emp => emp.Nombre)
+                        .Include(e => e.EtapasSeguimiento)
+                            .ThenInclude(es => es.Empleado)
+                                .ThenInclude(emp => emp.Apellido)
+                        .SingleOrDefault(e => e.NroTracking.Value == nroTracking);
+           
+            }
 
     }
 }
