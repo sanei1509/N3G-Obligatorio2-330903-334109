@@ -8,9 +8,14 @@ namespace LogicaNegocio.Vo.Agencia
 
         public NombreAgencia(string value)
         {
-            if (string.IsNullOrEmpty(value))
-                throw new NombreAgenciaExeption("Nombre de agencia incorrecto o vacío");
             Value = value;
+            Validar();
+        }
+
+        private void Validar()
+        {
+            if (string.IsNullOrEmpty(Value))
+                throw new NombreAgenciaExeption("Nombre de agencia incorrecto o vacío");
         }
     }
 }

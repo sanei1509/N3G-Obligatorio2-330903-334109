@@ -2,6 +2,7 @@
 using CasoUsoCompartida.DTOs.EtapaSeguimiento;
 using CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.InterfacesCU;
+using CasoUsoCompartida.DTOs;
 using LogicaAplicacion.CasosUso.Envios;
 using LogicaNegocio.Entidades.Envios;
 using LogicaNegocio.Entidades.Usuarios.Usuario;
@@ -9,26 +10,29 @@ using LogicaNegocio.Excepciones.AgenciaException;
 using LogicaNegocio.Excepciones.EnvioExceptions;
 using LogicaNegocio.Excepciones.Envios;
 using LogicaNegocio.Excepciones.EtapaSeguimientoExceptions;
+using LogicaNegocio.Vo.Envio;
+using Microsoft.AspNetCore.Authorization;
+using WebMVC.Filtros;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebMVC.Controllers
 {
+    [UsuarioLogueado]
     public class EnvioController : Controller
     {
         private IGetAll<EnvioListadoDto> _getAll;
         private IAdd<CrearEnvioDto> _add;
         private IFinalizar _finalizar;
         private IAdd<CrearComentarioDto> _addComentario;
-        private IGetById<Envio> _getById;
+        private IGetAll<AgenciaListadoDto> _agencias;
 
-
-        public EnvioController(IGetAll<EnvioListadoDto> getAll, IAdd<CrearEnvioDto> add, IFinalizar finalizar, IAdd<CrearComentarioDto> comentario, IGetById<Envio> getById)
+        public EnvioController(IGetAll<EnvioListadoDto> getAll, IAdd<CrearEnvioDto> add, IFinalizar finalizar, IAdd<CrearComentarioDto> comentario, IGetAll<AgenciaListadoDto> agencias)
         {
             _getAll = getAll;
             _add = add;
             _finalizar = finalizar;
             _addComentario = comentario;
-            _getById = getById;
+            _agencias = agencias;
         }
 
         public IActionResult Index()
@@ -37,19 +41,40 @@ namespace WebMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListadoEnvios()
+        public IActionResult ListadoEnvios(
+            string nroTracking,
+            DateTime? fechaDesde,
+            DateTime? fechaHasta)
         {
             IEnumerable<EnvioListadoDto> listaEnvios = _getAll.Execute();
+
+
+            // 2) Aplicas filtros si vienen
+            if (!string.IsNullOrWhiteSpace(nroTracking))
+                listaEnvios = listaEnvios.Where(e =>
+                    e.NroTracking.Contains(nroTracking, StringComparison.OrdinalIgnoreCase));
+
+            if (fechaDesde.HasValue)
+                listaEnvios = listaEnvios.Where(e => e.FechaCreacion >= fechaDesde.Value);
+
+            if (fechaHasta.HasValue)
+                listaEnvios = listaEnvios.Where(e => e.FechaCreacion <= fechaHasta.Value);
+
+            // 3) Pasas los filtros a la vista para volver a mostrarlos
+            ViewBag.NroTracking = nroTracking;
+            ViewBag.FechaDesde = fechaDesde?.ToString("yyyy-MM-dd");
+            ViewBag.FechaHasta = fechaHasta?.ToString("yyyy-MM-dd");
+
             return View(listaEnvios);
         }
-
 
         // Acción para dar de alta un envio
         [HttpGet]
         public IActionResult Crear()
         {
+            var listadoAgencias = _agencias.Execute();
             ViewBag.CorreoEmpleado = HttpContext.Session.GetString("CorreoEmpleado");
-
+            ViewData["ListadoAgencias"] = listadoAgencias;
             return View();
         }
 
@@ -109,23 +134,19 @@ namespace WebMVC.Controllers
             return RedirectToAction("ListadoEnvios");
         }
 
-        //ETAPAS SEGUIMIENTO
-        // Acción para dar de alta un envio
-        //[HttpGet]
-        //public IActionResult AgregarComentario()
-        //{
-        //    ViewBag.CorreoEmpleado = HttpContext.Session.GetString("CorreoEmpleado");
-
-        //    return View();
-        //}
-
         [HttpGet]
-        public IActionResult AgregarComentario(int envioId)
+        public IActionResult AgregarComentario(int envioId, string nroTracking)
         {
-            ViewData["correoEmpleado"] = HttpContext.Session.GetString("CorreoEmpleado");
-            ViewData["envioId"] = envioId;
+            var empleadoCorreo = HttpContext.Session.GetString("CorreoEmpleado");
 
-            return View();
+            var dto = new CrearComentarioDto(
+                     IdEnvio: envioId,
+                     NroTracking: nroTracking,
+                     CorreoEmpleado: empleadoCorreo,
+                     Comentario: string.Empty
+                );
+
+            return View(dto);
         }
 
 

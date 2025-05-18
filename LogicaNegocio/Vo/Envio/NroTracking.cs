@@ -8,8 +8,6 @@ namespace LogicaNegocio.Vo.Envio
 
         public NroTracking(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new NroTrackingException("Tracking inválido");
             Value = value;
         }
     }

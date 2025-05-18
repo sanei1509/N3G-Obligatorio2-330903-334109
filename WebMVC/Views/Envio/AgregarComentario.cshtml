@@ -1,19 +1,17 @@
 ﻿@model CasoUsoCompartida.DTOs.EtapaSeguimiento.CrearComentarioDto
 
 @{
-    var EnvioId = TempData["envioId"];
-    var CorreoEmpleado = TempData["correoEmpleado"];
+    var EnvioId = ViewData["envioId"];
+    var CorreoEmpleado = ViewData["correoEmpleado"];
     ViewData["Title"] = "Agregar Comentario de Seguimiento";
 }
 
 <h2>Agregar Comentario</h2>
 
 <form asp-action="AgregarComentario" method="post">
-    <input asp-for="idEnvio" type="hidden" name="id" value="@EnvioId" />
+    <input asp-for="IdEnvio" type="hidden" name="IdEnvio"/>
 
-    <input asp-for="CorreoEmpleado" type="hidden" value="@CorreoEmpleado" />
-
-    <input asp-for="EmpleadoId" type="hidden" />
+    <input asp-for="CorreoEmpleado" type="hidden"/>
 
     <div class="form-group">
         <label asp-for="Comentario">Comentario</label>

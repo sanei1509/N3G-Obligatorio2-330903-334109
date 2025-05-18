@@ -1,7 +1,9 @@
-﻿namespace CasoUsoCompartida.InterfacesCU
+﻿using CasoUsoCompartida.DTOs.Usuarios;
+
+namespace CasoUsoCompartida.InterfacesCU
 {
     public interface IRemove
     {
-        void Execute(int id);
+        void Execute(CrearUsuarioDto dto);
     }
 }

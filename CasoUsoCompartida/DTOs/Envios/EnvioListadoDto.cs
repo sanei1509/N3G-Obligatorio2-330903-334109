@@ -1,4 +1,5 @@
 ﻿
+using CasoUsoCompartida.DTOs.EtapaSeguimiento;
 using LogicaNegocio.Enums;
 
 namespace CasoUsoCompartida.DTOs.Envios
@@ -13,7 +14,9 @@ namespace CasoUsoCompartida.DTOs.Envios
         EstadoEnvio EstadoEnvio,
         string TipoEnvio,
         string Correo,
-        string Telefono
+        string Telefono,
+        DateTime FechaCreacion,
+        IEnumerable<EtapaSeguimientoDto>? Etapas = null
     )
     {
     }

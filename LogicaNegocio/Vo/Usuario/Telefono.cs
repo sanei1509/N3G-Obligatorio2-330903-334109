@@ -8,9 +8,14 @@ namespace LogicaNegocio.Vo.Usuario
 
         public Telefono(string value)
         {
-            if (string.IsNullOrEmpty(value))
-                throw new TelefonoException("Teléfono incorrecto o vacío");
             Value = value;
+            Validar();
+        }
+
+        private void Validar()
+        {
+            if (string.IsNullOrEmpty(Value))
+                throw new TelefonoException("Teléfono incorrecto o vacío");
         }
     }
 }

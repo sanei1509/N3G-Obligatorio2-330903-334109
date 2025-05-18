@@ -1,6 +1,14 @@
-﻿@model CasoUsoCompartida.DTOs.Envios.CrearEnvioDto
+﻿
+@using CasoUsoCompartida.DTOs;
+@model CasoUsoCompartida.DTOs.Envios.CrearEnvioDto;
 
 @{
+    var ListadoAgencias = ViewData["ListadoAgencias"] as IEnumerable<AgenciaListadoDto> ?? Enumerable.Empty<AgenciaListadoDto>(); ;
+    // .Select(c => new SelectListItem
+            // {
+            //     Id = c.Id.ToString(),
+            //     Nombre = c.Nombre
+            // }).ToList();
     ViewData["Title"] = "Crear Envio";
 }
 
@@ -24,23 +32,25 @@
         <input asp-for="CorreoCliente" class="form-control" />
     </div>
 
-    <div id="CamposComun" style="display:none">
+@*     <div id="CamposComun" style="display:none">
         <div class="form-group">
             <label asp-for="LugarRetiroId">Id Agencia de destino</label>
             <input asp-for="LugarRetiroId" class="form-control" />
         </div>
-    </div>
+    </div> *@
 
-@*      <div id="camposcomun" style="display:none">
+    <div id="CamposComun" style="display:none">
          <div class="form-group">
-             <label asp-for="lugarretiroid">agencia de destino</label>
-             <select asp-for="lugarretiroid"
-                     class="form-control"
-                     asp-items="viewbag.agencias">
-                 <option value="">-- seleccione agencia --</option>
+             <label asp-for="LugarRetiroId">agencia de destino</label>
+             <select asp-for="LugarRetiroId">
+                    <option value="">-- seleccione agencia --</option>
+                     @foreach (var agencia in ListadoAgencias) 
+                     {
+                            <option value="@agencia.Id">@agencia.Nombre</option>
+                     };
              </select>
          </div>
-     </div> *@
+     </div> 
 
     <div id="CamposUrgente" style="display:none">
         <div class="form-group">

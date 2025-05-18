@@ -6,7 +6,8 @@ namespace LogicaNegocio.InterfacesRepositorio
         IRepositorioAdd<Envio>,
         IRepositorioGetAll<Envio>,
         IRepositorioGetById<Envio>,
-        IRepositorioUpdate<Envio>
+        IRepositorioUpdate<Envio>,
+        IRepositorioGetByNroTracking<Envio>
     {
 
     }

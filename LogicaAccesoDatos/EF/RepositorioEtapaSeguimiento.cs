@@ -33,15 +33,15 @@ namespace LogicaAccesoDatos.EF
             return _context.EtapaSeguimientos.ToList();
         }
 
-        public EtapaSeguimiento GetByNroTracking(NroTracking nroTracking)
-        {
-            EtapaSeguimiento unE = _context.EtapaSeguimientos
-                .FirstOrDefault(etapa => etapa.NroTracking == nroTracking);
-            if (unE == null)
-            {
-                throw new NroTrackingException("No se encontro la etapa con ese nro tracking");
-            }
-            return unE;
-        }
+        //public EtapaSeguimiento GetByNroTracking(NroTracking nroTracking)
+        //{
+        //    EtapaSeguimiento unE = _context.EtapaSeguimientos
+        //        .FirstOrDefault(etapa => etapa.NroTracking == nroTracking);
+        //    if (unE == null)
+        //    {
+        //        throw new NroTrackingException("No se encontro la etapa con ese nro tracking");
+        //    }
+        //    return unE;
+        //}
     }
 }

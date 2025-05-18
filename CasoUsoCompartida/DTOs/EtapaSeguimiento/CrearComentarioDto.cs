@@ -4,12 +4,11 @@ using LogicaNegocio.Vo.EtapaSeguimiento;
 namespace CasoUsoCompartida.DTOs.EtapaSeguimiento
 {
     public record CrearComentarioDto(
-            int idEnvio,
-            NroTracking NroTracking,
+            int IdEnvio,
+            string NroTracking,
             string CorreoEmpleado,
-             Comentario Comentario,
-            int EmpleadoId
-           
+            string Comentario
+            //int EmpleadoId
         )
     {
     }

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebMVC.Models;
 using LogicaNegocio.Entidades;
-using WebMVC.Controllers.Filtros;
+using WebMVC.Filtros;
 
 namespace WebMVC.Controllers
 {

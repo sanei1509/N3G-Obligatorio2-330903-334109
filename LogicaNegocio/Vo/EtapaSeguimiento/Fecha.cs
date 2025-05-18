@@ -8,8 +8,6 @@ namespace LogicaNegocio.Vo.EtapaSeguimiento
 
         public Fecha(DateTime value)
         {
-            //if (string.IsNullOrEmpty(value))
-            //    throw new ComentarioException("Comentario incorrecto o vacío");
             Value = value;
         }
     }

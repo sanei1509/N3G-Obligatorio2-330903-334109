@@ -8,9 +8,14 @@ namespace LogicaNegocio.Vo.EtapaSeguimiento
 
         public Comentario(string value)
         {
-            if (string.IsNullOrEmpty(value))
-                throw new ComentarioException("Comentario incorrecto o vacío");
             Value = value;
+            Validar();
+        }
+
+        private void Validar()
+        {
+            if (string.IsNullOrEmpty(Value))
+                throw new ComentarioException("Comentario incorrecto o vacío");
         }
     }
 }

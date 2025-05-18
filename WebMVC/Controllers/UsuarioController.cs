@@ -1,9 +1,13 @@
-﻿using CasoUsoCompartida.DTOs.Usuarios;
+﻿using CasoUsoCompartida.DTOs.Envios;
+using CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.InterfacesCU;
 using LogicaAplicacion.CasosUso.Usuarios;
+using LogicaNegocio.Entidades.Usuarios.Empleados;
 using LogicaNegocio.Excepciones.UsuarioExceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WebMVC.Filtros;
 
 namespace WebMVC.Controllers
 {
@@ -17,8 +21,9 @@ namespace WebMVC.Controllers
         private IAdd<CrearUsuarioDto> _add;
         private IRemove _remove;
         private IUpdate<CrearUsuarioDto> _update;
+        private IGetByEmail<UsuarioDto> _getByEmail;
 
-        public UsuarioController(ILogin<LoginRespuestaDto> login, IGetAll<UsuarioListadoDto> getAll, IAdd<CrearUsuarioDto> add, IRemove remove, IUpdate<CrearUsuarioDto> update, IGetById<UsuarioDto> getById, IGetById<CrearUsuarioDto> getByIdEditar)
+        public UsuarioController(ILogin<LoginRespuestaDto> login, IGetAll<UsuarioListadoDto> getAll, IAdd<CrearUsuarioDto> add, IRemove remove, IUpdate<CrearUsuarioDto> update, IGetById<UsuarioDto> getById, IGetById<CrearUsuarioDto> getByIdEditar, IGetByEmail<UsuarioDto> getByEmail)
         {
             _login = login;
             _getAll = getAll;
@@ -27,6 +32,7 @@ namespace WebMVC.Controllers
             _update = update;
             _getById = getById;
             _getByIdEditar = getByIdEditar;
+            _getByEmail = getByEmail;
         }
 
         [HttpGet]
@@ -39,46 +45,81 @@ namespace WebMVC.Controllers
         [HttpPost]
         public IActionResult Login(LoginEntradaDto model)
         {
-            var result = _login.Execute(model);
+                var result = _login.Execute(model);
 
-            if (!result.Autenticado)
-            {
-                ViewBag.Error = result.Mensaje;
-                return View(model);
-            }
+                if (!result.Autenticado)
+                {
+                    ViewBag.Error = result.Mensaje;
+                    return View(model);
+                }
 
-            // Si todo OK, guardamos la sesión:
-            HttpContext.Session.SetString("Logueado", "true");
-            HttpContext.Session.SetString("CorreoEmpleado", model.Correo);
+                // Obtenemos el usuario para preguntar
+                var usuario = _getByEmail.Execute(model.Correo);
 
-            return RedirectToAction("Index", "Home");
+                if (usuario.Discriminator.ToLower() == "admin")
+                {
+                    HttpContext.Session.SetString("Rol", "Admin");
+                }
+                else
+                {
+                    HttpContext.Session.SetString("Rol", "NoAdmin");
+                }
+
+                // Si todo OK, guardamos la sesión:
+                HttpContext.Session.SetString("Logueado", "true");
+                HttpContext.Session.SetString("CorreoEmpleado", model.Correo);
+
+                return RedirectToAction("Index", "Home");
         }
 
-
+        [UsuarioLogueado]
         [HttpGet]
         public IActionResult Gestion()
         {
+            TempData["Rol"] = HttpContext.Session.GetString("Rol");
             IEnumerable<UsuarioListadoDto> listaUsuarios = _getAll.Execute();
             return View(listaUsuarios);
         }
 
 
         // Acción para dar de alta un usuario
+        [UsuarioLogueado]
+        [AdminAutorizado]
         [HttpGet]
         public IActionResult Crear()
         {
-            return View();
+            var model = new CrearUsuarioDto(
+                                Id: 0,
+                                Nombre: "",
+                                Apellido: "",
+                                Correo: "",
+                                Clave: "",
+                                Telefono: "",
+                                CorreoResponsable: HttpContext.Session.GetString("CorreoEmpleado")
+                            );
+            return View(model);
         }
 
-
+        [UsuarioLogueado]
+        [AdminAutorizado]
         [HttpGet]
         public IActionResult Borrar(int id)
         {
-            _remove.Execute(id);
+            var dtoEliminar = new CrearUsuarioDto(
+                                Id: id,
+                                Nombre: "",
+                                Apellido: "",
+                                Correo: "",
+                                Clave: "",
+                                Telefono: "",
+                                CorreoResponsable: HttpContext.Session.GetString("CorreoEmpleado")
+                );
+            _remove.Execute(dtoEliminar);
             return RedirectToAction("Gestion");
         }
 
-
+        [UsuarioLogueado]
+        [AdminAutorizado]
         [HttpGet]
         public IActionResult Editar(int id)
         {
@@ -88,11 +129,21 @@ namespace WebMVC.Controllers
         }
 
         [HttpPost]
+        [AdminAutorizado]
         public IActionResult Editar(int id, CrearUsuarioDto usuarioDto)
         {
             try
             {
-                _update.Execute(id, usuarioDto);
+                var dtoModificar = new CrearUsuarioDto(
+                    Id: id,
+                    Nombre: usuarioDto.Nombre,
+                    Apellido: usuarioDto.Apellido,
+                    Correo: usuarioDto.Correo,
+                    Clave: usuarioDto.Clave,
+                    Telefono: usuarioDto.Telefono,
+                    CorreoResponsable: HttpContext.Session.GetString("CorreoEmpleado")
+    );
+                _update.Execute(id, dtoModificar);
                 return RedirectToAction("Gestion");
             }
             catch (NombreException)
@@ -120,12 +171,12 @@ namespace WebMVC.Controllers
             return View();
         }
 
-
+        [AdminAutorizado]
         [HttpPost]
         public IActionResult Crear(CrearUsuarioDto usuarioDto)
         {
             try
-            {
+            { 
                 _add.Execute(usuarioDto);
                 return RedirectToAction("Gestion");
             }
@@ -143,7 +194,7 @@ namespace WebMVC.Controllers
             }
             catch (ClaveException)
             {
-                ViewBag.Message = "La Clave es incorrecta";
+                ViewBag.Message = "La clave debe contener al menos uno de estos caracteres: + . # además de letras y números";
             }
             catch (TelefonoException)
             {

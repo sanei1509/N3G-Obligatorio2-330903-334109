@@ -8,9 +8,14 @@ namespace LogicaNegocio.Vo.Usuario
 
         public Clave(string value)
         {
-            if (string.IsNullOrEmpty(value))
-                throw new ClaveException("Clave incorrecta o vacía");
             Value = value;
+            Validar();
+        }
+
+        private void Validar()
+        {
+            if (string.IsNullOrWhiteSpace(Value))
+                throw new ClaveException("Clave incorrecta o vacía");
         }
     }
 }

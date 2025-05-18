@@ -45,6 +45,37 @@ namespace LogicaAccesoDatos.Migrations
                         });
                 });
 
+            modelBuilder.Entity("LogicaNegocio.Entidades.Auditoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Accion")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("Accion");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Fecha");
+
+                    b.Property<int>("IdEmpleado")
+                        .HasColumnType("int")
+                        .HasColumnName("IdEmpleado");
+
+                    b.Property<int>("IdResponsable")
+                        .HasColumnType("int")
+                        .HasColumnName("IdResponsable");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Auditorias", (string)null);
+                });
+
             modelBuilder.Entity("LogicaNegocio.Entidades.Envios.Envio", b =>
                 {
                     b.Property<int>("Id")
@@ -126,6 +157,12 @@ namespace LogicaAccesoDatos.Migrations
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
 
+                    b.Property<bool>("Eliminado")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("Eliminado");
+
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios", (string)null);
@@ -154,6 +191,11 @@ namespace LogicaAccesoDatos.Migrations
                         {
                             Id = 4,
                             Discriminator = "Cliente"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Discriminator = "Admin"
                         });
                 });
 
@@ -384,7 +426,7 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired();
 
                     b.HasOne("LogicaNegocio.Entidades.Envios.Envio", "Envio")
-                        .WithMany()
+                        .WithMany("EtapasSeguimiento")
                         .HasForeignKey("IdEnvio")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -495,6 +537,11 @@ namespace LogicaAccesoDatos.Migrations
                                 {
                                     UsuarioId = 4,
                                     Value = "Fernanda"
+                                },
+                                new
+                                {
+                                    UsuarioId = 5,
+                                    Value = "Gerente"
                                 });
                         });
 
@@ -535,6 +582,11 @@ namespace LogicaAccesoDatos.Migrations
                                 {
                                     UsuarioId = 4,
                                     Value = "López"
+                                },
+                                new
+                                {
+                                    UsuarioId = 5,
+                                    Value = "Apellido"
                                 });
                         });
 
@@ -575,6 +627,11 @@ namespace LogicaAccesoDatos.Migrations
                                 {
                                     UsuarioId = 4,
                                     Value = "cliente123"
+                                },
+                                new
+                                {
+                                    UsuarioId = 5,
+                                    Value = "Gerente2025."
                                 });
                         });
 
@@ -615,6 +672,11 @@ namespace LogicaAccesoDatos.Migrations
                                 {
                                     UsuarioId = 4,
                                     Value = "fernanda@gmail.com"
+                                },
+                                new
+                                {
+                                    UsuarioId = 5,
+                                    Value = "administrador@gmail.com"
                                 });
                         });
 
@@ -655,6 +717,11 @@ namespace LogicaAccesoDatos.Migrations
                                 {
                                     UsuarioId = 4,
                                     Value = "099777888"
+                                },
+                                new
+                                {
+                                    UsuarioId = 5,
+                                    Value = "099100200"
                                 });
                         });
 
@@ -725,6 +792,11 @@ namespace LogicaAccesoDatos.Migrations
                     b.Navigation("DireccionPostal");
 
                     b.Navigation("Entregado");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Entidades.Envios.Envio", b =>
+                {
+                    b.Navigation("EtapasSeguimiento");
                 });
 #pragma warning restore 612, 618
         }

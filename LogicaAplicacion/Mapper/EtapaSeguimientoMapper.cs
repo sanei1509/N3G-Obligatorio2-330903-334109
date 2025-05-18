@@ -17,13 +17,13 @@ namespace LogicaAplicacion.Mapper
            )
         {
             // 1) Construir los Value Objects
-            var comentarioVo = new Comentario(dto.);
+            var comentarioVo = new Comentario(dto.Comentario);
             var fechaVo = new Fecha(DateTime.UtcNow);
 
             // 2) Devolver la entidad
             return new EtapaSeguimiento(
                 id: 0,                  // EF lo generará
-                idEnvio: dto.idEnvio,        // FK al envío
+                idEnvio: dto.IdEnvio,        // FK al envío
                 nroTracking: envio.NroTracking,  // tracking heredado
                 idEmpleado: empleado.Id,        // FK al empleado
                 envio: envio,

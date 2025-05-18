@@ -6,7 +6,8 @@
         string Apellido, 
         string Correo, 
         string Clave, 
-        string Telefono
+        string Telefono,
+        string CorreoResponsable
         )
     {
     }

@@ -46,6 +46,12 @@ namespace LogicaAccesoDatos.EF.Config
                 .HasValue<Cliente>("Cliente")
                 .HasValue<Funcionario>("Funcionario")
                 .HasValue<Administrador>("Admin");
+
+            builder.Property<bool>("Eliminado")
+               .HasColumnName("Eliminado")
+               .HasDefaultValue(false);
+
+            builder.HasQueryFilter(u => !u.Eliminado);
         }
     }
 }
