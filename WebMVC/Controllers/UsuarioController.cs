@@ -207,7 +207,7 @@ namespace WebMVC.Controllers
             }
             catch (ClaveException)
             {
-                ViewBag.Message = "La clave debe contener al menos uno de estos caracteres: + . # además de letras y números";
+                ViewBag.Message = "La clave debe tener al menos 6 caracteres e incluir letras, números y al menos uno de los siguientes caracteres especiales: + . #";
             }
             catch (TelefonoException)
             {
