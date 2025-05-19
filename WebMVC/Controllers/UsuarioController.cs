@@ -2,6 +2,7 @@
 using CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.InterfacesCU;
 using LogicaAplicacion.CasosUso.Usuarios;
+using LogicaNegocio.Entidades.Envios;
 using LogicaNegocio.Entidades.Usuarios.Empleados;
 using LogicaNegocio.Excepciones.UsuarioExceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -77,7 +78,8 @@ namespace WebMVC.Controllers
         public IActionResult Gestion()
         {
             TempData["Rol"] = HttpContext.Session.GetString("Rol");
-            IEnumerable<UsuarioListadoDto> listaUsuarios = _getAll.Execute();
+            IEnumerable<UsuarioListadoDto> usuarios = _getAll.Execute();
+            var listaUsuarios = usuarios.OrderBy(e => e.Discriminator).ToList();
             return View(listaUsuarios);
         }
 
@@ -105,17 +107,28 @@ namespace WebMVC.Controllers
         [HttpGet]
         public IActionResult Borrar(int id)
         {
-            var dtoEliminar = new CrearUsuarioDto(
-                                Id: id,
-                                Nombre: "",
-                                Apellido: "",
-                                Correo: "",
-                                Clave: "",
-                                Telefono: "",
-                                CorreoResponsable: HttpContext.Session.GetString("CorreoEmpleado")
-                );
-            _remove.Execute(dtoEliminar);
-            return RedirectToAction("Gestion");
+            try
+            {
+                var dtoEliminar = new CrearUsuarioDto(
+                                                Id: id,
+                                                Nombre: "",
+                                                Apellido: "",
+                                                Correo: "",
+                                                Clave: "",
+                                                Telefono: "",
+                                                CorreoResponsable: HttpContext.Session.GetString("CorreoEmpleado")
+                                );
+                _remove.Execute(dtoEliminar);
+                return RedirectToAction("Gestion");
+            }
+            catch (EmpleadoConEnvioException)
+            {
+
+                TempData["Message"] = "El Funcionario que desea borrar ya ha creado envios";
+                return RedirectToAction("Gestion");
+
+            }
+
         }
 
         [UsuarioLogueado]

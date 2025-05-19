@@ -74,5 +74,10 @@ namespace LogicaAccesoDatos.EF
            
             }
 
+        public bool TieneEnviosAsignados(int idEmpleado)
+        {
+            return _context.Envios.Any(e => e.Id == idEmpleado);
+        }
+
     }
 }

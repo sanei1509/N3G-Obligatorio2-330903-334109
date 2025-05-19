@@ -42,6 +42,30 @@ namespace LogicaAccesoDatos.Migrations
                         new
                         {
                             Id = 2
+                        },
+                        new
+                        {
+                            Id = 3
+                        },
+                        new
+                        {
+                            Id = 4
+                        },
+                        new
+                        {
+                            Id = 5
+                        },
+                        new
+                        {
+                            Id = 6
+                        },
+                        new
+                        {
+                            Id = 7
+                        },
+                        new
+                        {
+                            Id = 8
                         });
                 });
 
@@ -196,6 +220,41 @@ namespace LogicaAccesoDatos.Migrations
                         {
                             Id = 5,
                             Discriminator = "Admin"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Discriminator = "Cliente"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Discriminator = "Cliente"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Discriminator = "Cliente"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Discriminator = "Cliente"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Discriminator = "Cliente"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Discriminator = "Cliente"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Discriminator = "Cliente"
                         });
                 });
 
@@ -270,12 +329,42 @@ namespace LogicaAccesoDatos.Migrations
                                 new
                                 {
                                     AgenciaId = 1,
-                                    Value = "Av. Principal 123"
+                                    Value = "Buenos Aires 451, Ciudad Vieja"
                                 },
                                 new
                                 {
                                     AgenciaId = 2,
-                                    Value = "Calle Secundaria 456"
+                                    Value = "Bulevar Artigas 1825, Terminal Tres Cruces"
+                                },
+                                new
+                                {
+                                    AgenciaId = 3,
+                                    Value = "Av. Ing. Luis Giannattasio Km 21.500"
+                                },
+                                new
+                                {
+                                    AgenciaId = 4,
+                                    Value = "Ruta 8 Km 23.800"
+                                },
+                                new
+                                {
+                                    AgenciaId = 5,
+                                    Value = "Ruta Interbalnearia Km 62.800"
+                                },
+                                new
+                                {
+                                    AgenciaId = 6,
+                                    Value = "Av. Julieta s/n, Salinas"
+                                },
+                                new
+                                {
+                                    AgenciaId = 7,
+                                    Value = "Margarita Martínez de Fariña s/n, San Bautista"
+                                },
+                                new
+                                {
+                                    AgenciaId = 8,
+                                    Value = "Ruta 85 s/n, Toledo"
                                 });
                         });
 
@@ -300,12 +389,42 @@ namespace LogicaAccesoDatos.Migrations
                                 new
                                 {
                                     AgenciaId = 1,
-                                    Value = "Agencia San Ramón"
+                                    Value = "Palacio de Correos – Montevideo"
                                 },
                                 new
                                 {
                                     AgenciaId = 2,
-                                    Value = "Agencia Montevideo"
+                                    Value = "Sucursal Tres Cruces – Montevideo"
+                                },
+                                new
+                                {
+                                    AgenciaId = 3,
+                                    Value = "Sucursal Lagomar – Canelones"
+                                },
+                                new
+                                {
+                                    AgenciaId = 4,
+                                    Value = "Sucursal Barros Blancos – Canelones"
+                                },
+                                new
+                                {
+                                    AgenciaId = 5,
+                                    Value = "Sucursal San Luis – Canelones"
+                                },
+                                new
+                                {
+                                    AgenciaId = 6,
+                                    Value = "Sucursal Salinas – Canelones"
+                                },
+                                new
+                                {
+                                    AgenciaId = 7,
+                                    Value = "Sucursal San Bautista – Canelones"
+                                },
+                                new
+                                {
+                                    AgenciaId = 8,
+                                    Value = "Sucursal Toledo – Canelones"
                                 });
                         });
 
@@ -335,14 +454,50 @@ namespace LogicaAccesoDatos.Migrations
                                 new
                                 {
                                     AgenciaId = 1,
-                                    Latitud = -34.9011m,
-                                    Longitud = -56.1645m
+                                    Latitud = -34.9052m,
+                                    Longitud = -56.2036m
                                 },
                                 new
                                 {
                                     AgenciaId = 2,
-                                    Latitud = -34.9050m,
-                                    Longitud = -56.1900m
+                                    Latitud = -34.8945m,
+                                    Longitud = -56.1748m
+                                },
+                                new
+                                {
+                                    AgenciaId = 3,
+                                    Latitud = -34.8220m,
+                                    Longitud = -55.9960m
+                                },
+                                new
+                                {
+                                    AgenciaId = 4,
+                                    Latitud = -34.7320m,
+                                    Longitud = -56.0000m
+                                },
+                                new
+                                {
+                                    AgenciaId = 5,
+                                    Latitud = -34.7500m,
+                                    Longitud = -55.6000m
+                                },
+                                new
+                                {
+                                    AgenciaId = 6,
+                                    Latitud = -34.7700m,
+                                    Longitud = -55.8300m
+                                },
+                                new
+                                {
+                                    AgenciaId = 7,
+                                    Latitud = -34.4500m,
+                                    Longitud = -55.9500m
+                                },
+                                new
+                                {
+                                    AgenciaId = 8,
+                                    Latitud = -34.7000m,
+                                    Longitud = -56.0500m
                                 });
                         });
 
@@ -530,6 +685,11 @@ namespace LogicaAccesoDatos.Migrations
                                 },
                                 new
                                 {
+                                    UsuarioId = 5,
+                                    Value = "Gerente"
+                                },
+                                new
+                                {
                                     UsuarioId = 3,
                                     Value = "Carlos"
                                 },
@@ -540,8 +700,38 @@ namespace LogicaAccesoDatos.Migrations
                                 },
                                 new
                                 {
-                                    UsuarioId = 5,
-                                    Value = "Gerente"
+                                    UsuarioId = 6,
+                                    Value = "Luis"
+                                },
+                                new
+                                {
+                                    UsuarioId = 7,
+                                    Value = "Sofía"
+                                },
+                                new
+                                {
+                                    UsuarioId = 8,
+                                    Value = "Pedro"
+                                },
+                                new
+                                {
+                                    UsuarioId = 9,
+                                    Value = "Ana"
+                                },
+                                new
+                                {
+                                    UsuarioId = 10,
+                                    Value = "Martín"
+                                },
+                                new
+                                {
+                                    UsuarioId = 11,
+                                    Value = "Laura"
+                                },
+                                new
+                                {
+                                    UsuarioId = 12,
+                                    Value = "Diego"
                                 });
                         });
 
@@ -575,6 +765,11 @@ namespace LogicaAccesoDatos.Migrations
                                 },
                                 new
                                 {
+                                    UsuarioId = 5,
+                                    Value = "Apellido"
+                                },
+                                new
+                                {
                                     UsuarioId = 3,
                                     Value = "Rodríguez"
                                 },
@@ -585,8 +780,38 @@ namespace LogicaAccesoDatos.Migrations
                                 },
                                 new
                                 {
-                                    UsuarioId = 5,
-                                    Value = "Apellido"
+                                    UsuarioId = 6,
+                                    Value = "Martínez"
+                                },
+                                new
+                                {
+                                    UsuarioId = 7,
+                                    Value = "Ruiz"
+                                },
+                                new
+                                {
+                                    UsuarioId = 8,
+                                    Value = "Díaz"
+                                },
+                                new
+                                {
+                                    UsuarioId = 9,
+                                    Value = "Fernández"
+                                },
+                                new
+                                {
+                                    UsuarioId = 10,
+                                    Value = "Sosa"
+                                },
+                                new
+                                {
+                                    UsuarioId = 11,
+                                    Value = "Castro"
+                                },
+                                new
+                                {
+                                    UsuarioId = 12,
+                                    Value = "Navarro"
                                 });
                         });
 
@@ -620,6 +845,11 @@ namespace LogicaAccesoDatos.Migrations
                                 },
                                 new
                                 {
+                                    UsuarioId = 5,
+                                    Value = "Gerente2025."
+                                },
+                                new
+                                {
                                     UsuarioId = 3,
                                     Value = "cliente123"
                                 },
@@ -630,8 +860,38 @@ namespace LogicaAccesoDatos.Migrations
                                 },
                                 new
                                 {
-                                    UsuarioId = 5,
-                                    Value = "Gerente2025."
+                                    UsuarioId = 6,
+                                    Value = "cliente123"
+                                },
+                                new
+                                {
+                                    UsuarioId = 7,
+                                    Value = "cliente123"
+                                },
+                                new
+                                {
+                                    UsuarioId = 8,
+                                    Value = "cliente123"
+                                },
+                                new
+                                {
+                                    UsuarioId = 9,
+                                    Value = "cliente123"
+                                },
+                                new
+                                {
+                                    UsuarioId = 10,
+                                    Value = "cliente123"
+                                },
+                                new
+                                {
+                                    UsuarioId = 11,
+                                    Value = "cliente123"
+                                },
+                                new
+                                {
+                                    UsuarioId = 12,
+                                    Value = "cliente123"
                                 });
                         });
 
@@ -665,6 +925,11 @@ namespace LogicaAccesoDatos.Migrations
                                 },
                                 new
                                 {
+                                    UsuarioId = 5,
+                                    Value = "administrador@gmail.com"
+                                },
+                                new
+                                {
                                     UsuarioId = 3,
                                     Value = "carlitos@gmail.com"
                                 },
@@ -675,8 +940,38 @@ namespace LogicaAccesoDatos.Migrations
                                 },
                                 new
                                 {
-                                    UsuarioId = 5,
-                                    Value = "administrador@gmail.com"
+                                    UsuarioId = 6,
+                                    Value = "luis@gmail.com"
+                                },
+                                new
+                                {
+                                    UsuarioId = 7,
+                                    Value = "sofia@gmail.com"
+                                },
+                                new
+                                {
+                                    UsuarioId = 8,
+                                    Value = "pedro@gmail.com"
+                                },
+                                new
+                                {
+                                    UsuarioId = 9,
+                                    Value = "ana@gmail.com"
+                                },
+                                new
+                                {
+                                    UsuarioId = 10,
+                                    Value = "martin@gmail.com"
+                                },
+                                new
+                                {
+                                    UsuarioId = 11,
+                                    Value = "laura@gmail.com"
+                                },
+                                new
+                                {
+                                    UsuarioId = 12,
+                                    Value = "diego@gmail.com"
                                 });
                         });
 
@@ -710,6 +1005,11 @@ namespace LogicaAccesoDatos.Migrations
                                 },
                                 new
                                 {
+                                    UsuarioId = 5,
+                                    Value = "099100200"
+                                },
+                                new
+                                {
                                     UsuarioId = 3,
                                     Value = "099122555"
                                 },
@@ -720,8 +1020,38 @@ namespace LogicaAccesoDatos.Migrations
                                 },
                                 new
                                 {
-                                    UsuarioId = 5,
-                                    Value = "099100200"
+                                    UsuarioId = 6,
+                                    Value = "099666111"
+                                },
+                                new
+                                {
+                                    UsuarioId = 7,
+                                    Value = "099222333"
+                                },
+                                new
+                                {
+                                    UsuarioId = 8,
+                                    Value = "099333444"
+                                },
+                                new
+                                {
+                                    UsuarioId = 9,
+                                    Value = "099444555"
+                                },
+                                new
+                                {
+                                    UsuarioId = 10,
+                                    Value = "099555666"
+                                },
+                                new
+                                {
+                                    UsuarioId = 11,
+                                    Value = "099888999"
+                                },
+                                new
+                                {
+                                    UsuarioId = 12,
+                                    Value = "099999000"
                                 });
                         });
 

@@ -3,11 +3,13 @@ using CasoUsoCompartida.DTOs.Envios;
 using CasoUsoCompartida.InterfacesCU;
 using LogicaAplicacion.Mapper;
 using LogicaNegocio.Entidades;
+using LogicaNegocio.Entidades.Envios;
 using LogicaNegocio.Entidades.Usuarios.Usuario;
 using LogicaNegocio.Enums;
 using LogicaNegocio.Excepciones.EnvioExceptions;
 using LogicaNegocio.InterfacesRepositorio;
 using LogicaNegocio.Vo.Envio;
+using LogicaNegocio.Vo.EtapaSeguimiento;
 using System;
 
 namespace LogicaAplicacion.CasosUso.Envios
@@ -17,12 +19,14 @@ namespace LogicaAplicacion.CasosUso.Envios
         private IRepositorioEnvio _repo;
         private IRepositorioUsuario _usuario;
         private IRepositorioAgencia _agencia;
+        private IRepositorioEtapaSeguimiento _repoEtapa;
 
-        public CrearEnvio(IRepositorioEnvio repo, IRepositorioUsuario usuario, IRepositorioAgencia agencia)
+        public CrearEnvio(IRepositorioEnvio repo, IRepositorioUsuario usuario, IRepositorioAgencia agencia, IRepositorioEtapaSeguimiento repoEtapa)
         {
             _repo = repo;
             _usuario = usuario;
             _agencia = agencia;
+            _repoEtapa = repoEtapa;
         }
 
         public void Execute(CrearEnvioDto envioDto)
@@ -52,8 +56,24 @@ namespace LogicaAplicacion.CasosUso.Envios
 
             // 5 Estado inicial del envio
             var estado = EstadoEnvio.EN_PROCESO;
+            var envioNuevo = EnvioMapper.FromDto(envioDto, empleado, estado, cliente, nroVo, agencia);
+            _repo.Add(envioNuevo);
 
-            _repo.Add(EnvioMapper.FromDto(envioDto, empleado, estado , cliente, nroVo, agencia));
+            var comentario = new Comentario("Se procesó en agencia");
+            var fecha = new Fecha(DateTime.Now); 
+
+            var etapa = new EtapaSeguimiento(
+                id: 0,
+                idEnvio: envioNuevo.Id,
+                nroTracking: envioNuevo.NroTracking,
+                idEmpleado: empleado.Id,
+                envio: envioNuevo,
+                comentario: comentario,
+                empleado: empleado,
+                fecha: fecha
+            );
+
+            _repoEtapa.Add(etapa);
         }
     }
 }

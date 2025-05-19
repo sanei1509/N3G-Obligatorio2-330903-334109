@@ -138,8 +138,14 @@ namespace LogicaAccesoDatos.Migrations
                 columns: new[] { "Id", "DireccionPostal", "Nombre", "Latitud", "Longitud" },
                 values: new object[,]
                 {
-                    { 1, "Av. Principal 123", "Agencia San Ramón", -34.9011m, -56.1645m },
-                    { 2, "Calle Secundaria 456", "Agencia Montevideo", -34.9050m, -56.1900m }
+                    { 1, "Buenos Aires 451, Ciudad Vieja", "Palacio de Correos – Montevideo", -34.9052m, -56.2036m },
+                    { 2, "Bulevar Artigas 1825, Terminal Tres Cruces", "Sucursal Tres Cruces – Montevideo", -34.8945m, -56.1748m },
+                    { 3, "Av. Ing. Luis Giannattasio Km 21.500", "Sucursal Lagomar – Canelones", -34.8220m, -55.9960m },
+                    { 4, "Ruta 8 Km 23.800", "Sucursal Barros Blancos – Canelones", -34.7320m, -56.0000m },
+                    { 5, "Ruta Interbalnearia Km 62.800", "Sucursal San Luis – Canelones", -34.7500m, -55.6000m },
+                    { 6, "Av. Julieta s/n, Salinas", "Sucursal Salinas – Canelones", -34.7700m, -55.8300m },
+                    { 7, "Margarita Martínez de Fariña s/n, San Bautista", "Sucursal San Bautista – Canelones", -34.4500m, -55.9500m },
+                    { 8, "Ruta 85 s/n, Toledo", "Sucursal Toledo – Canelones", -34.7000m, -56.0500m }
                 });
 
             migrationBuilder.InsertData(
@@ -151,7 +157,14 @@ namespace LogicaAccesoDatos.Migrations
                     { 2, "Admin", "María", "Gómez", "admin123", "maria@gmail.com", "099654321" },
                     { 3, "Cliente", "Carlos", "Rodríguez", "cliente123", "carlitos@gmail.com", "099122555" },
                     { 4, "Cliente", "Fernanda", "López", "cliente123", "fernanda@gmail.com", "099777888" },
-                    { 5, "Admin", "Gerente", "Apellido", "Gerente2025.", "administrador@gmail.com", "099100200" }
+                    { 5, "Admin", "Gerente", "Apellido", "Gerente2025.", "administrador@gmail.com", "099100200" },
+                    { 6, "Cliente", "Luis", "Martínez", "cliente123", "luis@gmail.com", "099666111" },
+                    { 7, "Cliente", "Sofía", "Ruiz", "cliente123", "sofia@gmail.com", "099222333" },
+                    { 8, "Cliente", "Pedro", "Díaz", "cliente123", "pedro@gmail.com", "099333444" },
+                    { 9, "Cliente", "Ana", "Fernández", "cliente123", "ana@gmail.com", "099444555" },
+                    { 10, "Cliente", "Martín", "Sosa", "cliente123", "martin@gmail.com", "099555666" },
+                    { 11, "Cliente", "Laura", "Castro", "cliente123", "laura@gmail.com", "099888999" },
+                    { 12, "Cliente", "Diego", "Navarro", "cliente123", "diego@gmail.com", "099999000" }
                 });
 
             migrationBuilder.CreateIndex(

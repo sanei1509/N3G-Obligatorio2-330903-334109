@@ -1,4 +1,5 @@
 ﻿using LogicaNegocio.Entidades.Envios;
+using LogicaNegocio.Entidades.Usuarios.Usuario;
 
 namespace LogicaNegocio.InterfacesRepositorio
 {
@@ -10,5 +11,7 @@ namespace LogicaNegocio.InterfacesRepositorio
         IRepositorioGetByNroTracking<Envio>
     {
 
+    bool TieneEnviosAsignados(int idEmpleado);
+    
     }
 }

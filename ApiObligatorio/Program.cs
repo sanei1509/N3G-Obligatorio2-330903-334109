@@ -1,9 +1,11 @@
+using CasoUsoCompartida.DTOs;
 using CasoUsoCompartida.DTOs.Envios;
 using CasoUsoCompartida.DTOs.EtapaSeguimiento;
 using CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.InterfacesCU;
 using Libreria.LogicaAplicacion.CasoUso.Usuarios;
 using LogicaAccesoDatos.EF;
+using LogicaAplicacion.CasosUso.Agencias;
 using LogicaAplicacion.CasosUso.Envios;
 using LogicaAplicacion.CasosUso.Usuarios;
 using LogicaNegocio.InterfacesRepositorio;
@@ -17,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
   .AddControllers()
   .AddJsonOptions(opts => {
-      // Esto hará que todos los enums se serialicen como strings
+      // Esto harï¿½ que todos los enums se serialicen como strings
       opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
   });
 
@@ -42,9 +44,9 @@ builder.Services.AddScoped<ILogin<LoginRespuestaDto>, Login>();
 //Inyectar caso de uso de Envio
 builder.Services.AddScoped<IAdd<CrearEnvioDto>, CrearEnvio>();
 builder.Services.AddScoped<IGetAll<EnvioListadoDto>, GetAllEnvios>();
+builder.Services.AddScoped<IGetAll<AgenciaListadoDto>, GetAllAgencias>();
 builder.Services.AddScoped<IFinalizar, FinalizarEnvio>();
 builder.Services.AddScoped<IGetByNroTracking<EnvioListadoDto>, GetByNroTracking>();
-
 
 //Inyectar caso de uso de EtapaSeguimiento
 builder.Services.AddScoped<IAdd<CrearComentarioDto>, AgregarComentario>();
@@ -54,6 +56,8 @@ builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
 builder.Services.AddScoped<IRepositorioEnvio, RepositorioEnvio>();
 builder.Services.AddScoped<IRepositorioAgencia, RepositorioAgencia>();
 builder.Services.AddScoped<IRepositorioEtapaSeguimiento, RepositorioEtapaSeguimiento>();
+builder.Services.AddScoped<IRepositorioAuditoria, RepositorioAuditoria>();
+
 
 
 // inyectar el contexto

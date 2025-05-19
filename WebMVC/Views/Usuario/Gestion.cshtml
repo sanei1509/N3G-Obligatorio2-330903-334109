@@ -5,6 +5,14 @@
     ViewData["Title"] = "Gestión de Usuarios";
 }
 
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["Message"]
+    </div>
+}
+
+
 <h2>Gestión de Usuarios</h2>
 
 <!-- Botón para navegar a la vista de Crear Usuario -->
