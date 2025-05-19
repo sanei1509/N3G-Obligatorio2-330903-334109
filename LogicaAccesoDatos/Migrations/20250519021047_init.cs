@@ -145,7 +145,9 @@ namespace LogicaAccesoDatos.Migrations
                     { 5, "Ruta Interbalnearia Km 62.800", "Sucursal San Luis – Canelones", -34.7500m, -55.6000m },
                     { 6, "Av. Julieta s/n, Salinas", "Sucursal Salinas – Canelones", -34.7700m, -55.8300m },
                     { 7, "Margarita Martínez de Fariña s/n, San Bautista", "Sucursal San Bautista – Canelones", -34.4500m, -55.9500m },
-                    { 8, "Ruta 85 s/n, Toledo", "Sucursal Toledo – Canelones", -34.7000m, -56.0500m }
+                    { 8, "Ruta 85 s/n, Toledo", "Sucursal Toledo – Canelones", -34.7000m, -56.0500m },
+                    { 9, "Av. Millan s/n, Salinas", "Sucursal Florida – Florida", -34.7050m, -56.0550m },
+                    { 10, "Margarita Martínez de Fariña s/n, San Bautista", "Sucursal San Antonio – Canelones", -33.7000m, -57.0500m }
                 });
 
             migrationBuilder.InsertData(
@@ -158,13 +160,62 @@ namespace LogicaAccesoDatos.Migrations
                     { 3, "Cliente", "Carlos", "Rodríguez", "cliente123", "carlitos@gmail.com", "099122555" },
                     { 4, "Cliente", "Fernanda", "López", "cliente123", "fernanda@gmail.com", "099777888" },
                     { 5, "Admin", "Gerente", "Apellido", "Gerente2025.", "administrador@gmail.com", "099100200" },
-                    { 6, "Cliente", "Luis", "Martínez", "cliente123", "luis@gmail.com", "099666111" },
-                    { 7, "Cliente", "Sofía", "Ruiz", "cliente123", "sofia@gmail.com", "099222333" },
+                    { 6, "Admin", "Luis", "Martínez", "admin123", "luis@gmail.com", "099666111" },
+                    { 7, "Admin", "Sofía", "Ruiz", "admin123", "sofia@gmail.com", "099222333" },
                     { 8, "Cliente", "Pedro", "Díaz", "cliente123", "pedro@gmail.com", "099333444" },
                     { 9, "Cliente", "Ana", "Fernández", "cliente123", "ana@gmail.com", "099444555" },
-                    { 10, "Cliente", "Martín", "Sosa", "cliente123", "martin@gmail.com", "099555666" },
-                    { 11, "Cliente", "Laura", "Castro", "cliente123", "laura@gmail.com", "099888999" },
-                    { 12, "Cliente", "Diego", "Navarro", "cliente123", "diego@gmail.com", "099999000" }
+                    { 10, "Funcionario", "Martín", "Sosa", "funcionario123", "martin@gmail.com", "099555666" },
+                    { 11, "Funcionario", "Laura", "Castro", "funcionario123", "laura@gmail.com", "099888999" },
+                    { 12, "Funcionario", "Diego", "Navarro", "funcionario123", "diego@gmail.com", "099999000" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Envios",
+                columns: new[] { "Id", "ClienteId", "Discriminator", "EmpleadoId", "Estado", "FechaCreacion", "FechaFinalizacion", "LugarRetiroId", "NroTracking", "Peso" },
+                values: new object[,]
+                {
+                    { 1, 3, "Comun", 1, 0, new DateTime(2025, 5, 1, 10, 0, 0, 0, DateTimeKind.Unspecified), null, 1, "TRK0000001", 1.5m },
+                    { 2, 4, "Comun", 2, 0, new DateTime(2025, 5, 2, 14, 30, 0, 0, DateTimeKind.Unspecified), null, 2, "TRK0000002", 2.2m },
+                    { 3, 3, "Comun", 1, 0, new DateTime(2025, 5, 3, 9, 15, 0, 0, DateTimeKind.Unspecified), null, 1, "TRK0000003", 5.0m },
+                    { 4, 4, "Comun", 2, 0, new DateTime(2025, 5, 4, 11, 45, 0, 0, DateTimeKind.Unspecified), null, 3, "TRK0000004", 0.8m }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Envios",
+                columns: new[] { "Id", "NroTracking", "ClienteId", "Discriminator", "EmpleadoId", "Estado", "FechaCreacion", "FechaFinalizacion", "DireccionPostal", "Entregado", "Peso" },
+                values: new object[,]
+                {
+                    { 5, "TRK0000005", 8, "Urgente", 1, 0, new DateTime(2025, 5, 5, 16, 0, 0, 0, DateTimeKind.Unspecified), null, "Calle 1 #100", false, 3.3m },
+                    { 6, "TRK0000006", 3, "Urgente", 2, 0, new DateTime(2025, 5, 6, 17, 30, 0, 0, DateTimeKind.Unspecified), null, "Av. 2 #200", false, 10.0m },
+                    { 7, "TRK0000007", 8, "Urgente", 1, 0, new DateTime(2025, 5, 7, 18, 45, 0, 0, DateTimeKind.Unspecified), null, "Calle 3 #300", false, 7.7m },
+                    { 8, "TRK0000008", 9, "Urgente", 2, 0, new DateTime(2025, 5, 8, 12, 15, 0, 0, DateTimeKind.Unspecified), null, "Av. 4 #400", false, 4.4m }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Envios",
+                columns: new[] { "Id", "ClienteId", "Discriminator", "EmpleadoId", "Estado", "FechaCreacion", "FechaFinalizacion", "LugarRetiroId", "NroTracking", "Peso" },
+                values: new object[] { 9, 9, "Comun", 1, 0, new DateTime(2025, 5, 9, 13, 0, 0, 0, DateTimeKind.Unspecified), null, 4, "TRK0000009", 2.0m });
+
+            migrationBuilder.InsertData(
+                table: "Envios",
+                columns: new[] { "Id", "NroTracking", "ClienteId", "Discriminator", "EmpleadoId", "Estado", "FechaCreacion", "FechaFinalizacion", "DireccionPostal", "Entregado", "Peso" },
+                values: new object[] { 10, "TRK0000010", 4, "Urgente", 1, 0, new DateTime(2025, 5, 10, 14, 0, 0, 0, DateTimeKind.Unspecified), null, "Calle 5 #500", false, 6.6m });
+
+            migrationBuilder.InsertData(
+                table: "EtapasSeguimiento",
+                columns: new[] { "Id", "IdEmpleado", "IdEnvio", "NroTracking", "Comentario", "Fecha" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, "TRK0000001", "Recibido en almacén", new DateTime(2025, 5, 1, 11, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 2, 1, "TRK0000001", "En tránsito", new DateTime(2025, 5, 1, 13, 30, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 1, 2, "TRK0000002", "Despachado", new DateTime(2025, 5, 2, 10, 15, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 2, 2, "TRK0000002", "En camino", new DateTime(2025, 5, 2, 15, 45, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 1, 3, "TRK0000003", "Llegó a destino", new DateTime(2025, 5, 3, 9, 5, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, 2, 4, "TRK0000004", "Intento de entrega", new DateTime(2025, 5, 4, 17, 20, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, 1, 5, "TRK0000005", "Entregado", new DateTime(2025, 5, 5, 18, 55, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, 2, 6, "TRK0000006", "Pendiente retiro", new DateTime(2025, 5, 6, 12, 5, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, 1, 7, "TRK0000007", "Reprogramado", new DateTime(2025, 5, 7, 14, 40, 0, 0, DateTimeKind.Unspecified) },
+                    { 10, 2, 8, "TRK0000008", "Cancelado por cliente", new DateTime(2025, 5, 8, 16, 25, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.CreateIndex(
