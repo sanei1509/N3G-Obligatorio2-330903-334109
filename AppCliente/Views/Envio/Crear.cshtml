@@ -1,0 +1,103 @@
+﻿
+@using AppCliente.Models.Envios;
+@model AppCliente.Models.Envios.CrearEnvioDto;
+
+@{
+    var ListadoAgencias = ViewData["ListadoAgencias"] as IEnumerable<EnvioListadoDto> ?? Enumerable.Empty<EnvioListadoDto>(); ;
+    // .Select(c => new SelectListItem
+            // {
+            //     Id = c.Id.ToString(),
+            //     Nombre = c.Nombre
+            // }).ToList();
+    ViewData["Title"] = "Crear Envio";
+}
+
+<h2>Crear Envío</h2>
+
+<form asp-action="Crear" method="post">
+
+    <input type="text" name="correoEmpleado" value="@ViewBag.correoEmpleado" hidden/>
+
+    <div class="form-group">
+        <label asp-for="TipoEnvio">Tipo de envío</label>
+        <select asp-for="TipoEnvio" class="form-control" id="tipoEnvio">
+            <option value="">-- Seleccione --</option>
+            <option value="Comun">Común</option>
+            <option value="Urgente">Urgente</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CorreoCliente">Correo del cliente</label>
+        <input asp-for="CorreoCliente" class="form-control" />
+    </div>
+
+@*     <div id="CamposComun" style="display:none">
+        <div class="form-group">
+            <label asp-for="LugarRetiroId">Id Agencia de destino</label>
+            <input asp-for="LugarRetiroId" class="form-control" />
+        </div>
+    </div> *@
+
+    <div id="CamposComun" style="display:none">
+         <div class="form-group">
+             <label asp-for="LugarRetiroId">agencia de destino</label>
+             <select asp-for="LugarRetiroId">
+                    <option value="">-- seleccione agencia --</option>
+                     @foreach (var agencia in ListadoAgencias) 
+                     {
+                            // <option value="@agencia.Id">@agencia.Nombre</option>
+                     };
+             </select>
+         </div>
+     </div> 
+
+    <div id="CamposUrgente" style="display:none">
+        <div class="form-group">
+            <label asp-for="DireccionPostal">Dirección Postal</label>
+            <input asp-for="DireccionPostal" class="form-control" />
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label asp-for="Peso">Peso del paquete</label>
+        <input asp-for="Peso" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Crear</button>
+</form>
+
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger">@ViewBag.Message</div>
+}
+
+
+
+
+@section Scripts {
+    <script>
+        const tipo = document.getElementById('tipoEnvio');
+        const comun = document.getElementById('CamposComun');
+        const urg   = document.getElementById('CamposUrgente');
+
+        function toggle() {
+            if (tipo.value === 'Comun') {
+                comun.style.display = 'block';
+                urg.style.display   = 'none';
+            } else if (tipo.value === 'Urgente') {
+                comun.style.display = 'none';
+                urg.style.display   = 'block';
+            } else {
+                comun.style.display = 'none';
+                urg.style.display   = 'none';
+            }
+        }
+
+        tipo.addEventListener('change', toggle);
+        // para que en edición/recarga respete la opción actual:
+        document.addEventListener('DOMContentLoaded', toggle);
+    </script>
+}

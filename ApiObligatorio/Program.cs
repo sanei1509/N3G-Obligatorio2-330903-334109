@@ -1,7 +1,9 @@
+using ApiObligatorio.Services;
 using CasoUsoCompartida.DTOs;
 using CasoUsoCompartida.DTOs.Envios;
 using CasoUsoCompartida.DTOs.EtapaSeguimiento;
 using CasoUsoCompartida.DTOs.Usuarios;
+using CasoUsoCompartida.DTOS.Envios;
 using CasoUsoCompartida.InterfacesCU;
 using Libreria.LogicaAplicacion.CasoUso.Usuarios;
 using LogicaAccesoDatos.EF;
@@ -9,7 +11,10 @@ using LogicaAplicacion.CasosUso.Agencias;
 using LogicaAplicacion.CasosUso.Envios;
 using LogicaAplicacion.CasosUso.Usuarios;
 using LogicaNegocio.InterfacesRepositorio;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Text.Json.Serialization;
 
 
@@ -67,7 +72,42 @@ builder.Services.AddDbContext<LibreriaContext>(
 );
 
 
+var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+
+//AGREGAR JWT
+var jwtConfig = builder.Configuration.GetSection("JWT");
+var key = Encoding.ASCII.GetBytes(jwtConfig["Key"]);
+builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
+
+builder.Services.AddAuthentication(
+    options => 
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false; // En producción: true
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero // sin tolerancia extra de expiración
+        };
+    });
+    builder.Services.AddAuthorization();
+
+
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -78,6 +118,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();   // ?? Esto es esencial para que funcione en produccion y en todos lados
 app.UseAuthorization();
 
 app.MapControllers();

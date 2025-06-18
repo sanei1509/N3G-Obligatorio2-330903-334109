@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicaAccesoDatos", "Logica
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasoUsoCompartida", "CasoUsoCompartida\CasoUsoCompartida.csproj", "{B1EAF6AE-661A-4570-B074-1455CC4C93FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiObligatorio", "ApiObligatorio\ApiObligatorio.csproj", "{7349241A-1CFC-4CBB-B76A-6EA49593B7EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiObligatorio", "ApiObligatorio\ApiObligatorio.csproj", "{7349241A-1CFC-4CBB-B76A-6EA49593B7EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCliente", "AppCliente\AppCliente.csproj", "{E6BD6382-7A45-464C-A2B7-196E32376839}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{7349241A-1CFC-4CBB-B76A-6EA49593B7EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7349241A-1CFC-4CBB-B76A-6EA49593B7EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7349241A-1CFC-4CBB-B76A-6EA49593B7EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6BD6382-7A45-464C-A2B7-196E32376839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6BD6382-7A45-464C-A2B7-196E32376839}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6BD6382-7A45-464C-A2B7-196E32376839}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6BD6382-7A45-464C-A2B7-196E32376839}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

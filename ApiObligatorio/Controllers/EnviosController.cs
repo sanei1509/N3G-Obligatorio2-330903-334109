@@ -2,12 +2,14 @@
 using CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.InterfacesCU;
 using LogicaAplicacion.CasosUso.Usuarios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiObligatorio.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class EnviosController : ControllerBase
     {
         IGetAll<EnvioListadoDto> _getAll;
@@ -64,6 +66,28 @@ namespace ApiObligatorio.Controllers
         }
 
 
+
+        // Clase -> estandares por el profe
+        //[HttpGet]
+        //public IActionResult GetById(string id) 
+        //{
+
+        //    try 
+        //    {
+        //        int idUsuario;
+        //        int.TryParse(id, out idUsuario);
+        //        if (idUsuario == 0) 
+        //        {
+        //            throw new BadRequest("Hubo un problema al obtener el usuario");
+        //        }
+
+
+        //    }
+        //    catch (Exception){
+        //        Error error = new Error(500, "Error, proba nuevamente");
+        //        return StatusCor
+        //    }
+        //}
 
 
     }

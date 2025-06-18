@@ -14,6 +14,7 @@ using LogicaNegocio.Vo.Envio;
 using Microsoft.AspNetCore.Authorization;
 using WebMVC.Filtros;
 using Microsoft.AspNetCore.Mvc;
+using CasoUsoCompartida.DTOS.Envios;
 
 namespace WebMVC.Controllers
 {

@@ -1,0 +1,69 @@
+﻿@using AppCliente.Models.Envios;
+@model IEnumerable<EnvioListadoDto>
+
+@{
+    ViewData["Title"] = "Listado de envíos";
+    // Recogemos los filtros que pasamos en ViewBag
+    string filtroTracking = ViewBag.NroTracking as string ?? "";
+    string filtroDesde = ViewBag.FechaDesde as string ?? "";
+    string filtroHasta = ViewBag.FechaHasta as string ?? "";
+}
+
+<form asp-action="ListadoEnvios" method="get" class="form-inline my-3">
+    <div class="form-group mr-2">
+        <label class="mr-1">Tracking</label>
+        <input name="nroTracking" value="@filtroTracking" class="form-control" />
+    </div>
+    <div class="form-group mr-2">
+        <label class="mr-1">Desde</label>
+        <input name="fechaDesde" type="date" value="@filtroDesde" class="form-control" />
+    </div>
+    <div class="form-group mr-2">
+        <label class="mr-1">Hasta</label>
+        <input name="fechaHasta" type="date" value="@filtroHasta" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-secondary">Filtrar</button>
+</form>
+
+
+<!-- Botón para navegar a la vista de Crear Usuario -->
+<a asp-controller="Envio" asp-action="Crear" class="btn btn-primary">Agregar Envío</a>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info mt-3">
+        No hay envíos para mostrar.
+    </div>
+}
+else {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tipo Envio</th>
+                <th>Nro Tracking</th>
+                <th>Cliente</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+ 
+                @foreach (var envio in Model)
+                {
+                    <tr>
+                        <td>@envio.TipoEnvio</td>
+                        <td>@envio.NroTracking</td>
+                        <td>@envio.ClienteId</td>
+                        <td>@envio.Correo</td>
+                        <td>@envio.Telefono</td>
+                        <td>
+                            <a asp-controller="Envio" asp-action="Finalizar" asp-route-id="@envio.Id" method="post">Finalizar</a>
+                            <span>|</span>
+                            <a asp-controller="Envio" asp-action="AgregarComentario" asp-route-envioId="@envio.Id" asp-route-nroTracking="@envio.NroTracking">Ingresar comentario de status</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+}

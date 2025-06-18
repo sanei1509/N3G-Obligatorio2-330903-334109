@@ -2,6 +2,7 @@ using CasoUsoCompartida.DTOs;
 using CasoUsoCompartida.DTOs.Envios;
 using CasoUsoCompartida.DTOs.EtapaSeguimiento;
 using CasoUsoCompartida.DTOs.Usuarios;
+using CasoUsoCompartida.DTOS.Envios;
 using CasoUsoCompartida.InterfacesCU;
 using Libreria.LogicaAplicacion.CasoUso.Usuarios;
 using LogicaAccesoDatos.EF;

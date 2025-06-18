@@ -8,6 +8,7 @@ using LogicaNegocio.Vo.Envio;
 using LogicaNegocio.Enums;
 using CasoUsoCompartida.DTOs.Envios;
 using CasoUsoCompartida.DTOs.EtapaSeguimiento;
+using CasoUsoCompartida.DTOS.Envios;
 
 namespace LogicaAplicacion.Mapper
 {

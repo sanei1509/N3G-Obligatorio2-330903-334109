@@ -1,8 +1,5 @@
-﻿using LogicaNegocio.Enums;
-
-
-    namespace CasoUsoCompartida.DTOs.Envios
-    {
+﻿namespace CasoUsoCompartida.DTOS.Envios
+{
     public record CrearEnvioDto(
             string TipoEnvio,
             string CorreoEmpleado,

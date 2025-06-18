@@ -3,7 +3,7 @@ using LogicaNegocio.Entidades.Usuarios.Usuario;
 using LogicaNegocio.Enums;
 using LogicaNegocio.Vo.Envio;
 
-namespace CasoUsoCompartida.DTOs.Envios
+namespace CasoUsoCompartida.DTOS.Envios
 {
     public record EnvioDto (
             int Id,
