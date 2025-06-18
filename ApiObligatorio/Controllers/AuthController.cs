@@ -13,48 +13,35 @@ namespace ApiObligatorio.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IJwtGenerator _jwtGenerator;
-        private readonly IGetById<UsuarioDto> _getById;
         private readonly IGetByEmail<UsuarioDto> _getByEmail;
 
-        public AuthController(IJwtGenerator jwtGenerator, IGetById<UsuarioDto> getById, IGetByEmail<UsuarioDto> getByEmail)
+        public AuthController(IJwtGenerator jwtGenerator, IGetByEmail<UsuarioDto> getByEmail)
         {
-            _getById = getById;
             _jwtGenerator = jwtGenerator;
             _getByEmail = getByEmail;
         }
 
         [HttpPost("Generate")]
-        public IActionResult Generate([FromBody] LoginEntradaDto usuarioLogin)
+        public IActionResult Generate([FromBody] LoginEntradaDto dto)
         {
+            if (dto == null || string.IsNullOrWhiteSpace(dto.Correo))
+                return BadRequest(new Error(400, "Correo y clave son obligatorios"));
+
+            UsuarioDto usuario;
             try
             {
-                if (usuarioLogin == null)
-                    throw new Exception("Datos incompletos");
-                    //throw new BadRequestException("Datos incompletos");
-
-                    // Debe tener un caso de uso pas el mail
-                    var usuario = _getByEmail.Execute(usuarioLogin.Correo);
-
-                //if (usuario == null)
-                //    return Unauthorized("Credenciales inválidas");
-
-
-                var token = _jwtGenerator.GenerateToken(usuario);
-                return Ok(new { token });
+                usuario = _getByEmail.Execute(dto.Correo);
             }
-            catch (NotFoundException e)
+            catch (NotFoundException)
             {
-                return StatusCode(e.StatusCode(), e.Error());
+                return Unauthorized(new Error(401, "Credenciales inválidas"));
             }
-            catch (BadRequestException e)
-            {
-                return StatusCode(e.StatusCode(), e.Error());
-            }
-            catch (Exception)
-            {
-                Error error = new Error(500, "Hupp. Proba nuevamente");
-                return StatusCode(500, error);
-            }
+
+            if (dto.Clave != usuario.Clave)
+                return Unauthorized(new Error(401, "Credenciales inválidas"));
+
+            var token = _jwtGenerator.GenerateToken(usuario);
+            return Ok(new { token });
 
         }
 

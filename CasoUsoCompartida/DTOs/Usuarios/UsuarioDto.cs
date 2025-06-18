@@ -6,7 +6,8 @@
         string Apellido,
         string Correo,
         string Telefono,
-        string Discriminator
+        string Discriminator,
+        string Clave
         )
     {
     }

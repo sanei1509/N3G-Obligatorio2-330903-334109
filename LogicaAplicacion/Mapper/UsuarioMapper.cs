@@ -44,7 +44,8 @@ namespace LogicaAplicacion.Mapper
                 usuario.Apellido.Value,
                 usuario.Correo.Value,
                 usuario.Telefono.Value,
-                usuario.Discriminator
+                usuario.Discriminator,
+                usuario.Clave.Value
             );
         }
 
