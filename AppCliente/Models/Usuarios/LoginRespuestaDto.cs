@@ -1,10 +1,18 @@
 ﻿namespace AppCliente.Models.Usuarios
 {
-    public record class LoginRespuestaDto(
-        bool Autenticado,
-        string Mensaje
-        )
+    public class LoginRespuestaDto
     {
+        public string Token { get; set; }
+        public UserDto User { get; set; }
+
+
+        public class UserDto
+        {
+            public int Id { get; set; }
+            public string Nombre { get; set; }
+            public string Correo { get; set; }
+        }
     }
+
 }
 

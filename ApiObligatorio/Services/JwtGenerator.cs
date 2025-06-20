@@ -23,12 +23,9 @@ namespace ApiObligatorio.Services
 
             var claims = new[]
             {
-                // new Claim(JwtRegisteredClaimNames.Sub, usuario.Email),
-                // new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
-                // new Claim(JwtRegisteredClaimNames.Name, usuario.Nombre),
+                 new Claim(JwtRegisteredClaimNames.Email, usuario.Correo),
+                 new Claim(JwtRegisteredClaimNames.Name, usuario.Nombre),
                 new Claim(JwtRegisteredClaimNames.NameId, usuario.Id.ToString() ),
-               // new Claim(ClaimTypes.Role, usuario.Rol == "admin" ? "admin" : "usuario"),
-               // new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -43,6 +40,7 @@ namespace ApiObligatorio.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
+            // Se serializa a un string el bearer token
             return tokenHandler.WriteToken(token);
         }
 

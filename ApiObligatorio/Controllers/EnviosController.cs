@@ -9,7 +9,6 @@ namespace ApiObligatorio.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class EnviosController : ControllerBase
     {
         IGetAll<EnvioListadoDto> _getAll;
@@ -22,6 +21,7 @@ namespace ApiObligatorio.Controllers
 
         // GET api/envios
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
             try
@@ -41,7 +41,18 @@ namespace ApiObligatorio.Controllers
         }
 
 
+
+        [HttpGet("debug")]
+        [Authorize]
+        public IActionResult DebugToken()
+        {
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+            return Ok(claims);
+        }
+
+
         [HttpGet("{nroTracking}")]
+        [AllowAnonymous]
         public IActionResult GetByNroTracking(string nroTracking)
         {
             // 1) Si el parámetro no viene o es nulo/vacío devolvemos BadRequest

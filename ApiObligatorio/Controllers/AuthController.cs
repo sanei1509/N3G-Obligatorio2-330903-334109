@@ -41,7 +41,17 @@ namespace ApiObligatorio.Controllers
                 return Unauthorized(new Error(401, "Credenciales inválidas"));
 
             var token = _jwtGenerator.GenerateToken(usuario);
-            return Ok(new { token });
+
+            return Ok(new
+            {
+                token,
+                user = new
+                {
+                    usuario.Id,
+                    usuario.Nombre,
+                    usuario.Correo
+                }
+            });
 
         }
 

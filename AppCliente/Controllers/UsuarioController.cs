@@ -1,114 +1,167 @@
-﻿//using CasoUsoCompartida.DTOs.Envios;
+﻿using AppCliente.Models.Envios;
 using AppCliente.Models.Usuarios;
-//using CasoUsoCompartida.InterfacesCU;
-//using LogicaAplicacion.CasosUso.Usuarios;
-//using LogicaNegocio.Entidades.Envios;
-//using LogicaNegocio.Entidades.Usuarios.Empleados;
-//using LogicaNegocio.Excepciones.UsuarioExceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
-//using WebMVC.Filtros;
+using System.Text.Json;
 
 namespace AppCliente.Controllers
 {
     public class UsuarioController : Controller
     {
-        //inyectar caso de uso de usuario
-        //private ILogin<LoginRespuestaDto> _login;
-        //private IGetAll<UsuarioListadoDto> _getAll;
-        //private IGetById<UsuarioDto> _getById;
-        //private IGetById<CrearUsuarioDto> _getByIdEditar;
-        //private IAdd<CrearUsuarioDto> _add;
-        //private IRemove _remove;
-        //private IUpdate<CrearUsuarioDto> _update;
-        //private IGetByEmail<UsuarioDto> _getByEmail;
-
-        //public UsuarioController(ILogin<LoginRespuestaDto> login, IGetAll<UsuarioListadoDto> getAll, IAdd<CrearUsuarioDto> add, IRemove remove, IUpdate<CrearUsuarioDto> update, IGetById<UsuarioDto> getById, IGetById<CrearUsuarioDto> getByIdEditar, IGetByEmail<UsuarioDto> getByEmail)
-        //{
-        //    _login = login;
-        //    _getAll = getAll;
-        //    _add = add;
-        //    _remove = remove;
-        //    _update = update;
-        //    _getById = getById;
-        //    _getByIdEditar = getByIdEditar;
-        //    _getByEmail = getByEmail;
-        //}
         public UsuarioController() 
         { 
         }
 
+        // GET: /Usuario/Login?nroTracking=ABC123
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string nroTracking)
         {
-            return View();
+            // Si vino nroTracking en querystring, hacemos la consulta
+            if (!string.IsNullOrWhiteSpace(nroTracking))
+            {
+                try
+                {
+                    var client = new RestClient(new RestClientOptions("http://localhost:5064/api") { MaxTimeout = -1 });
+                    var req = new RestRequest($"envios/{Uri.EscapeDataString(nroTracking)}", Method.Get);
+
+                    // sólo envía el header si el usuario realmente está autenticado
+                    if (User.Identity?.IsAuthenticated == true)
+                    {
+                        var token = HttpContext.Session.GetString("token");
+                        if (!string.IsNullOrEmpty(token))
+                            req.AddHeader("Authorization", $"Bearer {token}");
+                    }
+
+                    var resp = client.Execute(req);
+
+                    if (resp.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        ViewBag.TrackError = "No existe ese número de tracking.";
+                    }
+                    else if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        ViewBag.TrackError = "Token inválido o expirado. Por favor inicia sesión.";
+                    }
+                    else if (!resp.IsSuccessful)
+                    {
+                        ViewBag.TrackError = "Error al consultar el envío. Intenta nuevamente.";
+                    }
+                    else
+                    {
+                        // Deserializa y guarda en ViewBag.Envio
+                        var envio = JsonSerializer.Deserialize<EnvioListadoDto>(
+                            resp.Content!,
+                            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                        ViewBag.Envio = envio;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.TrackError = "Ocurrió un error: " + ex.Message;
+                }
+            }
+
+            // Siempre devolvemos la vista con el modelo vacío (login)
+            return View(new LoginEntradaDto(string.Empty, string.Empty));
         }
 
-        // POST: /Usuario/Login
-        [HttpPost]
-        public IActionResult Login(LoginEntradaDto model)
-        {
 
+
+        [HttpPost]
+        public IActionResult Login(LoginEntradaDto user)
+        {
             try
             {
-
-                var options = new RestClientOptions("")
+                var options = new RestClientOptions("http://localhost:5064/api")
                 {
-                    MaxTimeout = -1
+                    MaxTimeout = -1,
                 };
                 var client = new RestClient(options);
-                //var request = new RestRequest($"/api/v1/Usuarios/{user.Email}"), Method.Get;
-                //RestResponse response = client.Execute(request);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
+                var request = new RestRequest($"Auth/Generate", Method.Post)
+                                    .AddJsonBody(user);
 
-            }
-                //var result = _login.Execute(model);
 
-                //if (!result.Autenticado)
-                //{
-                //    ViewBag.Error = result.Mensaje;
-                //    return View(model);
-                //}
+                RestResponse response = client.Execute(request);
 
-                // Obtenemos el usuario para preguntar
-                //var usuario = _getByEmail.Execute(model.Correo);
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    throw new Exception("Credenciales inválidas");
 
-                //if (usuario.Discriminator.ToLower() == "admin")
-                //{
-                //    HttpContext.Session.SetString("Rol", "Admin");
-                //}
-                //else
-                //{
-                //    HttpContext.Session.SetString("Rol", "NoAdmin");
-                //}
+                var loginResp = JsonSerializer.Deserialize<LoginRespuestaDto>(
+                    response.Content,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                );
 
-                //// Si todo OK, guardamos la sesión:
-                //HttpContext.Session.SetString("Logueado", "true");
-                //HttpContext.Session.SetString("CorreoEmpleado", model.Correo);
+                // Guardamos JWT y datos de usuario en sesión:
+                HttpContext.Session.SetString("token", loginResp.Token);
+                HttpContext.Session.SetString("userId", loginResp.User.Id.ToString());
+                HttpContext.Session.SetString("userName", loginResp.User.Nombre);
+                HttpContext.Session.SetString("userEmail", loginResp.User.Correo);
 
                 return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                ViewBag.mensaje = e.Message;
+            }
+            return View("Index");
         }
 
-        //[UsuarioLogueado]
-        //[HttpGet]
-        //public IActionResult Gestion()
+
+        // POST: /Usuario/Login
+        //[HttpPost]
+        //public IActionResult Login(LoginEntradaDto model)
         //{
-        //    TempData["Rol"] = HttpContext.Session.GetString("Rol");
-        //    IEnumerable<UsuarioListadoDto> usuarios = _getAll.Execute();
-        //    var listaUsuarios = usuarios.OrderBy(e => e.Discriminator).ToList();
-        //    return View(listaUsuarios);
-        //    return View();
+
+        //    try
+        //    {
+
+        //        var options = new RestClientOptions("")
+        //        {
+        //            MaxTimeout = -1
+        //        };
+        //        var client = new RestClient(options);
+        //        //var request = new RestRequest($"/api/v1/Usuarios/{user.Email}"), Method.Get;
+        //        //RestResponse response = client.Execute(request);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex);
+
+        //    }
+        //        //var result = _login.Execute(model);
+
+        //        //if (!result.Autenticado)
+        //        //{
+        //        //    ViewBag.Error = result.Mensaje;
+        //        //    return View(model);
+        //        //}
+
+        //        // Obtenemos el usuario para preguntar
+        //        //var usuario = _getByEmail.Execute(model.Correo);
+
+        //        //if (usuario.Discriminator.ToLower() == "admin")
+        //        //{
+        //        //    HttpContext.Session.SetString("Rol", "Admin");
+        //        //}
+        //        //else
+        //        //{
+        //        //    HttpContext.Session.SetString("Rol", "NoAdmin");
+        //        //}
+
+        //        //// Si todo OK, guardamos la sesión:
+        //        //HttpContext.Session.SetString("Logueado", "true");
+        //        //HttpContext.Session.SetString("CorreoEmpleado", model.Correo);
+
+        //        return RedirectToAction("Index", "Home");
         //}
 
 
         // Acción para dar de alta un usuario
         //[UsuarioLogueado]
         //[AdminAutorizado]
+
         [HttpGet]
         public IActionResult Crear()
         {
@@ -123,127 +176,6 @@ namespace AppCliente.Controllers
                             );
             return View(model);
         }
-
-        //[UsuarioLogueado]
-        //[AdminAutorizado]
-        //[HttpGet]
-        //public IActionResult Borrar(int id)
-        //{
-        //    try
-        //    {
-        //        var dtoEliminar = new CrearUsuarioDto(
-        //                                        Id: id,
-        //                                        Nombre: "",
-        //                                        Apellido: "",
-        //                                        Correo: "",
-        //                                        Clave: "",
-        //                                        Telefono: "",
-        //                                        CorreoResponsable: HttpContext.Session.GetString("CorreoEmpleado")
-        //                        );
-        //        _remove.Execute(dtoEliminar);
-        //        return RedirectToAction("Gestion");
-        //    }
-        //    catch (EmpleadoConEnvioException)
-        //    {
-
-        //        TempData["Message"] = "El Funcionario que desea borrar ya ha creado envios";
-        //        return RedirectToAction("Gestion");
-
-        //    }
-
-        //}
-
-        //[UsuarioLogueado]
-        //[AdminAutorizado]
-        //[HttpGet]
-        //public IActionResult Editar(int id)
-        //{
-        //    // Se llama al caso de uso GetById para obtener los datos actuales
-        //    var usuarioDto = _getByIdEditar.Execute(id);
-        //    return View(usuarioDto);
-        //}
-
-    //    [HttpPost]
-    //    [AdminAutorizado]
-    //    public IActionResult Editar(int id, CrearUsuarioDto usuarioDto)
-    //    {
-    //        try
-    //        {
-    //            var dtoModificar = new CrearUsuarioDto(
-    //                Id: id,
-    //                Nombre: usuarioDto.Nombre,
-    //                Apellido: usuarioDto.Apellido,
-    //                Correo: usuarioDto.Correo,
-    //                Clave: usuarioDto.Clave,
-    //                Telefono: usuarioDto.Telefono,
-    //                CorreoResponsable: HttpContext.Session.GetString("CorreoEmpleado")
-    //);
-    //            _update.Execute(id, dtoModificar);
-    //            return RedirectToAction("Gestion");
-    //        }
-    //        catch (NombreException)
-    //        {
-    //            ViewBag.Message = "El Nombre es incorrecto";
-    //        }
-    //        catch (ApellidoException)
-    //        {
-    //            ViewBag.Message = "El Apellido es incorrecto";
-    //        }
-    //        catch (CorreoException)
-    //        {
-    //            ViewBag.Message = "El Correo es incorrecto";
-    //        }
-    //        catch (ClaveException)
-    //        {
-    //            ViewBag.Message = "La Clave es incorrecta";
-    //        }
-    //        catch (TelefonoException)
-    //        {
-    //            ViewBag.Message = "El Telefono es incorrecto";
-    //        }
-
-
-    //        return View();
-    //    }
-
-        //[AdminAutorizado]
-        //[HttpPost]
-        //public IActionResult Crear(CrearUsuarioDto usuarioDto)
-        //{
-        //    try
-        //    {
-        //        _add.Execute(usuarioDto);
-        //        return RedirectToAction("Gestion");
-        //    }
-        //    catch (NombreException)
-        //    {
-        //        ViewBag.Message = "El Nombre es incorrecto";
-        //    }
-        //    catch (ApellidoException)
-        //    {
-        //        ViewBag.Message = "El Apellido es incorrecto";
-        //    }
-        //    catch (CorreoException)
-        //    {
-        //        ViewBag.Message = "El Correo es incorrecto";
-        //    }
-        //    catch (ClaveException)
-        //    {
-        //        ViewBag.Message = "La clave debe tener al menos 6 caracteres e incluir letras, números y al menos uno de los siguientes caracteres especiales: + . #";
-        //    }
-        //    catch (TelefonoException)
-        //    {
-        //        ViewBag.Message = "El Telefono es incorrecto";
-        //    }
-        //    catch (YaExisteUsuarioException)
-        //    {
-        //        ViewBag.Message = "El Usuario Ya Existe";
-        //    }
-
-        //    return View();
-
-        //}
-
 
         // Acción para cerrar sesión
         [HttpPost]

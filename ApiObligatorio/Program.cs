@@ -79,7 +79,7 @@ var config = new ConfigurationBuilder()
 
 //AGREGAR JWT
 var jwtConfig = builder.Configuration.GetSection("JWT");
-var key = Encoding.ASCII.GetBytes(jwtConfig["Key"]);
+var key = Encoding.UTF8.GetBytes(jwtConfig["Key"]);
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 
 builder.Services.AddAuthentication(
@@ -116,7 +116,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();   // ?? Esto es esencial para que funcione en produccion y en todos lados
 app.UseAuthorization();

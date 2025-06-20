@@ -1,173 +1,70 @@
-﻿//using CasoUsoCompartida.DTOs.Envios;
-//using CasoUsoCompartida.DTOs.EtapaSeguimiento;
-//using CasoUsoCompartida.DTOs.Usuarios;
-//using CasoUsoCompartida.InterfacesCU;
-//using CasoUsoCompartida.DTOs;
-//using LogicaAplicacion.CasosUso.Envios;
-//using LogicaNegocio.Entidades.Envios;
-//using LogicaNegocio.Entidades.Usuarios.Usuario;
-//using LogicaNegocio.Excepciones.AgenciaException;
-//using LogicaNegocio.Excepciones.EnvioExceptions;
-//using LogicaNegocio.Excepciones.Envios;
-//using LogicaNegocio.Excepciones.EtapaSeguimientoExceptions;
-//using LogicaNegocio.Vo.Envio;
+﻿
+using AppCliente.Models.Envios;
 using Microsoft.AspNetCore.Authorization;
-//using WebMVC.Filtros;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
+using System.Text.Json;
 
 namespace AppCliente.Controllers
 {
-    //[UsuarioLogueado]
     public class EnvioController : Controller
     {
-        //private IGetAll<EnvioListadoDto> _getAll;
-        //private IAdd<CrearEnvioDto> _add;
-        //private IFinalizar _finalizar;
-        //private IAdd<CrearComentarioDto> _addComentario;
-        //private IGetAll<AgenciaListadoDto> _agencias;
-
-        //public EnvioController(IGetAll<EnvioListadoDto> getAll, IAdd<CrearEnvioDto> add, IFinalizar finalizar, IAdd<CrearComentarioDto> comentario, IGetAll<AgenciaListadoDto> agencias)
         public EnvioController()
         {
-            //_getAll = getAll;
-            //_add = add;
-            //_finalizar = finalizar;
-            //_addComentario = comentario;
-            //_agencias = agencias;
         }
 
-        public IActionResult Index()
+        // GET: /Envio/Index
+        [HttpGet]
+        public IActionResult Index(string nroTracking)
         {
-            return View();
+            // Si no viene nroTracking, mostramos la vista vacía
+            if (string.IsNullOrWhiteSpace(nroTracking))
+                return View();
+
+            try
+            {
+                // Preparamos el cliente RestSharp
+                var client = new RestClient(new RestClientOptions("http://localhost:5064/api") { MaxTimeout = -1 });
+                var request = new RestRequest($"envios/{nroTracking}", Method.Get);
+
+                // Agregamos token si existe en sesión
+                var token = HttpContext.Session.GetString("token");
+                if (!string.IsNullOrEmpty(token))
+                    request.AddHeader("Authorization", $"Bearer {token}");
+
+                var response = client.Execute(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    ViewBag.TrackError = "No existe ese número de tracking.";
+                    return View();
+                }
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    ViewBag.TrackError = "Token inválido o expirado. Por favor inicia sesión.";
+                    return View();
+                }
+                if (!response.IsSuccessful)
+                {
+                    ViewBag.TrackError = "Error al consultar el envío. Intenta nuevamente.";
+                    return View();
+                }
+
+                // Deserializamos el JSON al DTO
+                var envio = JsonSerializer.Deserialize<EnvioListadoDto>(
+                    response.Content!,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                );
+
+                // Enviamos el modelo a la vista
+                return View(envio);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.TrackError = "Ocurrió un error: " + ex.Message;
+                return View();
+            }
         }
-
-        //[HttpGet]
-        //public IActionResult ListadoEnvios(
-        //    string nroTracking,
-        //    DateTime? fechaDesde,
-        //    DateTime? fechaHasta)
-
-        //{
-        //    IEnumerable<EnvioListadoDto> listaEnvios = _getAll.Execute();
-
-
-        //    // 2) Aplicas filtros si vienen
-        //    if (!string.IsNullOrWhiteSpace(nroTracking))
-        //        listaEnvios = listaEnvios.Where(e =>
-        //            e.NroTracking.Contains(nroTracking, StringComparison.OrdinalIgnoreCase));
-
-        //    if (fechaDesde.HasValue)
-        //        listaEnvios = listaEnvios.Where(e => e.FechaCreacion >= fechaDesde.Value);
-
-        //    if (fechaHasta.HasValue)
-        //        listaEnvios = listaEnvios.Where(e => e.FechaCreacion <= fechaHasta.Value);
-
-        //    // 3) Pasas los filtros a la vista para volver a mostrarlos
-        //    ViewBag.NroTracking = nroTracking;
-        //    ViewBag.FechaDesde = fechaDesde?.ToString("yyyy-MM-dd");
-        //    ViewBag.FechaHasta = fechaHasta?.ToString("yyyy-MM-dd");
-
-        //    return View(listaEnvios);
-        //}
-
-        //// Acción para dar de alta un envio
-        //[HttpGet]
-        //public IActionResult Crear()
-        //{
-        //    var listadoAgencias = _agencias.Execute();
-        //    ViewBag.CorreoEmpleado = HttpContext.Session.GetString("CorreoEmpleado");
-        //    ViewData["ListadoAgencias"] = listadoAgencias;
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public IActionResult Crear(CrearEnvioDto envioDto)
-        //{
-        //    try
-        //    {
-
-        //        _add.Execute(envioDto);
-        //        return RedirectToAction("ListadoEnvios");
-        //    }
-        //    catch (TipoEnvioException)
-        //    {
-        //        ViewBag.Message = "El Nombre es incorrecto";
-        //    }
-        //    catch (CorreoException)
-        //    {
-        //        ViewBag.Message = "El Correo ingresado no esta registrado como cliente";
-        //        return View();
-        //    }
-        //    catch (PesoException)
-        //    {
-        //        ViewBag.Message = "El Peso debe ser un número positivo";
-        //    }
-        //    catch (LugarRetiroException)
-        //    {
-        //        ViewBag.Message = "Debes seleccionar un lugar de retiro";
-        //    }
-        //    catch (DireccionException)
-        //    {
-        //        ViewBag.Message = "La Dirección es un campo que no puede estar vacio";
-        //    }
-        //    catch (NombreAgenciaExeption)
-        //    {
-        //        ViewBag.Message = "No existe esa Agencia";
-        //    }
-
-        //    ViewBag.CorreoEmpleado = envioDto.CorreoEmpleado;
-        //    return View();
-
-        //}
-
-        //[HttpGet]
-        //public IActionResult Finalizar(int id) 
-        //{
-        //    try
-        //    {
-        //        _finalizar.Execute(id);
-
-        //        return RedirectToAction("ListadoEnvios");
-        //    }
-        //    catch (TipoEnvioException)
-        //    {
-        //        ViewBag.Message = "Error Al finalizar envio";
-        //    }
-        //    return RedirectToAction("ListadoEnvios");
-        //}
-
-        //[HttpGet]
-        //public IActionResult AgregarComentario(int envioId, string nroTracking)
-        //{
-        //    var empleadoCorreo = HttpContext.Session.GetString("CorreoEmpleado");
-
-        //    var dto = new CrearComentarioDto(
-        //             IdEnvio: envioId,
-        //             NroTracking: nroTracking,
-        //             CorreoEmpleado: empleadoCorreo,
-        //             Comentario: string.Empty
-        //        );
-
-        //    return View(dto);
-        //}
-
-
-        //[HttpPost]
-        //public IActionResult AgregarComentario(CrearComentarioDto comentarioDto)
-        //{
-        //    try
-        //    {
-
-        //        _addComentario.Execute(comentarioDto);
-        //        return RedirectToAction("ListadoEnvios");
-        //    }
-
-        //    catch (ComentarioException)
-        //    {
-        //        ViewBag.Message = "El comentario no puede estar vacío";
-        //        return View();
-        //    }
-        //}
 
     }
 }
