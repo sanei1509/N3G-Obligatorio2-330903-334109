@@ -25,7 +25,8 @@ namespace ApiObligatorio.Services
             {
                  new Claim(JwtRegisteredClaimNames.Email, usuario.Correo),
                  new Claim(JwtRegisteredClaimNames.Name, usuario.Nombre),
-                new Claim(JwtRegisteredClaimNames.NameId, usuario.Id.ToString() ),
+                 new Claim(JwtRegisteredClaimNames.NameId, usuario.Id.ToString()),
+                 new Claim(ClaimTypes.Role, usuario.Discriminator)
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor

@@ -40,7 +40,7 @@ namespace AppCliente
             app.UseRouting();
 
             app.UseAuthorization();
-
+            
             // 6) **Insertar el middleware de sesión aquí**
             app.UseSession();
 

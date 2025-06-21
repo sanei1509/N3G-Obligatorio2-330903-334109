@@ -344,7 +344,7 @@ namespace LogicaAccesoDatos.Migrations
                         new
                         {
                             Id = 1,
-                            ClienteId = 3,
+                            ClienteId = 4,
                             Discriminator = "Comun",
                             EmpleadoId = 1,
                             Estado = 0,

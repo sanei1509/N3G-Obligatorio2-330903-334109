@@ -108,6 +108,16 @@ builder.Services.AddAuthentication(
 
 var app = builder.Build();
 
+// ——— Migración y re-hasheo de seeds ———
+using (var scope = app.Services.CreateScope())
+{
+    var ctx = scope.ServiceProvider.GetRequiredService<LibreriaContext>();
+    // Si usas EF Migrations:
+    ctx.Database.Migrate();
+
+    // Re-hashea todas las contraseñas semilla que estén en claro
+    ctx.MigrateSeedPasswords();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -117,10 +127,15 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-
+// 1) Genera la tabla de rutas internamente
+app.UseRouting();
 app.UseAuthentication();   // ?? Esto es esencial para que funcione en produccion y en todos lados
 app.UseAuthorization();
 
-app.MapControllers();
+// Aquí enlaza los controllers con el pipeline
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();

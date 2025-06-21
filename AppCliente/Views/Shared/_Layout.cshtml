@@ -19,12 +19,33 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @{
+                            var rol = Context.Session.GetString("rolUsuario");
+                            bool esCliente = string.Equals(rol, "cliente", StringComparison.OrdinalIgnoreCase);
+                        }
+                        @if (esCliente)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Envio" asp-action="ListadoEnvios">Listar los envios</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="CambiarClave">Cambiar Contraseña</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Envio" asp-action="BuscarEnvios">Busqueda de envios</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <form asp-controller="Usuario" asp-action="Logout" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="nav-link btn btn-link text-danger">Cerrar sesión</button>
+                                </form>
+                            </li>
+                        }
+
+
                     </ul>
                 </div>
             </div>
@@ -38,7 +59,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - AppCliente - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - Web Seguimiento de Envíos - César Martinez / Santiago Neira 
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

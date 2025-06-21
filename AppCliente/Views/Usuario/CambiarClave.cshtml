@@ -1,0 +1,52 @@
+﻿@model AppCliente.Models.Usuarios.CambiarClaveViewModel
+
+@{
+    ViewData["Title"] = "Cambiar Contraseña";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        @* Muestra mensaje de éxito o error *@
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success">
+                @ViewBag.Message
+            </div>
+        }
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.Error
+            </div>
+        }
+
+        <form asp-action="CambiarClave" method="post">
+
+            <div class="mb-3">
+                <label asp-for="ClaveActual" class="form-label">Contraseña Actual</label>
+                <input asp-for="ClaveActual" type="password" class="form-control" />
+                <span asp-validation-for="ClaveActual" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="NuevaClave" class="form-label">Nueva Contraseña</label>
+                <input asp-for="NuevaClave" type="password" class="form-control" />
+                <span asp-validation-for="NuevaClave" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ConfirmarNuevaClave" class="form-label">Confirmar Nueva Contraseña</label>
+                <input asp-for="ConfirmarNuevaClave" type="password" class="form-control" />
+                <span asp-validation-for="ConfirmarNuevaClave" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

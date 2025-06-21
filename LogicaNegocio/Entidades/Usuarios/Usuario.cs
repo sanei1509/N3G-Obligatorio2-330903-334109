@@ -1,5 +1,6 @@
 ﻿using LogicaNegocio.InterfacesDominio;
 using LogicaNegocio.Vo.Usuario;
+using Microsoft.AspNetCore.Identity;
 
 namespace LogicaNegocio.Entidades.Usuarios.Usuario
 {
@@ -56,6 +57,21 @@ namespace LogicaNegocio.Entidades.Usuarios.Usuario
             Eliminado = true;
         }
 
+        public void SetPassword(string plainTextPassword)
+        {
+            // Hashear y asignar al VO Clave
+            var hasher = new PasswordHasher<Usuario>();
+            var hash = hasher.HashPassword(this, plainTextPassword);
+            this.Clave = new Clave(hash);
+        }
+
+        public bool CheckPassword(string plainTextPassword)
+        {
+            var hasher = new PasswordHasher<Usuario>();
+            // Intentar verificar el VO Clave.Value
+            var result = hasher.VerifyHashedPassword(this, this.Clave.Value, plainTextPassword);
+            return result != PasswordVerificationResult.Failed;
+        }
 
     }
 }

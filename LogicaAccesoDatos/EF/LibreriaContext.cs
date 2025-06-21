@@ -240,7 +240,7 @@ namespace LogicaAccesoDatos.EF
                 {
                     Id = 1,
                     Discriminator = "Comun",
-                    ClienteId = 3,
+                    ClienteId = 4,
                     EmpleadoId = 1,
                     Estado = EstadoEnvio.EN_PROCESO,
                     FechaCreacion = new DateTime(2025, 5, 1, 10, 0, 0),
@@ -461,6 +461,32 @@ namespace LogicaAccesoDatos.EF
                 );
 
 
+        }
+
+        /// Re-hashea en base de datos todas las contraseñas
+        /// que estén aún en claro (semillas), usando Usuario.SetPassword.
+        /// </summary>
+        public void MigrateSeedPasswords()
+        {
+            // Traemos todos los usuarios (incluye el VO Clave)
+            var lista = Usuarios.ToList();
+            var dirty = false;
+
+            foreach (var u in lista)
+            {
+                // Detectamos si Clave.Value parece estar en texto  
+                // (por ejemplo no empieza por el prefijo PBKDF2 "AQAAAA")
+                if (u.Clave.Value is not null &&
+                    !u.Clave.Value.StartsWith("AQAAAA"))
+                {
+                    // Re-hashea y marca como cambio
+                    u.SetPassword(u.Clave.Value);
+                    dirty = true;
+                }
+            }
+
+            if (dirty)
+                SaveChanges();
         }
     }
 }

@@ -10,8 +10,8 @@ namespace AppCliente.Controllers
 {
     public class UsuarioController : Controller
     {
-        public UsuarioController() 
-        { 
+        public UsuarioController()
+        {
         }
 
         // GET: /Usuario/Login?nroTracking=ABC123
@@ -68,7 +68,6 @@ namespace AppCliente.Controllers
         }
 
 
-
         [HttpPost]
         public IActionResult Login(LoginEntradaDto user)
         {
@@ -86,7 +85,7 @@ namespace AppCliente.Controllers
                 RestResponse response = client.Execute(request);
 
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                    throw new Exception("Credenciales inválidas");
+                    throw new Exception("Credenciales inválidas, Inténtalo de nuevo");
 
                 var loginResp = JsonSerializer.Deserialize<LoginRespuestaDto>(
                     response.Content,
@@ -98,95 +97,90 @@ namespace AppCliente.Controllers
                 HttpContext.Session.SetString("userId", loginResp.User.Id.ToString());
                 HttpContext.Session.SetString("userName", loginResp.User.Nombre);
                 HttpContext.Session.SetString("userEmail", loginResp.User.Correo);
+                HttpContext.Session.SetString("rolUsuario", loginResp.User.Discriminator);
+
 
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
-                ViewBag.mensaje = e.Message;
+                ViewBag.Error = "Algo salió mal, intenta de nuevo";
             }
-            return View("Index");
-        }
-
-
-        // POST: /Usuario/Login
-        //[HttpPost]
-        //public IActionResult Login(LoginEntradaDto model)
-        //{
-
-        //    try
-        //    {
-
-        //        var options = new RestClientOptions("")
-        //        {
-        //            MaxTimeout = -1
-        //        };
-        //        var client = new RestClient(options);
-        //        //var request = new RestRequest($"/api/v1/Usuarios/{user.Email}"), Method.Get;
-        //        //RestResponse response = client.Execute(request);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex);
-
-        //    }
-        //        //var result = _login.Execute(model);
-
-        //        //if (!result.Autenticado)
-        //        //{
-        //        //    ViewBag.Error = result.Mensaje;
-        //        //    return View(model);
-        //        //}
-
-        //        // Obtenemos el usuario para preguntar
-        //        //var usuario = _getByEmail.Execute(model.Correo);
-
-        //        //if (usuario.Discriminator.ToLower() == "admin")
-        //        //{
-        //        //    HttpContext.Session.SetString("Rol", "Admin");
-        //        //}
-        //        //else
-        //        //{
-        //        //    HttpContext.Session.SetString("Rol", "NoAdmin");
-        //        //}
-
-        //        //// Si todo OK, guardamos la sesión:
-        //        //HttpContext.Session.SetString("Logueado", "true");
-        //        //HttpContext.Session.SetString("CorreoEmpleado", model.Correo);
-
-        //        return RedirectToAction("Index", "Home");
-        //}
-
-
-        // Acción para dar de alta un usuario
-        //[UsuarioLogueado]
-        //[AdminAutorizado]
-
-        [HttpGet]
-        public IActionResult Crear()
-        {
-            var model = new CrearUsuarioDto(
-                                Id: 0,
-                                Nombre: "",
-                                Apellido: "",
-                                Correo: "",
-                                Clave: "",
-                                Telefono: "",
-                                CorreoResponsable: HttpContext.Session.GetString("CorreoEmpleado")
-                            );
-            return View(model);
+            return View("Login");
         }
 
         // Acción para cerrar sesión
         [HttpPost]
         public IActionResult Logout()
         {
-            // Eliminar la sesión
-            HttpContext.Session.Remove("Logueado");
+            // Elimina todo lo que haya en Session
+            HttpContext.Session.Clear();
 
             // Redirigir al inicio o a la página de login
             return RedirectToAction("Login");
         }
+
+
+
+        // GET: /Usuario/CambiarClave
+        [HttpGet]
+        public IActionResult CambiarClave()
+        {
+            return View(new CambiarClaveViewModel());
+        }
+
+
+        [HttpPost]
+        public IActionResult CambiarClave(CambiarClaveViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            try
+            {
+                // Aquí haces la llamada PUT a la API
+                var client = new RestClient("http://localhost:5064");
+                var request = new RestRequest("/api/Auth/CambiarClave", Method.Put)
+                    .AddJsonBody(new
+                    {
+                        ClaveActual = model.ClaveActual,
+                        NuevaClave = model.NuevaClave
+                    });
+                // agrega tu token de sesión
+                var token = HttpContext.Session.GetString("token");
+                request.AddHeader("Authorization", $"Bearer {token}");
+
+                var resp = client.Execute(request);
+
+                if (resp.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    ViewBag.Message = "Contraseña actualizada con éxito.";
+                    return View(new CambiarClaveViewModel());
+                }
+                else if (resp.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                {
+                    // La API devolvió 400 cuando la clave actual no coincide,
+                    // o bien faltó enviar un campo obligatorio.
+                    ViewBag.Error = "La contraseña actual no coincide. Inténtalo de nuevo.";
+                    return View(model);
+                }
+                else
+                {
+                    //si da 401 redirige a login
+                    if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                        return RedirectToAction("Login", "Usuario");
+
+                    ViewBag.Error = "Error al cambiar la clave, Inténtalo de nuevo";
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Error al cambiar la clave, Inténtalo de nuevo";
+                return View(model);
+            }
+        }
+
 
 
     }

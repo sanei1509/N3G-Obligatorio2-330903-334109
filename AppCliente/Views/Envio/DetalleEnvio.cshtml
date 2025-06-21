@@ -1,0 +1,57 @@
+﻿@model AppCliente.Models.Envios.EnvioListadoDto
+
+@{
+    ViewData["Title"] = "Detalle Envío " + Model.NroTracking;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+else
+{
+    <dl class="row">
+        <dt class="col-sm-3">Tracking</dt>
+        <dd class="col-sm-9">@Model.NroTracking</dd>
+
+        <dt class="col-sm-3">Fecha Creación</dt>
+        <dd class="col-sm-9">@Model.FechaCreacion.ToString("yyyy-MM-dd HH:mm")</dd>
+
+        <dt class="col-sm-3">Tipo Envío</dt>
+        <dd class="col-sm-9">@Model.TipoEnvio</dd>
+
+        <dt class="col-sm-3">Estado Actual</dt>
+        <dd class="col-sm-9"> Nada</dd>
+
+        <dt class="col-sm-3">Peso</dt>
+        <dd class="col-sm-9">@Model.Peso</dd>
+
+        <dt class="col-sm-3">Contacto Destino</dt>
+        <dd class="col-sm-9">
+            @Model.Correo <br />
+            @Model.Telefono
+        </dd>
+    </dl>
+
+    <h4>Etapas de Seguimiento</h4>
+    @if (Model.Etapas != null && Model.Etapas.Any())
+    {
+        <ul class="list-group">
+            @foreach (var etapa in Model.Etapas.OrderBy(e => e.Fecha))
+            {
+                <li class="list-group-item">
+                    <strong>@etapa.Fecha.ToString("yyyy-MM-dd HH:mm")</strong>
+                    — <em>@etapa.NombreEmpleado</em>: @etapa.Comentario
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="alert alert-info">No hay etapas de seguimiento para este envío.</div>
+    }
+
+    <a asp-action="ListadoEnvios" class="btn btn-secondary mt-3">Volver a mis envíos</a>
+}

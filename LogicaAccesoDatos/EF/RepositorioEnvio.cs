@@ -30,8 +30,15 @@ namespace LogicaAccesoDatos.EF
                         .Include(e => e.Empleado)
                         .Include(e => e.Cliente)
                         .Include(e => (e as Comun).LugarRetiro)
+                         // Incluimos las etapas de seguimiento y el empleado de cada etapa para poder luego proyectarlas en el DTO
+                        .Include(e => e.EtapasSeguimiento)
+                            .ThenInclude(es => es.Empleado)
+                                .ThenInclude(emp => emp.Nombre)
+                        .Include(e => e.EtapasSeguimiento)
+                            .ThenInclude(es => es.Empleado)
+                                .ThenInclude(emp => emp.Apellido)
                         .ToList();
-        }
+                        }
 
         public void Update(int id, Envio obj)
         {

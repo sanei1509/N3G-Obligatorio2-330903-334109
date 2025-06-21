@@ -2,6 +2,8 @@
 @using AppCliente.Models.Envios
 @using Microsoft.AspNetCore.Http
 
+
+
 @{
     ViewData["Title"] = "Login / Consulta Tracking";
     var nombre = Context.Session.GetString("userName");
@@ -81,6 +83,9 @@
                 <dt class="col-sm-4">Empleado ID</dt>
                 <dd class="col-sm-8">@envio.EmpleadoId</dd>
 
+                <dt class="col-sm-4">Fecha de Creación</dt>
+                <dd class="col-sm-8">@envio.FechaCreacion</dd>
+
                 <dt class="col-sm-4">Cliente ID</dt>
                 <dd class="col-sm-8">@envio.ClienteId</dd>
 
@@ -96,6 +101,17 @@
                 <dt class="col-sm-4">Teléfono</dt>
                 <dd class="col-sm-8">@envio.Telefono</dd>
             </dl>
+
+            <h6 class="mt-3">Etapas de Seguimiento</h6>
+            <ul class="list-group">
+                @foreach (var etapa in envio.Etapas)
+                {
+                    <li class="list-group-item">
+                        <strong>@etapa.Fecha.ToLocalTime():</strong>
+                        (@etapa.NombreEmpleado) @etapa.Comentario
+                    </li>
+                }
+            </ul>
         </div>
     </div>
 }

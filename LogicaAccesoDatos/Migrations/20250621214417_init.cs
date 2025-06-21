@@ -174,7 +174,7 @@ namespace LogicaAccesoDatos.Migrations
                 columns: new[] { "Id", "ClienteId", "Discriminator", "EmpleadoId", "Estado", "FechaCreacion", "FechaFinalizacion", "LugarRetiroId", "NroTracking", "Peso" },
                 values: new object[,]
                 {
-                    { 1, 3, "Comun", 1, 0, new DateTime(2025, 5, 1, 10, 0, 0, 0, DateTimeKind.Unspecified), null, 1, "TRK0000001", 1.5m },
+                    { 1, 4, "Comun", 1, 0, new DateTime(2025, 5, 1, 10, 0, 0, 0, DateTimeKind.Unspecified), null, 1, "TRK0000001", 1.5m },
                     { 2, 4, "Comun", 2, 0, new DateTime(2025, 5, 2, 14, 30, 0, 0, DateTimeKind.Unspecified), null, 2, "TRK0000002", 2.2m },
                     { 3, 3, "Comun", 1, 0, new DateTime(2025, 5, 3, 9, 15, 0, 0, DateTimeKind.Unspecified), null, 1, "TRK0000003", 5.0m },
                     { 4, 4, "Comun", 2, 0, new DateTime(2025, 5, 4, 11, 45, 0, 0, DateTimeKind.Unspecified), null, 3, "TRK0000004", 0.8m }

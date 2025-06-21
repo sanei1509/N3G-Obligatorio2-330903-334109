@@ -1,5 +1,5 @@
-﻿
-//using CasoUsoCompartida.DTOs.EtapaSeguimiento;
+﻿using CasoUsoCompartida.DTOs.EtapaSeguimiento;
+using LogicaNegocio.Enums;
 //using LogicaNegocio.Enums;
 
 namespace AppCliente.Models.Envios
@@ -11,14 +11,20 @@ namespace AppCliente.Models.Envios
         int EmpleadoId,
         int ClienteId,
         decimal Peso,
-        //EstadoEnvio EstadoEnvio,
+        string EstadoEnvio,
         string TipoEnvio,
         string Correo,
-        string Telefono
-        //DateTime FechaCreacion,
-        //IEnumerable<EtapaSeguimientoDto>? Etapas = null
+        string Telefono,
+        DateTime FechaCreacion,
+        IEnumerable<EtapaSeguimientoDto>? Etapas = null
     )
     {
+        //public string EstadoEnvioTexto => EstadoEnvio switch
+        //{
+        //    EstadoEnvio.EN_PROCESO => "En proceso",
+        //    EstadoEnvio.FINALIZADO => "Finalizado",
+        //    _ => "Desconocido"
+        //};
     }
 }
 

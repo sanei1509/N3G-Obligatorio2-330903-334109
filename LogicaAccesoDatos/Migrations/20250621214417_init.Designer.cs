@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20250519021047_init")]
+    [Migration("20250621214417_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -347,7 +347,7 @@ namespace LogicaAccesoDatos.Migrations
                         new
                         {
                             Id = 1,
-                            ClienteId = 3,
+                            ClienteId = 4,
                             Discriminator = "Comun",
                             EmpleadoId = 1,
                             Estado = 0,
