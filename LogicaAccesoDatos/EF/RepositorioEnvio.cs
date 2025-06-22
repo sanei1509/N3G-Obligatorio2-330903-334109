@@ -26,7 +26,7 @@ namespace LogicaAccesoDatos.EF
         public IEnumerable<Envio> GetAll()
         {
             return _context.Envios
-                        .Where(e => e.Estado == EstadoEnvio.EN_PROCESO)
+                        
                         .Include(e => e.Empleado)
                         .Include(e => e.Cliente)
                         .Include(e => (e as Comun).LugarRetiro)

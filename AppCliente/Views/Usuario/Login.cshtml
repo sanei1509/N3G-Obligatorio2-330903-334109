@@ -124,6 +124,7 @@
 @using AppCliente.Models.Envios
 @using Microsoft.AspNetCore.Http
 
+
 @{
     ViewData["Title"] = "Login / Consulta Tracking";
             var nombre = Context.Session.GetString("userName");
@@ -153,15 +154,18 @@
                     <div class="mb-3">
                         <label asp-for="Correo" class="form-label">Correo</label>
                         <input asp-for="Correo" class="form-control" />
+                        <span asp-validation-for="Correo" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Clave" class="form-label">Contraseña</label>
                         <input asp-for="Clave" type="password" class="form-control" />
+                        <span asp-validation-for="Clave" class="text-danger"></span>
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">Ingresar</button>
                     </div>
                 </form>
+
 
                 @if (ViewBag.Error != null)
             {
@@ -198,6 +202,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     @* MOSTRAR RESULTADO DEL ENVÍO *@
     @if (ViewBag.Envio is EnvioListadoDto envio)
@@ -264,4 +271,5 @@
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+
 }

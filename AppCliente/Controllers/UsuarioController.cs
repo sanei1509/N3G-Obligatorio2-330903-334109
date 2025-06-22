@@ -71,8 +71,14 @@ namespace AppCliente.Controllers
         [HttpPost]
         public IActionResult Login(LoginEntradaDto user)
         {
+            // Validación previa
+            if (!ModelState.IsValid)
+                return View("Login", user); // devuelve errores de validación
+
+
             try
             {
+               
                 var options = new RestClientOptions("http://localhost:5064/api")
                 {
                     MaxTimeout = -1,
@@ -104,8 +110,10 @@ namespace AppCliente.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.Error = "Credenciales inválidas, Inténtalo de nuevo";
+                ViewBag.Error = e.Message;
+               
             }
+           
             return View("Login");
         }
 

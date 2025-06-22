@@ -1,4 +1,6 @@
 ﻿
+@{/*
+
 @using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Inicio";
@@ -30,3 +32,80 @@
 
 
 </div>
+
+*/}
+
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Inicio";
+            var nombre = Context.Session.GetString("userName");
+            var correo = Context.Session.GetString("userEmail");
+            var rol = Context.Session.GetString("rolUsuario");
+            bool esCliente = string.Equals(rol, "cliente", StringComparison.OrdinalIgnoreCase);
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<style>
+    .boton-cuadrado {
+        aspect-ratio: 1 / 1;
+        min-height: 102px; /* 15% menos que 120px */
+        background-color: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.95rem; /* reducido proporcionalmente */
+        font-weight: 500;
+        text-align: center;
+        white-space: normal;
+    }
+
+    .centrado {
+        text-align: center;
+    }
+</style>
+
+<div class="container mt-5">
+    @if (!string.IsNullOrEmpty(nombre))
+            {
+    <div class="alert alert-success text-center">
+        <h4 class="mb-1">¡Bienvenido, @nombre!</h4>
+        <p class="mb-0">Tu correo: <strong>@correo</strong></p>
+    </div>
+            }
+            else
+            {
+    <div class="alert alert-warning text-center">
+        <p>No estás autenticado. <a asp-controller="Usuario" asp-action="Login" class="alert-link">Iniciar sesión</a></p>
+    </div>
+            }
+
+    @if (esCliente)
+            {
+    <h5 class="text-center text-secondary mt-4 mb-3">Accesos rápidos</h5>
+
+    <div class="row justify-content-center gap-3 mb-5">
+        <div class="col-6 col-md-3 d-grid">
+            <a asp-controller="Envio" asp-action="ListadoEnvios" class="btn btn-outline-primary shadow-sm boton-cuadrado">
+                Ver mis envíos
+            </a>
+        </div>
+
+        <div class="col-6 col-md-3 d-grid">
+            <a asp-controller="Usuario" asp-action="CambiarClave" class="btn btn-outline-secondary shadow-sm boton-cuadrado">
+                Cambiar contraseña
+            </a>
+        </div>
+
+        <div class="col-6 col-md-3 d-grid">
+            <a asp-controller="Envio" asp-action="Buscar" class="btn btn-outline-success shadow-sm boton-cuadrado">
+                Búsqueda avanzada de envíos
+            </a>
+        </div>
+    </div>
+            }
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

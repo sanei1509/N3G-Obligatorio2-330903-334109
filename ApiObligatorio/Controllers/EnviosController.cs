@@ -2,6 +2,7 @@
 using CasoUsoCompartida.DTOs.Usuarios;
 using CasoUsoCompartida.InterfacesCU;
 using LogicaAplicacion.CasosUso.Usuarios;
+using LogicaNegocio.Entidades.Envios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
@@ -229,9 +230,34 @@ namespace ApiObligatorio.Controllers
             }
 
             // 7) Ordenar
-            var resultado = filtrados
-                .OrderBy(e => e.NroTracking)
-                .ToList();
+            // 7) Ordenar
+            List<EnvioListadoDto> resultado;
+
+            if (!string.IsNullOrWhiteSpace(comentario))
+            {
+                resultado = filtrados
+                    .Select(e => new
+                    {
+                        Envio = e,
+                        FechaComentario = e.Etapas
+                            .Where(et => !string.IsNullOrEmpty(et.Comentario) &&
+                                         CultureInfo.CurrentCulture.CompareInfo
+                                            .IndexOf(et.Comentario, comentario, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0)
+                            .Select(et => (DateTime?)et.Fecha)
+                            .OrderByDescending(f => f)
+                            .FirstOrDefault() ?? DateTime.MinValue
+                    })
+                    .OrderByDescending(x => x.FechaComentario)
+                    .Select(x => x.Envio)
+                    .ToList();
+            }
+            else
+            {
+                resultado = filtrados
+                    .OrderBy(e => e.NroTracking)
+                    .ToList();
+            }
+
 
 
             return Ok(resultado);

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20250622123400_init")]
+    [Migration("20250622195202_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -328,6 +328,11 @@ namespace LogicaAccesoDatos.Migrations
                         {
                             Id = 12,
                             Discriminator = "Funcionario"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Discriminator = "Cliente"
                         });
                 });
 
@@ -370,7 +375,7 @@ namespace LogicaAccesoDatos.Migrations
                             ClienteId = 3,
                             Discriminator = "Comun",
                             EmpleadoId = 1,
-                            Estado = 0,
+                            Estado = 1,
                             FechaCreacion = new DateTime(2025, 5, 3, 9, 15, 0, 0, DateTimeKind.Unspecified),
                             LugarRetiroId = 1
                         },
@@ -1196,6 +1201,11 @@ namespace LogicaAccesoDatos.Migrations
                                 {
                                     UsuarioId = 12,
                                     Value = "Diego"
+                                },
+                                new
+                                {
+                                    UsuarioId = 13,
+                                    Value = "Carente"
                                 });
                         });
 
@@ -1276,6 +1286,11 @@ namespace LogicaAccesoDatos.Migrations
                                 {
                                     UsuarioId = 12,
                                     Value = "Navarro"
+                                },
+                                new
+                                {
+                                    UsuarioId = 13,
+                                    Value = "De Envios"
                                 });
                         });
 
@@ -1356,6 +1371,11 @@ namespace LogicaAccesoDatos.Migrations
                                 {
                                     UsuarioId = 12,
                                     Value = "funcionario123"
+                                },
+                                new
+                                {
+                                    UsuarioId = 13,
+                                    Value = "cliente123"
                                 });
                         });
 
@@ -1436,6 +1456,11 @@ namespace LogicaAccesoDatos.Migrations
                                 {
                                     UsuarioId = 12,
                                     Value = "diego@gmail.com"
+                                },
+                                new
+                                {
+                                    UsuarioId = 13,
+                                    Value = "carente@gmail.com"
                                 });
                         });
 
@@ -1516,6 +1541,11 @@ namespace LogicaAccesoDatos.Migrations
                                 {
                                     UsuarioId = 12,
                                     Value = "099999000"
+                                },
+                                new
+                                {
+                                    UsuarioId = 13,
+                                    Value = "555-555-556"
                                 });
                         });
 
