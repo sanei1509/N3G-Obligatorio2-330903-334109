@@ -1,5 +1,6 @@
 ﻿
 using AppCliente.Models.Envios;
+using LogicaNegocio.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
@@ -137,6 +138,54 @@ namespace AppCliente.Controllers
                 return RedirectToAction("ListadoEnvios");
             }
         }
+
+        [HttpGet]
+        public IActionResult Buscar(DateTime? fechaInicio, DateTime? fechaFin, string? estado, string? comentario)
+        {
+
+            var token = HttpContext.Session.GetString("token");
+            if (string.IsNullOrEmpty(token))
+                return RedirectToAction("Login", "Usuario");
+
+
+
+            var filtro = new FiltroBusquedaEnviosDto
+            {
+                FechaInicio = fechaInicio,
+                FechaFin = fechaFin,
+                Estado = estado,
+                Comentario = comentario
+            };
+
+            var client = new RestClient("http://localhost:5064");
+            var request = new RestRequest("/api/Envios/filtrar", Method.Get);
+
+            // Agregar headers y parámetros
+            request.AddHeader("Authorization", $"Bearer {token}");
+
+            if (fechaInicio.HasValue)
+                request.AddQueryParameter("fechaInicio", fechaInicio.Value.ToString("yyyy-MM-dd"));
+            if (fechaFin.HasValue)
+                request.AddQueryParameter("fechaFin", fechaFin.Value.ToString("yyyy-MM-dd"));
+            if (!string.IsNullOrWhiteSpace(estado))
+                request.AddQueryParameter("estado", estado);
+            if (!string.IsNullOrWhiteSpace(comentario))
+                request.AddQueryParameter("comentario", comentario);
+
+            var response = client.Execute<List<EnvioListadoDto>>(request);
+
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                return RedirectToAction("Login", "Usuario");
+
+            ViewBag.Envios = response.Data ?? new List<EnvioListadoDto>();
+
+            // Podés armar una lista fija o cargarla desde tu API si lo preferís
+            ViewBag.Estados = Enum.GetNames(typeof(EstadoEnvio)).ToList();
+
+            return View("Buscar", filtro);
+        }
+
 
 
     }

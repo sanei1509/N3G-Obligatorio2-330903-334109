@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CasoUsoCompartida\CasoUsoCompartida.csproj" />
+    <ProjectReference Include="..\LogicaAccesoDatos\LogicaAccesoDatos.csproj" />
   </ItemGroup>
 
 </Project>

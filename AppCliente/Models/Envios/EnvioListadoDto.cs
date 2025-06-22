@@ -19,12 +19,12 @@ namespace AppCliente.Models.Envios
         IEnumerable<EtapaSeguimientoDto>? Etapas = null
     )
     {
-        //public string EstadoEnvioTexto => EstadoEnvio switch
-        //{
-        //    EstadoEnvio.EN_PROCESO => "En proceso",
-        //    EstadoEnvio.FINALIZADO => "Finalizado",
-        //    _ => "Desconocido"
-        //};
+        public string EstadoEnvioTexto => EstadoEnvio switch
+        {
+             "EN_PROCESO"  => "En proceso",
+            "FINALIZADO" => "Finalizado",
+            _ => "Desconocido"
+        };
     }
 }
 

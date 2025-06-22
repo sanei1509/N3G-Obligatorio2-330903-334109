@@ -1,0 +1,193 @@
+﻿@* @using AppCliente.Models.Envios
+@model AppCliente.Models.Envios.FiltroBusquedaEnviosDto
+@{
+    ViewData["Title"] = "Buscar Envíos";
+}
+
+<h2>Buscar tus envíos</h2>
+
+<form asp-action="Buscar" method="get">
+    <div>
+        <label>Fecha Inicio:</label>
+        <input type="date" name="FechaInicio" value="@Model?.FechaInicio?.ToString("yyyy-MM-dd")" />
+    </div>
+    <div>
+        <label>Fecha Fin:</label>
+        <input type="date" name="FechaFin" value="@Model?.FechaFin?.ToString("yyyy-MM-dd")" />
+    </div>
+    <div>
+        <label>Estado:</label>
+        <select name="Estado">
+            <option value="">-- Todos --</option>
+            @if (ViewBag.Estados is List<string> estados)
+            {
+                foreach (var estado in estados)
+                {
+                    <option value="@estado" selected="@(estado == Model?.Estado)">@estado</option>
+                }
+            }
+            else
+            {
+                <option disabled selected>Error al cargar estados</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label>Buscar por comentario:</label>
+        <input type="text" name="Comentario" value="@Model?.Comentario" placeholder="Ej: Demorado, En Camino" />
+    </div>
+    <button type="submit">Buscar</button>
+</form>
+
+<hr />
+
+
+
+@if (ViewBag.Envios is List<EnvioListadoDto> envios)
+{
+    if (!envios.Any())
+    {
+        <p>No se encontraron envíos con los criterios ingresados.</p>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Tracking</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var envio in envios)
+                {
+                    <tr>
+                        <td>@envio.NroTracking</td>
+                        <td>@envio.EstadoEnvio</td>
+                        <td>@envio.FechaCreacion.ToShortDateString()</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            @if (envio.Etapas != null && envio.Etapas.Any())
+                            {
+                                <strong>Etapas:</strong>
+                                <ul>
+                                    @foreach (var etapa in envio.Etapas)
+                                    {
+                                        <li><strong>@etapa.Fecha.ToShortDateString()</strong>: @etapa.Comentario</li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <em>No hay etapas de seguimiento</em>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+}
+ *@
+
+@using AppCliente.Models.Envios
+@model AppCliente.Models.Envios.FiltroBusquedaEnviosDto
+@{
+    ViewData["Title"] = "Buscar Envíos";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Buscar tus envíos</h2>
+
+    <form asp-action="Buscar" method="get" class="row g-3">
+        <div class="col-md-3">
+            <label class="form-label">Fecha Inicio:</label>
+            <input type="date" name="FechaInicio" value="@Model?.FechaInicio?.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Fecha Fin:</label>
+            <input type="date" name="FechaFin" value="@Model?.FechaFin?.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Estado:</label>
+            <select name="Estado" class="form-select">
+                <option value="">-- Todos --</option>
+                @if (ViewBag.Estados is List<string> estados)
+                {
+                    foreach (var estado in estados)
+                    {
+                        <option value="@estado" selected="@(estado == Model?.Estado)">@estado</option>
+                    }
+                }
+                else
+                {
+                    <option disabled selected>Error al cargar estados</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Comentario:</label>
+            <input type="text" name="Comentario" value="@Model?.Comentario" placeholder="Ej: En camino" class="form-control" />
+        </div>
+
+        <div class="col-12 d-flex justify-content-end gap-2">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            <a href="@Url.Action("Buscar", "Envio")" class="btn btn-outline-secondary">Limpiar filtros</a>
+        </div>
+    </form>
+
+    <hr class="mt-4" />
+
+    @if (ViewBag.Envios is List<EnvioListadoDto> envios)
+    {
+        if (!envios.Any())
+        {
+            <p class="text-danger mt-3">No se encontraron envíos con los criterios ingresados.</p>
+        }
+        else
+        {
+            <table class="table table-bordered table-hover mt-4">
+                <thead class="table-light">
+                    <tr>
+                        <th>Tracking</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var envio in envios)
+                    {
+                        <tr>
+                            <td>@envio.NroTracking</td>
+                            <td>@envio.EstadoEnvioTexto</td>
+                            <td>@envio.FechaCreacion.ToShortDateString()</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                @if (envio.Etapas != null && envio.Etapas.Any())
+                                {
+                                    <strong>Etapas:</strong>
+                                    <ul class="mb-0">
+                                        @foreach (var etapa in envio.Etapas)
+                                        {
+                                            <li><strong>@etapa.Fecha.ToShortDateString()</strong>: @etapa.Comentario</li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <em>No hay etapas de seguimiento</em>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+</div>

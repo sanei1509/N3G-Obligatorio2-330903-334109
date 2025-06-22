@@ -45,6 +45,9 @@ namespace ApiObligatorio.Controllers
             {
                 return Unauthorized(new Error(401, "Usuario no autorizado"));
             }
+            
+
+            
 
             if (!usuario.CheckPassword(dto.Clave))
                 return Unauthorized(new Error(400, "Credenciales inválidas"));

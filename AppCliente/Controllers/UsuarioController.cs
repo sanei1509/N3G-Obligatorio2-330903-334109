@@ -104,7 +104,7 @@ namespace AppCliente.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.Error = "Algo salió mal, intenta de nuevo";
+                ViewBag.Error = "Credenciales inválidas, Inténtalo de nuevo";
             }
             return View("Login");
         }
