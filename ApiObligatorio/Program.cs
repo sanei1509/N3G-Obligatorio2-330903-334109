@@ -14,6 +14,7 @@ using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -29,12 +30,40 @@ builder.Services
   });
 
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+//Activar documentación y campo para agregar bearer token
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations();
+
+    // Configuración de esquema de seguridad JWT (Bearer)
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Ingresa el token JWT con el formato: Bearer {tu token}"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {} // Scopes vacíos
+        }
+    });
+});
 
 //Inyectar caso de uso de Usuario
 builder.Services.AddScoped<IAdd<CrearUsuarioDto>, CrearUsuario>();
@@ -103,7 +132,6 @@ builder.Services.AddAuthentication(
         };
     });
     builder.Services.AddAuthorization();
-
 
 
 var app = builder.Build();

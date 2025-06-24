@@ -8,6 +8,7 @@ using LogicaNegocio.InterfacesRepositorio;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -28,6 +29,10 @@ namespace ApiObligatorio.Controllers
             _repo = repo;
         }
 
+        [SwaggerOperation(Summary = "Genera un token JWT", Description = "Valida las credenciales del usuario y genera un token de acceso.")]
+        [SwaggerResponse(200, "Token generado correctamente")]
+        [SwaggerResponse(400, "Correo y clave son obligatorios")]
+        [SwaggerResponse(401, "Credenciales inválidas o usuario no autorizado")]
         [HttpPost("Generate")]
         public IActionResult Generate([FromBody] LoginEntradaDto dto)
         {
@@ -69,8 +74,13 @@ namespace ApiObligatorio.Controllers
 
         }
 
+
         [HttpPut("CambiarClave")]
         [Authorize]
+        [SwaggerOperation(Summary = "Cambia la clave del usuario", Description = "Requiere autenticación. Verifica la clave actual y la actualiza por la nueva.")]
+        [SwaggerResponse(200, "Clave actualizada exitosamente")]
+        [SwaggerResponse(400, "Datos inválidos o clave actual incorrecta")]
+        [SwaggerResponse(401, "No autorizado")]
         public IActionResult CambiarClave([FromBody] CambiarClaveDto claveDto) 
         {
             if (claveDto == null || string.IsNullOrWhiteSpace(claveDto.ClaveActual) || string.IsNullOrWhiteSpace(claveDto.NuevaClave))

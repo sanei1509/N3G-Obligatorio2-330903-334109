@@ -5,6 +5,7 @@ using LogicaAplicacion.CasosUso.Usuarios;
 using LogicaNegocio.Entidades.Envios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Globalization;
 using System.Security.Claims;
 
@@ -25,6 +26,9 @@ namespace ApiObligatorio.Controllers
         // GET api/envios
         [HttpGet]
         [Authorize]
+        [SwaggerOperation(Summary = "Lista todos los envíos", Description = "Devuelve una lista de todos los envíos disponibles.")]
+        [SwaggerResponse(200, "Listado obtenido con éxito")]
+        [SwaggerResponse(500, "Error interno del servidor")]
         public IActionResult GetAll()
         {
             try
@@ -56,6 +60,10 @@ namespace ApiObligatorio.Controllers
 
         [HttpGet("{nroTracking}")]
         [AllowAnonymous]
+        [SwaggerOperation(Summary = "Buscar por número de tracking", Description = "Devuelve un envío si coincide con el número de tracking.")]
+        [SwaggerResponse(200, "Envío encontrado")]
+        [SwaggerResponse(400, "Número inválido")]
+        [SwaggerResponse(404, "No encontrado")]
         public IActionResult GetByNroTracking(string nroTracking)
         {
             // 1) Si el parámetro no viene o es nulo/vacío devolvemos BadRequest
@@ -82,6 +90,13 @@ namespace ApiObligatorio.Controllers
 
         [HttpGet("enviosDelCliente")]
         [Authorize]
+        [SwaggerOperation(
+            Summary = "Obtiene los envíos del cliente autenticado",
+            Description = "Filtra todos los envíos por el ID del cliente extraído del token JWT y los ordena por fecha de creación descendente."
+        )]
+        [SwaggerResponse(200, "Lista de envíos obtenida correctamente o mensaje indicando que no hay envíos")]
+        [SwaggerResponse(401, "No autorizado: token inválido o no contiene el ID del cliente")]
+        [SwaggerResponse(500, "Error interno del servidor")]
         public IActionResult ListarEnviosCliente()
         {
             try
@@ -193,6 +208,9 @@ namespace ApiObligatorio.Controllers
 
         [HttpGet("filtrar")]
         [Authorize]
+        [SwaggerOperation(Summary = "Filtra los envíos del cliente autenticado", Description = "Permite filtrar por fecha, estado o palabra clave en los comentarios de seguimiento.")]
+        [SwaggerResponse(200, "Lista filtrada")]
+        [SwaggerResponse(401, "No autorizado")]
         public IActionResult FiltrarEnvios([FromQuery] DateTime? fechaInicio, [FromQuery] DateTime? fechaFin, [FromQuery] string? estado, [FromQuery] string? comentario)
         {
             // ✅ Obtener el ID del cliente desde el token
