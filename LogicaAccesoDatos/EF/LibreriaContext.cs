@@ -26,12 +26,12 @@ namespace LogicaAccesoDatos.EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(@"
-            Data Source=(localdb)\MSSQLLocalDB;
-            Initial Catalog=Obligatorio;
-            Integrated Security=True;
-            ");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;
+                                      Initial Catalog=Obligatorio;
+                                      Integrated Security=True;");
+            }
         }
 
         //sentencia fluenAPI

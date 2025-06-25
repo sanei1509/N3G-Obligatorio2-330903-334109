@@ -95,10 +95,11 @@ builder.Services.AddScoped<IRepositorioAuditoria, RepositorioAuditoria>();
 
 
 // inyectar el contexto
-builder.Services.AddDbContext<LibreriaContext>(
-     Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("ObligatorioDB"))
+builder.Services.AddDbContext<LibreriaContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("ObligatorioDB")
+    )
 );
-
 
 var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -147,13 +148,10 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+ app.UseSwagger();
+ app.UseSwaggerUI();
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 // 1) Genera la tabla de rutas internamente
 app.UseRouting();
 app.UseAuthentication();   // ?? Esto es esencial para que funcione en produccion y en todos lados

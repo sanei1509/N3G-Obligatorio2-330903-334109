@@ -10,8 +10,11 @@ namespace AppCliente.Controllers
 {
     public class UsuarioController : Controller
     {
-        public UsuarioController()
+        private readonly string _baseUrl;
+
+        public UsuarioController(IConfiguration config)
         {
+            _baseUrl = config.GetSection("ApiSettings")["BaseUrl"];
         }
 
         // GET: /Usuario/Login?nroTracking=ABC123
@@ -23,7 +26,7 @@ namespace AppCliente.Controllers
             {
                 try
                 {
-                    var client = new RestClient(new RestClientOptions("http://localhost:5064/api") { MaxTimeout = -1 });
+                    var client = new RestClient(new RestClientOptions(_baseUrl) { MaxTimeout = -1 });
                     var req = new RestRequest($"envios/{Uri.EscapeDataString(nroTracking)}", Method.Get);
 
                     // sólo envía el header si el usuario realmente está autenticado
@@ -79,7 +82,7 @@ namespace AppCliente.Controllers
             try
             {
                
-                var options = new RestClientOptions("http://localhost:5064/api")
+                var options = new RestClientOptions(_baseUrl)
                 {
                     MaxTimeout = -1,
                 };
@@ -147,8 +150,8 @@ namespace AppCliente.Controllers
             try
             {
                 // Aquí haces la llamada PUT a la API
-                var client = new RestClient("http://localhost:5064");
-                var request = new RestRequest("/api/Auth/CambiarClave", Method.Put)
+                var client = new RestClient(_baseUrl);
+                var request = new RestRequest("Auth/CambiarClave", Method.Put)
                     .AddJsonBody(new
                     {
                         ClaveActual = model.ClaveActual,

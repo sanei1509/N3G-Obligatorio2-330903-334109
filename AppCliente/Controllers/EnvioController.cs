@@ -11,8 +11,11 @@ namespace AppCliente.Controllers
 {
     public class EnvioController : Controller
     {
-        public EnvioController()
+        private readonly string _baseUrl;
+
+        public EnvioController(IConfiguration config)
         {
+            _baseUrl = config.GetSection("ApiSettings")["BaseUrl"];
         }
 
         // GET: /Envio/Index
@@ -26,7 +29,7 @@ namespace AppCliente.Controllers
             try
             {
                 // Preparamos el cliente RestSharp
-                var client = new RestClient(new RestClientOptions("http://localhost:5064/api") { MaxTimeout = -1 });
+                var client = new RestClient(new RestClientOptions(_baseUrl) { MaxTimeout = -1 });
                 var request = new RestRequest($"envios/{nroTracking}", Method.Get);
 
                 // Agregamos token si existe en sesión
@@ -75,8 +78,8 @@ namespace AppCliente.Controllers
         public IActionResult ListadoEnvios()
         {
             var token = HttpContext.Session.GetString("token");
-            var client = new RestClient("http://localhost:5064");
-            var request = new RestRequest("/api/Envios/enviosDelCliente", Method.Get);
+            var client = new RestClient(_baseUrl);
+            var request = new RestRequest("Envios/enviosDelCliente", Method.Get);
             request.AddHeader("Authorization", $"Bearer {token}");
 
             var resp = client.Execute<List<EnvioListadoDto>>(request);
@@ -112,8 +115,8 @@ namespace AppCliente.Controllers
             if (string.IsNullOrEmpty(token))
                 return RedirectToAction("Login", "Usuario");
 
-            var client = new RestClient("http://localhost:5064");
-            var request = new RestRequest($"/api/Envios/{Uri.EscapeDataString(nroTracking)}", Method.Get);
+            var client = new RestClient(_baseUrl);
+            var request = new RestRequest($"Envios/{Uri.EscapeDataString(nroTracking)}", Method.Get);
             request.AddHeader("Authorization", $"Bearer {token}");
 
             var response = client.Execute(request);
@@ -157,8 +160,8 @@ namespace AppCliente.Controllers
                 Comentario = comentario
             };
 
-            var client = new RestClient("http://localhost:5064");
-            var request = new RestRequest("/api/Envios/filtrar", Method.Get);
+            var client = new RestClient(_baseUrl);
+            var request = new RestRequest("Envios/filtrar", Method.Get);
 
             // Agregar headers y parámetros
             request.AddHeader("Authorization", $"Bearer {token}");
