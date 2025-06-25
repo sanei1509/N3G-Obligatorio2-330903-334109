@@ -95,7 +95,6 @@ builder.Services.AddScoped<IRepositorioAuditoria, RepositorioAuditoria>();
 
 
 // inyectar el contexto
-//builder.Services.AddDbContext<LibreriaContext>();
 builder.Services.AddDbContext<LibreriaContext>(
      Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("ObligatorioDB"))
 );

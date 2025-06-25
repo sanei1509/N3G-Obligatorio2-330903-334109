@@ -1,41 +1,4 @@
-﻿
-@{/*
-
-@using Microsoft.AspNetCore.Http
-@{
-    ViewData["Title"] = "Inicio";
-    var nombre = Context.Session.GetString("userName");
-    var correo = Context.Session.GetString("userEmail");
-}
-
-<div class="container mt-5">
-    @if (!string.IsNullOrEmpty(nombre))
-    {
-        <div class="alert alert-success">
-            <h4>¡Bienvenido, @nombre!</h4>
-            <p>Tu correo: @correo</p>
-        </div>
-    }
-    else
-    {
-        <div class="alert alert-warning">
-            <p>No estás autenticado. <a asp-controller="Usuario" asp-action="Login">Iniciar sesión</a></p>
-        </div>
-    }
-
-    <h5>Aquí tienes todos tus envíos</h5>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <a asp-controller="Envio" asp-action="ListadoEnvios">Ver mis envíos</a>
-        </li>
-    </ul>
-
-
-</div>
-
-*/}
-
-@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Inicio";
             var nombre = Context.Session.GetString("userName");

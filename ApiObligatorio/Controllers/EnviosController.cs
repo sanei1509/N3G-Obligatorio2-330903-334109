@@ -127,85 +127,6 @@ namespace ApiObligatorio.Controllers
         }
 
 
-        //// RF5 – Búsqueda por fechas y estado
-        //[HttpGet("buscarEnvios")]
-        //[Authorize]
-        //public IActionResult BuscarEnviosPorFechaYEstado(
-        //    [FromQuery] DateTime? fechaDesde,
-        //    [FromQuery] DateTime? fechaHasta,
-        //    [FromQuery] string estado = "Todos")
-        //{
-        //    // 1) Obtener Id del cliente
-        //    var nameId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        //    if (!int.TryParse(nameId, out var clienteId))
-        //        return StatusCode(401, "No estas autorizado");
-
-        //    // 2) Obtener todos los envíos
-        //    var todos = _getAll.Execute().AsQueryable();
-
-        //    // 3) Filtrar por cliente
-        //    var filtrados = todos.Where(e => e.ClienteId == clienteId);
-
-        //    // 4) Filtrar por rango de fechas, si vienen
-        //    if (fechaDesde.HasValue)
-        //        filtrados = filtrados.Where(e => e.FechaCreacion.Date >= fechaDesde.Value.Date);
-
-        //    if (fechaHasta.HasValue)
-        //        filtrados = filtrados.Where(e => e.FechaCreacion.Date <= fechaHasta.Value.Date);
-
-        //    // 5) Filtrar por estado
-        //    if (!string.Equals(estado, "Todos", StringComparison.OrdinalIgnoreCase))
-        //    {
-        //        filtrados = filtrados.Where(e =>
-        //            string.Equals(e.EstadoEnvio.ToString(), estado, StringComparison.OrdinalIgnoreCase));
-        //    }
-
-        //    // 6) Ordenar por número de tracking
-        //    var resultado = filtrados
-        //        .OrderBy(e => e.NroTracking)
-        //        .ToList();
-
-        //    if (!resultado.Any())
-        //        return StatusCode(200, "No se encontraron envios con esas fechas y estado"); // 204
-
-        //    return Ok(resultado);
-        //}
-
-
-        //    /// RF6: Busca todos los envíos del cliente autenticado cuyo seguimiento contenga la palabra dada.
-        //    [HttpGet("buscarPorComentario")]
-        //    [Authorize]
-        //    public IActionResult BuscarPorComentario([FromQuery] string palabra)
-        //    {
-        //        if (string.IsNullOrWhiteSpace(palabra))
-        //            return BadRequest(new { message = "Debes indicar una palabra para buscar." });
-
-        //        // 1) Obtengo Id del cliente desde el token
-        //        var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        //        if (!int.TryParse(claim, out var clienteId))
-        //            return Unauthorized(new { message = "No autorizado." });
-
-        //        // 2) Traigo todos los envíos junto con sus etapas
-        //        var todos = _getAll.Execute();
-
-        //        // Preparo el comparador que ignora acentos y mayúsculas
-        //        var comparer = CultureInfo.CurrentCulture.CompareInfo;
-        //        var options = CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace;
-
-        //        // 3) Filtrar por cliente y por comentario que contenga la palabra (sin importar acentos ni mayúsculas)
-        //        var resultado = todos
-        //            .Where(e => e.ClienteId == clienteId
-        //                     && e.Etapas.Any(es =>
-        //                         comparer.IndexOf(es.Comentario, palabra, options) >= 0
-        //                     ))
-        //            .OrderByDescending(e => e.FechaCreacion)
-        //            .ToList();
-
-        //        // 4) Siempre devolvemos un 200 OK con la lista (vacía o con elementos)
-        //        return Ok(resultado);
-        //    }
-
-
         [HttpGet("filtrar")]
         [Authorize]
         [SwaggerOperation(Summary = "Filtra los envíos del cliente autenticado", Description = "Permite filtrar por fecha, estado o palabra clave en los comentarios de seguimiento.")]
@@ -248,7 +169,6 @@ namespace ApiObligatorio.Controllers
             }
 
             // 7) Ordenar
-            // 7) Ordenar
             List<EnvioListadoDto> resultado;
 
             if (!string.IsNullOrWhiteSpace(comentario))
@@ -280,9 +200,6 @@ namespace ApiObligatorio.Controllers
 
             return Ok(resultado);
         }
-
-
-
 
 
     }
