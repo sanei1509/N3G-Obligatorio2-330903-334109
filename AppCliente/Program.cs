@@ -1,9 +1,16 @@
+using System.Globalization;
+
 namespace AppCliente
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            // forzar el formato de fechas para evitar confusiones
+            var defaultCulture = new CultureInfo("es-UY");
+            CultureInfo.DefaultThreadCurrentCulture = defaultCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = defaultCulture;
+
             var builder = WebApplication.CreateBuilder(args);
 
             // 1) Registrar MVC
